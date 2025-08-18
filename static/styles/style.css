@@ -1,0 +1,671 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #1f1f1f;
+    font-family: sans-serif;
+}
+
+h3 {
+    color: white;
+}
+
+/* NAVIGATION BAR */
+.topnav {
+    overflow: hidden;
+    background-color: hsl(0, 0%, 11%);
+    padding: 10px 30px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.topnav .logo {
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: bolder;
+    color: white;
+    text-decoration: none;
+}
+
+.topnav .logo span {
+    color: rgb(219, 219, 2);
+}
+
+/* Middle Menu */
+.topnav .menu {
+    display: flex;
+    gap: 25px;
+}
+
+.topnav .menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s;
+}
+
+.topnav .menu a:hover {
+    color: rgb(219, 219, 2);
+}
+
+.topnav .menu a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: rgb(219, 219, 2);
+    transition: 0.3s ease;
+}
+
+.topnav .menu a:hover::after {
+    width: 100%;
+}
+
+/* Search Bar */
+.topnav .search-container form {
+    background-color: #2c2c2c;
+    width: 250px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    border: solid 1px rgba(255, 255, 255, 0.379);
+    border-radius: 11px;
+    padding: 0 10px;
+    gap: 8px;
+}
+
+.topnav .search-container i {
+    color: #aaa;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.topnav .search-container form:hover i {
+    color: rgb(219, 219, 2);
+}
+
+input {
+    all: unset;
+    font: 15px system-ui;
+    color: #fff;
+    height: 100%;
+    width: 100%;
+    padding: 6px 9px;
+}
+
+/* REMOVE DEFAULT SEARCH BOX WHITE BACKGROUND */
+input::-webkit-calendar-picker-indicator,
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+    display: none;
+}
+
+input::-webkit-autofill,
+input::-webkit-autofill:hover, 
+input::-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #2c2c2c inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+input::-webkit-search-results-decoration,
+input::-webkit-search-results-button {
+    display: none;
+}
+
+input::-webkit-input-placeholder {
+    color: #aaa;
+}
+
+/* MOVIE CARDS */
+.thumbnail {
+    height: 350px;
+    width: 300px;
+    border-radius: 19px;
+}
+
+.column {
+    float: left;
+    width: 25%;
+    padding: 10px;
+    height: 30rem;
+}
+
+.card {
+    border-radius: 19px;
+    padding: 15px;
+    text-align: center;
+    background-color: #2c2c2c;
+    border: solid 0.5px rgba(255, 255, 255, 0.091);
+}
+
+.active span {
+    color: rgb(219, 219, 2);
+}
+
+/* Trailer Slider Styles */
+#trailer-slider {
+    width: 98vw;
+    height: 80vh;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.slider-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slider-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Optional overlay for title and button */
+.trailer-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    z-index: 2;
+    color: white;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+}
+
+.trailer-overlay h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.8rem;
+}
+
+.trailer-overlay button {
+    padding: 8px 16px;
+    background: #e50914;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.trailer-overlay button:hover {
+    background: #b00610;
+}
+
+/* Slider Navigation Buttons */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #1f1f1f; /* dark black */
+    color: rgb(219, 219, 2);   /* yellow theme */
+    border: 2px solid rgb(219, 219, 2);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.slider-btn:hover {
+    background-color: rgb(219, 219, 2);
+    color: #1f1f1f;
+}
+
+#prevBtn {
+    left: 20px;
+}
+
+#nextBtn {
+    right: 20px;
+}
+
+/* ===== CINEMATIC MOVIE CARDS FULL IMAGE ===== */
+.column {
+    width: fit-content; /* slightly reduced width */
+    padding: 12px;
+    height: auto;
+    perspective: 1000px; 
+}
+
+.card {
+    background-color: #1b1b1b;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 200, 0, 0.3);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Full image without scaling by default */
+.thumbnail {
+    width: 100%;
+    height: 350px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* Title overlay hidden by default (from bottom) */
+.card h3 {
+    position: absolute;
+    bottom: -100px; /* hidden below */
+    left: 0;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    color: rgb(255, 200, 0);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    box-sizing: border-box;
+    text-shadow: 0 1px 3px black;
+    transition: bottom 0.5s ease, transform 0.5s ease;
+}
+
+/* Play button overlay */
+.card::after {
+    content: '\f144';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 2.5rem;
+    color: rgb(255, 200, 0);
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+/* Hover Effects */
+.card:hover {
+    transform: scale(1) rotateZ(-2deg); /* zoom and slight slant */
+    box-shadow: 0 12px 25px rgba(255, 200, 0, 0.5);
+}
+
+.card:hover .thumbnail {
+    transform: scale(1.1);
+    filter: grayscale(75%);
+}
+
+.card:hover h3 {
+    bottom: 0; /* slide title up */ /* cinematic slant effect */
+}
+
+.card:hover::after {
+    transform: translate(-50%, -50%) scale(1); /* show play button */
+}
+
+/* Movies Section Container */
+#section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* centers horizontally */
+  gap: 1.5rem; /* space between movie cards */
+  padding: 20px;
+}
+
+/* Fix column */
+.column {
+  float: none;          /* remove float */
+  width: auto;          /* let cards size naturally */
+  padding: 12px;
+  height: auto;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 30px 0;
+}
+
+.pagination button {
+  background: #111; 
+  color: #f5c518; /* yellow-gold accent */
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination button:hover {
+  background: #f5c518;
+  color: #111;
+}
+
+.pagination .active {
+  background: #f5c518;
+  color: #111;
+  font-size: 1rem;
+  transform: scale(1.1);
+}
+
+/* Pagination Styling */
+#pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+#pagination button {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#pagination button:hover {
+  background: #f5c518; /* Netflix red */
+  transform: translateY(-2px);
+}
+
+#pagination button:disabled {
+  background: #444;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#pagination .active {
+  background: #f5c518;
+  font-weight: bold;
+  transform: scale(1.1);
+  color: #111;
+}
+
+/* Modal Background */
+.modal {
+  display: none; /* hidden by default */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+/* Modal Content Box */
+.modal-content {
+  background: #1f1f1f;
+  padding: 20px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  position: relative;
+  animation: zoomIn 0.3s ease;
+}
+
+/* Zoom animation */
+@keyframes zoomIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Close Button */
+.modal .close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+  transition: color 0.3s;
+}
+.modal .close:hover {
+  color: #f5c518;
+}
+
+/* Movie Image */
+.modal-content img {
+  width: 65%;
+  height: 20rem;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Title */
+.modal-content h2 {
+  margin: 10px 0;
+  color: #f5c518;
+}
+
+/* Actions */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.download-btn {
+  background: #f5c518;
+  color: #111;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.download-btn:hover {
+  background: #e0b517;
+}
+
+.imdb-rating {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Reviews */
+.reviews {
+  margin-top: 15px;
+  text-align: left;
+}
+
+.reviews textarea {
+  width: 100%;
+  height: 80px;
+  border-radius: 6px;
+  border: none;
+  padding: 8px;
+  margin-bottom: 10px;
+  background: #2c2c2c;
+  color: #fff;
+  resize: none;
+}
+
+.reviews button {
+  background: #f5c518;
+  color: #111;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#reviewList {
+  margin-top: 10px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+#reviewList p {
+  background: #2c2c2c;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 5px 0;
+}
+
+.reviews-sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px; /* hidden by default */
+  width: 400px;
+  height: 100%;
+  background: #111;
+  color: #fff;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.7);
+  transition: right 0.3s ease-in-out;
+  z-index: 2001; /* above movie modal */
+  padding: 20px;
+}
+
+.reviews-sidebar.active {
+  right: 0; /* slide in */
+}
+
+.reviews-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#reviewsList {
+  flex: 1;
+  margin: 15px 0;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 8px;
+  background: #222;
+}
+
+#backToMovie, #closeReviews {
+  background: #444;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+#backToMovie:hover, #closeReviews:hover {
+  background: #666;
+}
+
+.reviews-btn {
+  background: #e0b517; /* matches your theme accent */
+  color: black;
+  font-weight: bold;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.reviews-btn:hover {
+  background: #e0b517;
+}
+
+/* Slide-in Reviews Popup */
+.reviews-popup {
+  position: fixed;
+  top: 0;
+  right: -100%; /* hidden off screen */
+  width: 350px;
+  height: 100%;
+  background: #1c1c1c;
+  color: white;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.5);
+  transition: right 0.4s ease;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.reviews-popup.show {
+  right: 0; /* slides in */
+}
+
+.reviews-popup-content h2 {
+  margin-top: 0;
+}
+
+.back-to-movie {
+  background: #ff3c00;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.back-to-movie:hover {
+  background: #e63600;
+}
+
+/* Toast messages */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #222;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  opacity: 0.95;
+  z-index: 3000;
+}
+
+.toast.success {
+  background: #28a745;
+}
+
+.toast.error {
+  background: #dc3545;
+}
+
+
+/* Responsive Grid */
+@media (max-width: 1200px) {
+    .column { width: calc(33.33% - 1.5rem); }
+}
+
+@media (max-width: 900px) {
+    .column { width: calc(50% - 1.5rem); }
+}
+
+@media (max-width: 600px) {
+    .column { width: calc(100% - 1.5rem); }
+}
