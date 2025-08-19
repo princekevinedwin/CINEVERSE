@@ -71,10 +71,18 @@ h3 {
     width: 100%;
 }
 
+.topnav .menu a.active {
+    color: rgb(219, 219, 2);
+}
+
+.topnav .menu a.active::after {
+    width: 100%;
+}
+
 /* Search Bar */
 .topnav .search-container form {
     background-color: #2c2c2c;
-    width: 250px;
+    width: 280px;
     height: 43px;
     display: flex;
     align-items: center;
@@ -501,7 +509,7 @@ input::-webkit-input-placeholder {
 
 .reviews textarea {
   width: 100%;
-  height: 80px;
+  height: 50px;
   border-radius: 6px;
   border: none;
   padding: 8px;
@@ -509,6 +517,7 @@ input::-webkit-input-placeholder {
   background: #2c2c2c;
   color: #fff;
   resize: none;
+  margin-top: 10px;
 }
 
 .reviews button {
@@ -654,6 +663,857 @@ input::-webkit-input-placeholder {
 
 .toast.error {
   background: #dc3545;
+}
+
+/* Buttons beside rating */
+.movie-actions {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+/* Reviews button (orange/red theme) */
+.reviews-btn {
+  background: #ff3c00;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.reviews-btn:hover {
+  background: #e63600;
+}
+
+/* Trailer button (yellow theme) */
+.trailer-btn {
+  background: #ffcc00;
+  color: #1c1c1c;
+  font-weight: bold;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.trailer-btn i {
+  margin-right: 6px;
+}
+.trailer-btn:hover {
+  background: #e6b800;
+}
+
+/* Slide-in Reviews Popup */
+.reviews-popup {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 350px;
+  height: 100%;
+  background: #1c1c1c;
+  color: white;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.5);
+  transition: right 0.4s ease;
+  z-index: 2000;
+  padding: 20px;
+  overflow-y: auto; /* scrollable */
+}
+.reviews-popup.show {
+  right: 0;
+}
+.back-to-movie {
+  background: #ff3c00;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.back-to-movie:hover {
+  background: #e63600;
+}
+
+/* Toast messages */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #222;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  opacity: 0.95;
+  z-index: 3000;
+}
+.toast.success { background: #28a745; }
+.toast.error { background: #dc3545; }
+
+.modalbox{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.modal-actions{
+    display: flex;
+    flex-direction: column;
+    height: 22rem;
+}
+
+.movie-overview{
+  background: black;
+  height: 5rem;
+  overflow: hidden;
+  padding: 12px;
+  overflow-y: scroll;
+  margin-top: 1rem;
+  border-left: solid 6px #f5c518;
+}
+
+.movie-overview::-webkit-scrollbar{
+  width: 6px;
+}
+
+.movie-overview::-webkit-scrollbar-track{
+  background: black;
+  border-radius: 5px;
+}
+
+.movie-overview::-webkit-scrollbar-thumb{
+  background: #f5c518;
+  border-radius: 5px;
+}
+
+.movie-overview::-webkit-scrollbar-thumb:hover{
+  background: #e6b800;
+}
+
+.modal-actions button{
+    width: 8rem;
+    height: 2.5rem;
+}
+
+.modal-actions span{
+    height: 2.5rem;
+    color: black;
+    text-align: center;
+    align-content: center;
+}
+
+.download-btn{
+    background: rgb(0, 201, 0);
+    color: white;
+    font-weight: bold;
+}
+
+.download-btn:hover{
+    background-color: #28a745;
+}
+
+.reviews-btn{
+    color: black;
+    background-color: #f5c518;
+}
+
+.reviews-btn:hover{
+    background-color: #e6b800;
+}
+
+.movie-runtime{
+    font-weight: bold;
+}
+
+.movie-runtime, .imdb-rating{
+    background-color: rgba(255, 255, 255, 0.427);
+    width: 8rem;
+    border-left: solid 6px #f5c518;
+}
+
+.movie-size{
+  background-color: rgba(255, 255, 255, 0.427);
+  width: 8rem;
+  border-left: solid 6px #f5c518;
+  font-weight: bold;
+}
+
+.imdb-rating, .movie-runtime, .movie-size{
+  height: 2.5rem;
+  width: 8rem;
+  align-content: center;
+  color: white;
+  background-color: black;
+}
+
+.movie-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 1rem;
+  color: white;
+  gap: 5px;
+}
+
+.movie-info span{
+  color: white;
+}
+
+.favorite-btn{
+    background-color: #ffcc00;
+    border: none;
+    height: 2.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.favorite-btn:hover{
+    background-color: #e6b800;
+}
+
+#mediaContainer {
+  width: 100%;
+  max-width: 450px;
+  height: 450px; /* fixed height */
+  position: relative;
+  overflow: hidden;
+}
+
+#mediaContainer img,
+#mediaContainer .trailer-embed iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#trailerEmbed {
+  display: none;
+}
+
+#mediaContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+#trailerEmbed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2; /* higher than the poster */
+}
+
+#trailerEmbed {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none; /* initially hidden */
+  z-index: 2;
+}
+
+.modalbox {
+    position: relative;       /* adjust width as needed */
+    height: 450px;      /* adjust height as needed */
+    margin-bottom: 1rem;
+}
+
+.modalbox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.trailer-embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* hidden by default */
+    z-index: 2;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.series-download-container {
+  margin-top: 20px;
+}
+
+.seasons-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.season-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  width: 120px;
+  text-align: center;
+  background: #222;
+  color: #fff;
+}
+
+.season-box button {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+ .series-download-container {
+      margin-top: 20px;
+    }
+
+    .seasons-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .season-box {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      width: 120px;
+      text-align: center;
+      background: #222;
+      color: #fff;
+    }
+
+    .season-box button {
+      margin-top: 5px;
+      padding: 5px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    #downloadAllBtn {
+      margin-top: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      background-color: #ffcc00;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+.series-download-container {
+    position: fixed;
+    top: 50%;
+    right: 10px; /* distance from screen edge */
+    transform: translateY(-50%);
+    width: 250px;
+    max-height: 80vh;
+    background-color: #1f1f1f;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    z-index: 1001; /* above modal */
+}
+
+.seasons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.season-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    background-color: #2a2a2a;
+    border-radius: 5px;
+}
+
+.season-box button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.download-all-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    background-color: #ffcc00;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sources-popup {
+  position: fixed;
+  top: 0;
+  right: -400px; /* hidden off-screen */
+  width: 350px;
+  height: 100%;
+  background: #111;
+  color: white;
+  padding: 20px;
+  box-shadow: -4px 0 10px rgba(0,0,0,0.7);
+  transition: right 0.4s ease-in-out;
+  z-index: 2000;
+}
+
+.sources-popup.active {
+  right: 0; /* slides into view */
+}
+
+.sources-content h2 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.source-item {
+  background: #1f1f1f;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.source-item button {
+  background: #ffb400;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Base modal styling */
+#downloadSourcesPopup {
+  display: none; /* hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 9999; /* appears above movie modal */
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+/* Sliding animation container */
+#downloadSourcesPopup .modal-content {
+  background: #1e1e1e;
+  color: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+
+  /* Start position (hidden) */
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+/* When active -> slide up */
+#downloadSourcesPopup.show .modal-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Close button */
+#downloadSourcesPopup .close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+}
+
+#downloadSourcesPopup .close:hover {
+  color: #f00;
+}
+
+/* Download site buttons */
+.download-sites {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.site-btn {
+  background: #292929;
+  border: none;
+  color: #fff;
+  padding: 12px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.3s ease;
+}
+
+.site-btn i {
+  margin-right: 8px;
+  color: #00d1ff;
+}
+
+.site-btn:hover {
+  background: #383838;
+}
+
+/* ========== DOWNLOAD PANEL SLIDE-IN ========== */
+.download-options {
+  position: fixed;
+  top: 0;
+  right: -400px; /* hidden off screen */
+  width: 350px;
+  height: 100%;
+  background-color: #1f1f1f;
+  color: white;
+  box-shadow: -4px 0 15px rgba(0,0,0,0.5);
+  padding: 20px;
+  transition: right 0.4s ease-in-out;
+  z-index: 1000;
+  overflow-y: auto;
+  border-left: 5px solid #f5c518; /* theme accent */
+}
+
+.download-options.active {
+  right: 0; /* slides in */
+}
+
+.download-options h3 {
+  margin-bottom: 15px;
+  color: #f5c518;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.source-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background: #2a2a2a;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+}
+
+.source-btn i {
+  margin-right: 8px;
+  color: #f5c518;
+}
+
+.source-btn:hover {
+  background: #f5c518;
+  color: black;
+}
+
+/* ===== Download Button in Modal ===== */
+.download-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.download-btn:hover {
+  background: #218838;
+}
+
+.review-box {
+  display: flex;
+  align-items: stretch; /* makes both equal height */
+  margin-top: 10px;
+}
+
+.review-box input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 8px 0 0 8px; /* left rounded */
+  background: #222;
+  color: white;
+  font-size: 14px;
+}
+
+.review-box button {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* centers emoji perfectly */
+  padding: 0 15px; /* no vertical padding, only horizontal */
+  border: none;
+  border-radius: 0 8px 8px 0; /* right rounded */
+  background: #f5c518;
+  color: #111;
+  height: 2.45rem;
+  cursor: pointer;
+  font-size: 20px; /* emoji size */
+  line-height: 1; /* removes misalignment */
+  transition: background 0.2s;
+}
+
+.review-box button:hover {
+  background: #ffdd33;
+}
+
+/* Reviews popup container */
+.reviews-popup-content {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+/* Individual review bubble */
+.review-bubble {
+    display: inline-block;
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    position: relative;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    line-height: 1.3;
+}
+
+/* Alternating colors for reviews */
+.review-bubble.movie-review {
+    background-color: #dcf8c6; /* greenish for current movie */
+    align-self: flex-start;
+}
+
+.review-bubble.other-review {
+    background-color: black;
+    align-self: flex-end;
+}
+
+/* Movie title inside bubble */
+.review-bubble strong {
+    display: block;
+    font-size: 0.75rem;
+    color: black;
+    margin-bottom: 5px;
+}
+
+#allReviewsList {
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 5px;
+}
+
+/* INDIVIDUAL REVIEW BUBBLE */
+.review-bubble {
+    padding: 12px 15px;
+    border-radius: 12px;
+    word-wrap: break-word;
+    line-height: 1.4;
+    display: inline-block;
+}
+
+/* ALTERNATING COLORS */
+.review-bubble:nth-child(odd) {
+    background-color: #121212;
+}
+.review-bubble:nth-child(even) {
+    background-color: #2c2c2c;
+}
+
+/* MOVIE TITLE COLORS */
+.review-bubble strong {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.review-bubble:nth-child(1) strong { color: #1e90ff; } /* Blue */
+.review-bubble:nth-child(2) strong { color: #ff4500; } /* Red */
+.review-bubble:nth-child(3) strong { color: #ffd700; } /* Yellow */
+.review-bubble:nth-child(4) strong { color: #32cd32; } /* Green */
+.review-bubble:nth-child(5) strong { color: #ff69b4; } /* Pink */
+/* Cycle colors for more reviews */
+.review-bubble:nth-child(n+6) strong { color: #00ced1; } /* Cyan */
+
+/* BACK BUTTON */
+.back-to-movie {
+    margin-top: 10px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+.back-to-movie:hover {
+    text-decoration: underline;
+}
+
+.topnav .menu a.active { /* Yellow highlight */
+  color: rgb(219, 219, 2);               /* Text color while active */
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.season-box {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #555;
+    padding: 5px;
+    width: 100%;
+}
+
+.season-title {
+    cursor: pointer;
+    font-weight: bold;
+    color: #FFD700;
+    padding: 5px 0;
+}
+
+.episodes-container {
+    margin-left: 15px;
+    margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.episode-btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.episode-btn:hover {
+    background-color: #f5c518;
+    color: black;
+}
+
+/* ===========================
+   Series Download Container
+=========================== */
+#seriesDownloadContainer,
+.series-download-container {
+    position: relative;
+    top: 200px; /* moves it down into your red-marked space */
+    max-height: 500px; /* visible height for 5 seasons/episodes */
+    overflow-y: auto;
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    display: none; /* initially hidden */
+}
+
+#seriesDownloadContainer {
+    position: relative; /* or fixed if you want it floating */
+    top: 200px; /* moves it down into your red-marked space */
+    max-height: 500px; /* show 5 episodes; scrollable if more */
+    overflow-y: auto;
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    display: none; /* hidden until a series is clicked */
+    z-index: 999;
+}
+
+.episode {
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    background-color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.episode.active {
+    background-color: yellow;
+    color: #000;
+}
+
+/* Smooth translation for series panel */
+#seriesPanel {
+  transition: transform 0.3s ease;
+}
+
+/* Back button styling */
+#backButton {
+  background: none;
+  border: none;
+  color: #f5c518;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Series panel scrollbar */
+#seriesDownloadContainer::-webkit-scrollbar {
+    width: 6px;
+}
+
+#seriesDownloadContainer::-webkit-scrollbar-thumb {
+    background-color: #f5c518; /* theme color */
+    border-radius: 3px;
+}
+
+#seriesDownloadContainer::-webkit-scrollbar-track {
+    background-color: #1f1f1f; /* panel background */
+}
+
+/* Episodes container scrollbar */
+.episodes-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.episodes-container::-webkit-scrollbar-thumb {
+    background-color: #f5c518;
+    border-radius: 3px;
+}
+
+.episodes-container::-webkit-scrollbar-track {
+    background-color: #2c2c2c; /* slightly different shade for episodes */
 }
 
 
