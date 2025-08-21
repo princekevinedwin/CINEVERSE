@@ -762,7 +762,7 @@ input::-webkit-input-placeholder {
 .modal-actions{
     display: flex;
     flex-direction: column;
-    height: 22rem;
+    height: 24.5rem;
 }
 
 .movie-overview{
