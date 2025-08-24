@@ -59,7 +59,7 @@
           <div id="trailerEmbed" class="trailer-embed"></div>
         </div>
 
-        <div class="modal-actions">
+        <div class="modal-actions" id="modalActions">
           <button id="downloadMovie" class="download-btn">
             <i class="fas fa-download"></i> Download
           </button>
@@ -132,18 +132,12 @@
       <button class="source-btn" data-site="o2tvseries">
         <i class="fas fa-download"></i> O2TvSeries
       </button>
-      <!-- New sites added below -->
+      <!-- Updated sites -->
       <button class="source-btn" data-site="toxicwap">
         <i class="fas fa-download"></i> ToxicWap
       </button>
       <button class="source-btn" data-site="9jarocks">
         <i class="fas fa-download"></i> 9jaRocks
-      </button>
-      <button class="source-btn" data-site="netflix">
-        <i class="fas fa-download"></i> Netflix
-      </button>
-      <button class="source-btn" data-site="amazon">
-        <i class="fas fa-download"></i> Amazon
       </button>
     </div>
   </div>
@@ -156,6 +150,9 @@
       <div id="allReviewsList"></div>
     </div>
   </div>
+
+  <!-- News Container -->
+<div id="newsContainer" class="news-container" style="display: none;"></div>
   
   <script src="/static/js/index.js"></script>
 </body>
