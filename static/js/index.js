@@ -228,6 +228,48 @@ const SITE_CONFIGS = {
         }
     }
 };
+// ====================== GENRE CONFIGS ======================
+const GENRES = {
+    movie: [
+        { id: 28, name: "Action" },
+        { id: 12, name: "Adventure" },
+        { id: 16, name: "Animation" },
+        { id: 35, name: "Comedy" },
+        { id: 80, name: "Crime" },
+        { id: 99, name: "Documentary" },
+        { id: 18, name: "Drama" },
+        { id: 10751, name: "Family" },
+        { id: 14, name: "Fantasy" },
+        { id: 36, name: "History" },
+        { id: 27, name: "Horror" },
+        { id: 10402, name: "Music" },
+        { id: 9648, name: "Mystery" },
+        { id: 10749, name: "Romance" },
+        { id: 878, name: "Science Fiction" },
+        { id: 10770, name: "TV Movie" },
+        { id: 53, name: "Thriller" },
+        { id: 10752, name: "War" },
+        { id: 37, name: "Western" }
+    ],
+    tv: [
+        { id: 10759, name: "Action & Adventure" },
+        { id: 16, name: "Animation" },
+        { id: 35, name: "Comedy" },
+        { id: 80, name: "Crime" },
+        { id: 99, name: "Documentary" },
+        { id: 18, name: "Drama" },
+        { id: 10751, name: "Family" },
+        { id: 10762, name: "Kids" },
+        { id: 9648, name: "Mystery" },
+        { id: 10763, name: "News" },
+        { id: 10764, name: "Reality" },
+        { id: 10765, name: "Sci-Fi & Fantasy" },
+        { id: 10766, name: "Soap" },
+        { id: 10767, name: "Talk" },
+        { id: 10768, name: "War & Politics" },
+        { id: 37, name: "Western" }
+    ]
+};
 // ====================== DOM ELEMENTS ======================
 const main = document.getElementById("section");
 const form = document.getElementById("form");
@@ -259,6 +301,7 @@ const addFavoriteBtn = document.getElementById("addFavorite");
 const moviesTab = document.getElementById("moviesTab");
 const seriesTab = document.getElementById("seriesTab");
 const favoritesTab = document.getElementById("favoritesTab");
+const genresTab = document.getElementById("genresTab");
 const newsTab = document.querySelector('a[href="#"]:last-child');
 // Series Download Container
 const seriesDownloadContainer = document.getElementById("seriesDownloadContainer");
@@ -1094,6 +1137,8 @@ function showSeriesSelectionPopup(tvShow) {
         z-index: 1001;
         overflow-y: auto;
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        scrollbar-width: thin;
+        scrollbar-color: #f5c518 transparent;
     `;
     
     const header = document.createElement('div');
@@ -1124,7 +1169,24 @@ function showSeriesSelectionPopup(tvShow) {
         cursor: pointer;
         padding: 0;
         line-height: 1;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
     `;
+    
+    closeBtn.addEventListener('mouseenter', () => {
+        closeBtn.style.background = 'rgba(245, 197, 24, 0.2)';
+        closeBtn.style.transform = 'scale(1.1)';
+    });
+    
+    closeBtn.addEventListener('mouseleave', () => {
+        closeBtn.style.background = 'none';
+        closeBtn.style.transform = 'scale(1)';
+    });
     
     closeBtn.addEventListener('click', () => {
         document.body.removeChild(popup);
@@ -2191,8 +2253,8 @@ async function openModal(item) {
                 background: linear-gradient(45deg, #4CAF50, #45a049);
                 color: #fff;
                 border: none;
-                padding: 10px 15px;
                 border-radius: 5px;
+                padding: 10px 15px;
                 cursor: pointer;
                 font-weight: bold;
                 margin: 5px;
@@ -2961,6 +3023,13 @@ function removeActive() {
 }
 moviesTab.addEventListener("click", (e) => {
     e.preventDefault();
+    
+    // Close genre popup if open
+    const genrePopup = document.getElementById('genreSelectionPopup');
+    if (genrePopup) {
+        genrePopup.remove();
+    }
+    
     currentType = "movie";
     currentAPIUrl = MOVIES_API;
     currentPage = 1;
@@ -2979,6 +3048,13 @@ moviesTab.addEventListener("click", (e) => {
 });
 seriesTab.addEventListener("click", (e) => {
     e.preventDefault();
+    
+    // Close genre popup if open
+    const genrePopup = document.getElementById('genreSelectionPopup');
+    if (genrePopup) {
+        genrePopup.remove();
+    }
+    
     currentType = "tv";
     currentAPIUrl = SERIES_API;
     currentPage = 1;
@@ -2998,6 +3074,12 @@ seriesTab.addEventListener("click", (e) => {
 favoritesTab.addEventListener("click", (e) => {
     e.preventDefault();
     
+    // Close genre popup if open
+    const genrePopup = document.getElementById('genreSelectionPopup');
+    if (genrePopup) {
+        genrePopup.remove();
+    }
+    
     // STOP ALL TRAILERS WHEN SWITCHING TO FAVORITES
     stopAllTrailers();
     
@@ -3016,9 +3098,450 @@ favoritesTab.addEventListener("click", (e) => {
     localStorage.setItem("activeTab", "favorites");
     renderFavorites();
 });
+// Genre tab functionality
+genresTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    // STOP ALL TRAILERS WHEN SWITCHING TO GENRES
+    stopAllTrailers();
+    
+    section.style.display = "flex";
+    pagination.style.display = "none";
+    trailerSlider.style.display = "none";
+    favoritesContainer.style.display = "none";
+    newsContainer.style.display = "none";
+    removeActive();
+    genresTab.classList.add("active");
+    localStorage.setItem("activeTab", "genres");
+    
+    // Show genre selection popup
+    showGenreSelectionPopup();
+});
+// Function to create and show genre selection popup
+function showGenreSelectionPopup() {
+    // Remove existing popup if any
+    const existingPopup = document.getElementById('genreSelectionPopup');
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+    
+    // Create popup container
+    const popup = document.createElement('div');
+    popup.id = 'genreSelectionPopup';
+    popup.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        background: linear-gradient(135deg, #000000, #1f1f1f);
+        border: 2px solid #f5c518;
+        border-radius: 15px;
+        padding: 25px;
+        z-index: 1001;
+        overflow-y: auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        scrollbar-width: thin;
+        scrollbar-color: #f5c518 transparent;
+    `;
+    
+    // Add scrollbar styling
+    const style = document.createElement('style');
+    style.textContent = `
+        #genreSelectionPopup::-webkit-scrollbar {
+            width: 7px;
+        }
+        
+        #genreSelectionPopup::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+        
+        #genreSelectionPopup::-webkit-scrollbar-thumb {
+            background: #f5c518;
+            border-radius: 10px;
+            border: none;
+        }
+        
+        #genreSelectionPopup::-webkit-scrollbar-thumb:hover {
+            background: #e6b814;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Create header
+    const header = document.createElement('div');
+    header.style.cssText = `
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #f5c518;
+        padding-bottom: 15px;
+    `;
+    
+    const title = document.createElement('h2');
+    title.textContent = 'Select a Genre';
+    title.style.cssText = `
+        color: #f5c518;
+        margin: 0;
+        font-size: 2rem;
+        font-weight: bold;
+    `;
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.innerHTML = '×';
+    closeBtn.style.cssText = `
+        background: none;
+        border: none;
+        color: #f5c518;
+        font-size: 2rem;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    `;
+    
+    closeBtn.addEventListener('mouseenter', () => {
+        closeBtn.style.background = 'rgba(245, 197, 24, 0.2)';
+        closeBtn.style.transform = 'scale(1.1)';
+    });
+    
+    closeBtn.addEventListener('mouseleave', () => {
+        closeBtn.style.background = 'none';
+        closeBtn.style.transform = 'scale(1)';
+    });
+    
+    closeBtn.addEventListener('click', () => {
+        document.body.removeChild(popup);
+        // Show genre selection message when popup is closed
+        showGenreSelectionMessage();
+    });
+    
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+    popup.appendChild(header);
+    
+    // Create media type selector
+    const mediaTypeSelector = document.createElement('div');
+    mediaTypeSelector.style.cssText = `
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+        gap: 15px;
+    `;
+    
+    const movieTypeBtn = document.createElement('button');
+    movieTypeBtn.textContent = 'Movies';
+    movieTypeBtn.className = 'media-type-btn active';
+    movieTypeBtn.style.cssText = `
+        background: linear-gradient(45deg, #f5c518, #e6b800);
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    
+    const seriesTypeBtn = document.createElement('button');
+    seriesTypeBtn.textContent = 'Series';
+    seriesTypeBtn.className = 'media-type-btn';
+    seriesTypeBtn.style.cssText = `
+        background: transparent;
+        color: #f5c518;
+        border: 2px solid #f5c518;
+        border-radius: 8px;
+        padding: 10px 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    
+    mediaTypeSelector.appendChild(movieTypeBtn);
+    mediaTypeSelector.appendChild(seriesTypeBtn);
+    popup.appendChild(mediaTypeSelector);
+    
+    // Create genres grid
+    const genresGrid = document.createElement('div');
+    genresGrid.className = 'genres-grid';
+    genresGrid.style.cssText = `
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    `;
+    
+    // Function to render genres
+    function renderGenres(type) {
+        genresGrid.innerHTML = '';
+        
+        const genres = GENRES[type];
+        genres.forEach(genre => {
+            const genreCard = document.createElement('div');
+            genreCard.className = 'genre-card';
+            genreCard.dataset.genreId = genre.id;
+            genreCard.dataset.genreName = genre.name;
+            genreCard.dataset.mediaType = type;
+            genreCard.style.cssText = `
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(245,197,24,0.3);
+                border-radius: 10px;
+                padding: 15px;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            `;
+            
+            const genreIcon = document.createElement('div');
+            genreIcon.style.cssText = `
+                font-size: 2rem;
+                margin-bottom: 10px;
+                color: #f5c518;
+            `;
+            
+            // Set icon based on genre
+            switch(genre.id) {
+                case 28: // Action
+                case 10759: // Action & Adventure
+                    genreIcon.innerHTML = '<i class="fas fa-fist-raised"></i>';
+                    break;
+                case 12: // Adventure
+                    genreIcon.innerHTML = '<i class="fas fa-compass"></i>';
+                    break;
+                case 16: // Animation
+                    genreIcon.innerHTML = '<i class="fas fa-film"></i>';
+                    break;
+                case 35: // Comedy
+                    genreIcon.innerHTML = '<i class="fas fa-laugh"></i>';
+                    break;
+                case 80: // Crime
+                    genreIcon.innerHTML = '<i class="fas fa-user-secret"></i>';
+                    break;
+                case 99: // Documentary
+                    genreIcon.innerHTML = '<i class="fas fa-video"></i>';
+                    break;
+                case 18: // Drama
+                    genreIcon.innerHTML = '<i class="fas fa-theater-masks"></i>';
+                    break;
+                case 10751: // Family
+                    genreIcon.innerHTML = '<i class="fas fa-users"></i>';
+                    break;
+                case 14: // Fantasy
+                    genreIcon.innerHTML = '<i class="fas fa-dragon"></i>';
+                    break;
+                case 36: // History
+                    genreIcon.innerHTML = '<i class="fas fa-landmark"></i>';
+                    break;
+                case 27: // Horror
+                    genreIcon.innerHTML = '<i class="fas fa-ghost"></i>';
+                    break;
+                case 10402: // Music
+                    genreIcon.innerHTML = '<i class="fas fa-music"></i>';
+                    break;
+                case 9648: // Mystery
+                    genreIcon.innerHTML = '<i class="fas fa-search"></i>';
+                    break;
+                case 10749: // Romance
+                    genreIcon.innerHTML = '<i class="fas fa-heart"></i>';
+                    break;
+                case 878: // Science Fiction
+                case 10765: // Sci-Fi & Fantasy
+                    genreIcon.innerHTML = '<i class="fas fa-rocket"></i>';
+                    break;
+                case 53: // Thriller
+                    genreIcon.innerHTML = '<i class="fas fa-bolt"></i>';
+                    break;
+                case 10752: // War
+                case 10768: // War & Politics
+                    genreIcon.innerHTML = '<i class="fas fa-shield-alt"></i>';
+                    break;
+                case 37: // Western
+                    genreIcon.innerHTML = '<i class="fas fa-hat-cowboy"></i>';
+                    break;
+                case 10762: // Kids
+                    genreIcon.innerHTML = '<i class="fas fa-child"></i>';
+                    break;
+                case 10763: // News
+                    genreIcon.innerHTML = '<i class="fas fa-newspaper"></i>';
+                    break;
+                case 10764: // Reality
+                    genreIcon.innerHTML = '<i class="fas fa-tv"></i>';
+                    break;
+                case 10766: // Soap
+                    genreIcon.innerHTML = '<i class="fas fa-comment-alt"></i>';
+                    break;
+                case 10767: // Talk
+                    genreIcon.innerHTML = '<i class="fas fa-microphone"></i>';
+                    break;
+                default:
+                    genreIcon.innerHTML = '<i class="fas fa-film"></i>';
+            }
+            
+            const genreName = document.createElement('h3');
+            genreName.textContent = genre.name;
+            genreName.style.cssText = `
+                color: #fff;
+                margin: 0;
+                font-size: 1.1rem;
+                font-weight: bold;
+            `;
+            
+            genreCard.appendChild(genreIcon);
+            genreCard.appendChild(genreName);
+            
+            // Add hover effect
+            genreCard.addEventListener('mouseenter', () => {
+                genreCard.style.transform = 'translateY(-5px)';
+                genreCard.style.background = 'rgba(245,197,24,0.1)';
+                genreCard.style.borderColor = '#f5c518';
+                genreCard.style.boxShadow = '0 5px 15px rgba(245,197,24,0.2)';
+            });
+            
+            genreCard.addEventListener('mouseleave', () => {
+                genreCard.style.transform = 'translateY(0)';
+                genreCard.style.background = 'rgba(255,255,255,0.05)';
+                genreCard.style.borderColor = 'rgba(245,197,24,0.3)';
+                genreCard.style.boxShadow = 'none';
+            });
+            
+            // Add click event
+            genreCard.addEventListener('click', () => {
+                document.body.removeChild(popup);
+                
+                // Set current type and fetch content
+                currentType = type;
+                const genreId = genreCard.dataset.genreId;
+                const genreName = genreCard.dataset.genreName;
+                
+                // Create API URL with genre filter
+                currentAPIUrl = `${BASE_URL}/discover/${type}?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`;
+                
+                // Show content section
+                section.style.display = "flex";
+                pagination.style.display = "flex";
+                trailerSlider.style.display = "flex";
+                favoritesContainer.style.display = "none";
+                newsContainer.style.display = "none";
+                
+                // Set active tab
+                removeActive();
+                if (type === "movie") {
+                    moviesTab.classList.add("active");
+                } else {
+                    seriesTab.classList.add("active");
+                }
+                
+                // Reset pagination and fetch content
+                currentPage = 1;
+                returnItems(currentAPIUrl, currentPage);
+                
+                // Show toast notification
+                showToast(`Showing ${type === "movie" ? "movies" : "series"} in ${genreName}`, "success");
+            });
+            
+            genresGrid.appendChild(genreCard);
+        });
+    }
+    
+    // Initially render movie genres
+    renderGenres('movie');
+    
+    // Add media type switch functionality
+    movieTypeBtn.addEventListener('click', () => {
+        movieTypeBtn.className = 'media-type-btn active';
+        movieTypeBtn.style.cssText = `
+            background: linear-gradient(45deg, #f5c518, #e6b800);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        `;
+        
+        seriesTypeBtn.className = 'media-type-btn';
+        seriesTypeBtn.style.cssText = `
+            background: transparent;
+            color: #f5c518;
+            border: 2px solid #f5c518;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        `;
+        
+        renderGenres('movie');
+    });
+    
+    seriesTypeBtn.addEventListener('click', () => {
+        seriesTypeBtn.className = 'media-type-btn active';
+        seriesTypeBtn.style.cssText = `
+            background: linear-gradient(45deg, #f5c518, #e6b800);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        `;
+        
+        movieTypeBtn.className = 'media-type-btn';
+        movieTypeBtn.style.cssText = `
+            background: transparent;
+            color: #f5c518;
+            border: 2px solid #f5c518;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        `;
+        
+        renderGenres('tv');
+    });
+    
+    popup.appendChild(genresGrid);
+    document.body.appendChild(popup);
+}
+
+// Function to show genre selection message when popup is closed
+function showGenreSelectionMessage() {
+    main.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 50vh; color: #f5c518;">
+            <i class="fas fa-film" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+            <h2 style="font-size: 2rem; margin: 0; font-weight: bold;">Select Different Genres</h2>
+            <p style="margin-top: 1rem; color: #ccc;">Click on the Genres tab again to choose a genre</p>
+        </div>
+    `;
+}
+
 // News tab functionality
 newsTab.addEventListener("click", async (e) => {
     e.preventDefault();
+    
+    // Close genre popup if open
+    const genrePopup = document.getElementById('genreSelectionPopup');
+    if (genrePopup) {
+        genrePopup.remove();
+    }
     
     // STOP ALL TRAILERS WHEN SWITCHING TO NEWS
     stopAllTrailers();
@@ -3087,6 +3610,8 @@ suggestionsContainer.style.width = search.offsetWidth + "px";
 suggestionsContainer.style.zIndex = "1000";
 suggestionsContainer.style.border = "1px solid #f5c518";
 suggestionsContainer.style.display = "none";
+suggestionsContainer.style.top = "calc(100% + 2rem)"; // Position 2rem below search bar
+search.parentNode.style.position = "relative"; // Set parent to relative for positioning
 search.parentNode.appendChild(suggestionsContainer);
 search.addEventListener("input", async () => {
     const query = search.value.trim();
@@ -3224,6 +3749,38 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add refresh button
     addRefreshButton();
     
+    // Enhance modal close button
+    if (closeModal) {
+        closeModal.style.cssText = `
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(245, 197, 24, 0.2);
+            color: #f5c518;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        `;
+        
+        closeModal.addEventListener('mouseenter', () => {
+            closeModal.style.background = 'rgba(245, 197, 24, 0.4)';
+            closeModal.style.transform = 'scale(1.1)';
+        });
+
+        closeModal.addEventListener('mouseleave', () => {
+            closeModal.style.background = 'rgba(245, 197, 24, 0.2)';
+            closeModal.style.transform = 'scale(1)';
+        });
+    }
+    
     // Load saved state
     const savedType = localStorage.getItem("currentType") || "movie";
     const savedPage = parseInt(localStorage.getItem("currentPage")) || 1;
@@ -3240,6 +3797,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (activeTab === "news") {
         newsTab.classList.add("active");
         newsTab.click();
+    } else if (activeTab === "genres") {
+        genresTab.classList.add("active");
+        // Show genre selection message instead of empty screen
+        showGenreSelectionMessage();
     } else if (activeTab === "series") {
         seriesTab.classList.add("active");
         currentType = "tv";
