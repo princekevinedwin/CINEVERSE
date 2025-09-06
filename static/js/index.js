@@ -2037,7 +2037,7 @@ moviesTab.addEventListener("click", (e) => {
     currentAPIUrl = MOVIES_API;
     currentPage = 1;
     returnItems(currentAPIUrl, currentPage);
-    section.style.display = "flex";
+    section.style.display = "grid";
     pagination.style.display = "flex";
     trailerSlider.style.display = "flex";
     favoritesContainer.style.display = "none";
@@ -2063,7 +2063,7 @@ seriesTab.addEventListener("click", (e) => {
     currentAPIUrl = SERIES_API;
     currentPage = 1;
     returnItems(currentAPIUrl, currentPage);
-    section.style.display = "flex";
+    section.style.display = "grid";
     pagination.style.display = "flex";
     trailerSlider.style.display = "block";
     favoritesContainer.style.display = "none";
@@ -2111,7 +2111,7 @@ genresTab.addEventListener("click", (e) => {
     // STOP ALL TRAILERS WHEN SWITCHING TO GENRES
     stopAllTrailers();
     
-    section.style.display = "flex";
+    section.style.display = "grid";
     pagination.style.display = "none";
     trailerSlider.style.display = "none";
     favoritesContainer.style.display = "none";
@@ -5800,31 +5800,43 @@ document.addEventListener("DOMContentLoaded", async () => {
         else addFavoriteBtn.classList.remove("favorited");
     }
     addFavoriteBtn.addEventListener("click", () => {
-        const title = modalTitle.textContent;
-        const poster = modalImage.src;
-        
-        let favorites = currentType === "movie" ? movieFavorites : seriesFavorites;
-        const index = favorites.findIndex(f => f.title === title);
-        if (index > -1) {
-            favorites.splice(index, 1);
-            addFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Add Favorite';
-            addFavoriteBtn.classList.remove("favorited");
-            showToast(`${title} was removed from favorites`, "info");
-        } else {
-            favorites.push({ title, poster, type: currentType });
-            addFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Favorite';
-            addFavoriteBtn.classList.add("favorited");
-            showToast(`${title} added to favorites`, "success");
-        }
+    const title = modalTitle.textContent;
+    const poster = modalImage.src;
+    
+    // Check if the item is already in the favorites
+    const movieIndex = movieFavorites.findIndex(f => f.title === title);
+    const seriesIndex = seriesFavorites.findIndex(f => f.title === title);
+    
+    if (currentType === "movie" && movieIndex > -1) {
+        // Remove from movie favorites
+        movieFavorites.splice(movieIndex, 1);
+        localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+        addFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Add Favorite';
+        addFavoriteBtn.classList.remove("favorited");
+        showToast(`${title} was removed from favorites`, "info");
+    } else if (currentType === "tv" && seriesIndex > -1) {
+        // Remove from series favorites
+        seriesFavorites.splice(seriesIndex, 1);
+        localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+        addFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Add Favorite';
+        addFavoriteBtn.classList.remove("favorited");
+        showToast(`${title} was removed from favorites`, "info");
+    } else {
+        // Add to favorites
         if (currentType === "movie") {
-            movieFavorites = favorites;
+            movieFavorites.push({ title, poster, type: currentType });
             localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
         } else {
-            seriesFavorites = favorites;
+            seriesFavorites.push({ title, poster, type: currentType });
             localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
         }
-        renderFavorites();
-    });
+        addFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Favorite';
+        addFavoriteBtn.classList.add("favorited");
+        showToast(`${title} added to favorites`, "success");
+    }
+    
+    renderFavorites();
+});
     // ====================== ENHANCED FAVORITES WITH RECOMMENDATIONS ======================
 async function renderFavorites() {
     favoritesContainer.style.paddingTop = "2rem";
@@ -5833,6 +5845,7 @@ async function renderFavorites() {
     favoritesContainer.innerHTML = "";
     
     // Combine and deduplicate favorites
+     // Combine and deduplicate favorites
     const allFavorites = [...movieFavorites, ...seriesFavorites];
     const uniqueFavorites = Array.from(
         new Map(allFavorites.map(item => [item.title, item])).values()

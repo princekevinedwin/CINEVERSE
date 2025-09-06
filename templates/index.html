@@ -7,6 +7,278 @@
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/static/styles/style.css">
+  
+  <!-- Add this style tag to fix the grid issue and handle genre page -->
+  <style>
+    /* Genre page specific styles */
+    .genre-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(245,197,24,0.3);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .genre-card:hover {
+      transform: translateY(-5px);
+      background: rgba(245,197,24,0.1);
+      border-color: #f5c518;
+      box-shadow: 0 5px 15px rgba(245,197,24,0.2);
+    }
+    
+    .movie-class-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid rgba(245,197,24,0.3);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .movie-class-card:hover {
+      transform: translateY(-8px);
+      background: linear-gradient(135deg, rgba(245,197,24,0.15), rgba(245,197,24,0.05));
+      border-color: #f5c518;
+      box-shadow: 0 10px 25px rgba(245,197,24,0.3);
+    }
+    
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(245,197,24,0.3);
+    }
+    
+    .category-tab {
+      background: transparent;
+      color: #f5c518;
+      border: none;
+      border-radius: 8px 8px 0 0;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .category-tab.active {
+      background: linear-gradient(45deg, #f5c518, #e6b800);
+      color: #000;
+    }
+    
+    .media-type-selector {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+      gap: 15px;
+    }
+    
+    .media-type-btn {
+      background: linear-gradient(45deg, #f5c518, #e6b800);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .media-type-btn:not(.active) {
+      background: transparent;
+      color: #f5c518;
+      border: 2px solid #f5c518;
+    }
+    
+    .genres-grid, .classes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    
+    /* Fix for favorites duplication */
+    .favorite-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      width: 90%;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border-radius: 15px;
+      border: 1px solid rgba(245,197,24,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .favorite-card:nth-child(even) {
+      background: linear-gradient(135deg, #16213e, #0f0f23);
+    }
+    
+    .favorite-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(245,197,24,0.2);
+      border-color: #f5c518;
+    }
+    
+    .favorite-card .left-content {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    
+    .favorite-card img {
+      width: 100px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .favorite-card .info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .favorite-card .title {
+      color: #f5c518;
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .favorite-card .type {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .favorite-card .right-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .favorite-card button {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .favorite-card .info-btn {
+      background: linear-gradient(45deg, #f5c518, #e6b800);
+      color: #000;
+    }
+    
+    .favorite-card .info-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(245,197,24,0.4);
+    }
+    
+    .favorite-card .delete-btn {
+      background: linear-gradient(45deg, #ff4444, #cc0000);
+      color: white;
+    }
+    
+    .favorite-card .delete-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(255,68,68,0.4);
+    }
+    
+    /* Genre/Movie Class Header - Permanent Header */
+    #genreHeader {
+      display: none;
+      background: linear-gradient(135deg, rgba(245,197,24,0.1), rgba(245,197,24,0.05));
+      border-bottom: 2px solid rgba(245,197,24,0.3);
+      padding: 1.5rem 2rem;
+      margin: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 10;
+    }
+    
+    #genreHeader .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    #genreHeader .header-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #genreHeader h2 {
+      color: #f5c518;
+      font-size: 1.8rem;
+      margin: 0 0 0.5rem 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    #genreHeader p {
+      color: #ccc;
+      font-size: 1rem;
+      margin: 0;
+    }
+    
+    #genreHeader .header-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    #genreHeader .back-btn {
+      background: linear-gradient(45deg, #f5c518, #e6b800);
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    #genreHeader .back-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(245,197,24,0.4);
+    }
+    
+    #genreHeader .media-type-badge {
+      background: rgba(245,197,24,0.2);
+      color: #f5c518;
+      border: 1px solid rgba(245,197,24,0.5);
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    
+    /* Ensure section has proper spacing when header is visible */
+    #section.with-header {
+      margin-top: 0 !important;
+    }
+  </style>
 </head>
 <body>
   <!-- Top Navigation -->
@@ -40,8 +312,24 @@
     <button id="nextBtn" class="slider-btn">⏭</button>
   </section>
   
+  <!-- Genre/Movie Class Header - Permanent Header -->
+  <div id="genreHeader">
+    <div class="header-content">
+      <div class="header-info">
+        <h2 id="genreTitle">Now Showing</h2>
+        <p id="genreSubtitle">Select from our collection</p>
+      </div>
+      <div class="header-actions">
+        <div class="media-type-badge" id="mediaTypeBadge">Movies</div>
+        <button class="back-btn" onclick="backToGenres()">
+          <i class="fas fa-arrow-left"></i> Back to Genres
+        </button>
+      </div>
+    </div>
+  </div>
+  
   <!-- Movies / Series Section -->
-  <section id="section" class="section"></section>
+  <section id="section" class="section" style="display: none;"></section>
   
   <!-- Favorites Section -->
   <section id="favoritesContainer" class="section" style="display:none; flex-wrap: wrap; gap: 1rem;"></section>
@@ -169,5 +457,262 @@
   <!-- YouTube IFrame API -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script src="/static/js/index.js"></script>
+  
+  <!-- Add this script to fix genres page and favorites duplication -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const section = document.getElementById('section');
+      const genreHeader = document.getElementById('genreHeader');
+      const genreTitle = document.getElementById('genreTitle');
+      const genreSubtitle = document.getElementById('genreSubtitle');
+      const mediaTypeBadge = document.getElementById('mediaTypeBadge');
+      const genresTab = document.getElementById('genresTab');
+      const otherTabs = ['homeTab', 'moviesTab', 'seriesTab', 'favoritesTab', 'newsTab'];
+      
+      // Variable to track current media type
+      let currentMediaType = 'movie';
+      
+      // Function to show genre header
+      function showGenreHeader(genreName, mediaType) {
+        genreTitle.textContent = `Now Showing: ${genreName}`;
+        genreSubtitle.textContent = `${mediaType === 'movie' ? 'Movies' : 'Series'} in ${genreName}`;
+        mediaTypeBadge.textContent = mediaType === 'movie' ? 'Movies' : 'Series';
+        genreHeader.style.display = 'block';
+        section.classList.add('with-header');
+      }
+      
+      // Function to hide genre header
+      function hideGenreHeader() {
+        genreHeader.style.display = 'none';
+        section.classList.remove('with-header');
+      }
+      
+      // Back to genres function
+      window.backToGenres = function() {
+        hideGenreHeader();
+        section.classList.add('genre-page');
+        section.innerHTML = '';
+        showGenreSelection();
+      };
+      
+      // Handle genre page class toggling
+      if (genresTab) {
+        genresTab.addEventListener('click', function(e) {
+          e.preventDefault();
+          // Add genre-page class to section
+          section.classList.add('genre-page');
+          // Hide genre header
+          hideGenreHeader();
+        });
+      }
+      
+      // Add event listeners to other tabs to remove genre-page class and hide header
+      otherTabs.forEach(tabId => {
+        const tab = document.getElementById(tabId);
+        if (tab) {
+          tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Remove genre-page class from section
+            section.classList.remove('genre-page');
+            // Hide genre header
+            hideGenreHeader();
+          });
+        }
+      });
+      
+      // Fix for genre cards and movie class cards - remove genre-page class when clicked
+      document.addEventListener('click', function(e) {
+        // Check if the clicked element is a genre card
+        const genreCard = e.target.closest('.genre-card');
+        if (genreCard) {
+          // Remove the genre-page class from the section
+          section.classList.remove('genre-page');
+          
+          // Get genre name
+          const genreName = genreCard.querySelector('h3').textContent;
+          
+          // Show genre header
+          showGenreHeader(genreName, currentMediaType);
+        }
+        
+        // Check if the clicked element is a movie class card
+        const movieClassCard = e.target.closest('.movie-class-card');
+        if (movieClassCard) {
+          // Remove the genre-page class from the section
+          section.classList.remove('genre-page');
+          
+          // Get movie class name
+          const className = movieClassCard.querySelector('h3').textContent;
+          
+          // Show genre header
+          showGenreHeader(className, currentMediaType);
+        }
+      });
+      
+      // Override the renderFavorites function to fix duplication
+      setTimeout(() => {
+        if (typeof renderFavorites === 'function') {
+          const originalRenderFavorites = renderFavorites;
+          
+          renderFavorites = function() {
+            favoritesContainer.style.paddingTop = "2rem";
+            favoritesContainer.style.display = "flex";
+            favoritesContainer.style.flexDirection = "column";
+            favoritesContainer.innerHTML = "";
+            
+            // Combine and deduplicate favorites using both id and type
+            const allFavorites = [...movieFavorites, ...seriesFavorites];
+            const uniqueFavorites = Array.from(
+              new Map(
+                allFavorites.map(item => {
+                  // Use a combination of id and type as the key
+                  const key = item.id ? `${item.id}-${item.type}` : `${item.title}-${item.type}`;
+                  return [key, item];
+                })
+              ).values()
+            );
+            
+            if (uniqueFavorites.length > 0) {
+              // Add recommendation section only once
+              let recommendationsAdded = false;
+              if (!recommendationsAdded) {
+                addFavoritesRecommendations(uniqueFavorites);
+                recommendationsAdded = true;
+              }
+              
+              const headerDiv = document.createElement("div");
+              headerDiv.style.cssText = `
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+                width: 90%;
+              `;
+              
+              const favTitle = document.createElement("h2");
+              favTitle.textContent = "Your Favorites";
+              favTitle.style.cssText = `
+                color: #f5c518;
+                font-size: 2.5rem;
+                margin: 0;
+              `;
+              
+              const clearBtn = document.createElement("button");
+              clearBtn.innerHTML = '<i class="fas fa-trash"></i> Clear All';
+              clearBtn.style.cssText = `
+                background: linear-gradient(45deg, #ff4444, #cc0000);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 0.8rem 1.5rem;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 1.2rem;
+                transition: all 0.3s ease;
+              `;
+              
+              clearBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all favorites?')) {
+                  movieFavorites = [];
+                  seriesFavorites = [];
+                  localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+                  localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+                  renderFavorites();
+                }
+              });
+              
+              headerDiv.appendChild(favTitle);
+              headerDiv.appendChild(clearBtn);
+              favoritesContainer.appendChild(headerDiv);
+              
+              // Render unique favorites
+              uniqueFavorites.forEach((fav, index) => {
+                const card = document.createElement("div");
+                card.className = "favorite-card";
+                
+                const leftDiv = document.createElement("div");
+                leftDiv.className = "left-content";
+                
+                const img = document.createElement("img");
+                img.src = fav.poster;
+                
+                const infoDiv = document.createElement("div");
+                infoDiv.className = "info";
+                
+                const title = document.createElement("div");
+                title.className = "title";
+                title.textContent = fav.title;
+                
+                const typeLabel = document.createElement("div");
+                typeLabel.className = "type";
+                typeLabel.textContent = fav.type === 'movie' ? '🎬 Movie' : '📺 Series';
+                
+                infoDiv.appendChild(title);
+                infoDiv.appendChild(typeLabel);
+                leftDiv.appendChild(img);
+                leftDiv.appendChild(infoDiv);
+                
+                const rightDiv = document.createElement("div");
+                rightDiv.className = "right-content";
+                
+                const infoBtn = document.createElement("button");
+                infoBtn.className = "info-btn";
+                infoBtn.innerHTML = '<i class="fas fa-info-circle"></i>';
+                infoBtn.title = 'View Details';
+                
+                const delBtn = document.createElement("button");
+                delBtn.className = "delete-btn";
+                delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                delBtn.title = 'Remove from Favorites';
+                
+                infoBtn.addEventListener("click", (e) => {
+                  e.stopPropagation();
+                  openModalWithFavorite(fav);
+                });
+                
+                delBtn.addEventListener("click", (e) => {
+                  e.stopPropagation();
+                  if (fav.type === "movie") {
+                    movieFavorites = movieFavorites.filter(f => {
+                      const key = f.id ? `${f.id}-${f.type}` : `${f.title}-${f.type}`;
+                      const favKey = fav.id ? `${fav.id}-${fav.type}` : `${fav.title}-${f.type}`;
+                      return key !== favKey;
+                    });
+                    localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+                  } else {
+                    seriesFavorites = seriesFavorites.filter(f => {
+                      const key = f.id ? `${f.id}-${f.type}` : `${f.title}-${f.type}`;
+                      const favKey = fav.id ? `${fav.id}-${fav.type}` : `${fav.title}-${f.type}`;
+                      return key !== favKey;
+                    });
+                    localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+                  }
+                  renderFavorites();
+                });
+                
+                rightDiv.appendChild(infoBtn);
+                rightDiv.appendChild(delBtn);
+                card.appendChild(leftDiv);
+                card.appendChild(rightDiv);
+                
+                card.addEventListener("click", () => {
+                  openModalWithFavorite(fav);
+                });
+                
+                favoritesContainer.appendChild(card);
+              });
+            } else {
+              favoritesContainer.innerHTML = `
+                <div style="text-align: center; margin-top: 10rem;">
+                  <h1 style="color:#f5c518; font-size:4rem; margin-bottom: 1rem;">No Favorites Yet 😿</h1>
+                  <p style="color:#fff; font-size:1.2rem;">Start adding movies and series to your favorites!</p>
+                </div>
+              `;
+            }
+          };
+        }
+      }, 100);
+    });
+  </script>
 </body>
 </html>
