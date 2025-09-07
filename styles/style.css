@@ -5435,5 +5435,6 @@ body{
         width: auto !important;
         max-width: 90% !important;
         text-align: left !important;
+        justify-content: flex-end !important;
     }
 }}
