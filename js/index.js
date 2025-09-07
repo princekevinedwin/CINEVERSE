@@ -2065,9 +2065,28 @@ function updateHeroContent() {
     const type = item.type;
     const data = item.data;
     
-    // Update background
+    // Check if we're on mobile (425px or smaller)
+    const isMobile = window.innerWidth <= 425.5;
+    
+    // Update background - use poster for mobile, backdrop for desktop
     const heroBackground = document.getElementById('heroBackground');
-    heroBackground.style.backgroundImage = `url('${IMG_PATH + data.backdrop_path}')`;
+    if (isMobile) {
+        // Use portrait poster for mobile
+        const posterUrl = data.poster_path 
+            ? IMG_PATH + data.poster_path 
+            : `https://via.placeholder.com/400x600?text=No+Poster`;
+        heroBackground.style.backgroundImage = `url('${posterUrl}')`;
+        heroBackground.style.backgroundSize = 'cover';
+        heroBackground.style.backgroundPosition = 'center top';
+    } else {
+        // Use landscape backdrop for desktop
+        const backdropUrl = data.backdrop_path 
+            ? IMG_PATH + data.backdrop_path 
+            : `https://via.placeholder.com/1280x720?text=No+Image`;
+        heroBackground.style.backgroundImage = `url('${backdropUrl}')`;
+        heroBackground.style.backgroundSize = 'cover';
+        heroBackground.style.backgroundPosition = 'center center';
+    }
     
     // Update title
     document.getElementById('landing-title').textContent = type === 'movie' ? data.title : data.name;
@@ -2185,7 +2204,17 @@ async function showLandingPage() {
     if (landingPageContainer.children.length === 0) {
         await fetchLandingPageData().then(data => {
             renderLandingPage(data);
+            
+            // After rendering, update hero content to use mobile images if needed
+            if (window.innerWidth <= 425.5) {
+                updateHeroContent();
+            }
         });
+    } else {
+        // If landing page is already loaded, update hero content for mobile
+        if (window.innerWidth <= 425.5) {
+            updateHeroContent();
+        }
     }
 }
 // ====================== TAB SWITCHING WITH TRAILER STOP ======================
@@ -2444,6 +2473,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
     
+    // Add resize handler for hero images
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            // Only update if we're on the landing page
+            if (landingPageContainer.style.display === 'block') {
+                updateHeroContent();
+            }
+        }, 250);
+    });
+
     // Load saved state
     const savedType = localStorage.getItem("currentType") || "movie";
     const savedPage = parseInt(localStorage.getItem("currentPage")) || 1;
@@ -2565,6 +2606,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+function handleHeroImageError(img, isMobile) {
+    if (isMobile) {
+        // Mobile fallback
+        img.style.backgroundImage = "url('https://via.placeholder.com/400x600?text=No+Poster')";
+    } else {
+        // Desktop fallback
+        img.style.backgroundImage = "url('https://via.placeholder.com/1280x720?text=No+Image')";
+    }
+}
+
+// Add this to your DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', function() {
+    const heroBackground = document.getElementById('heroBackground');
+    if (heroBackground) {
+        heroBackground.addEventListener('error', function() {
+            const isMobile = window.innerWidth <= 425.5;
+            handleHeroImageError(heroBackground, isMobile);
+        });
+    }
+});
+
 
 // Also, update your existing navigation event listeners to work with the new structure
 // For example, your tab event listeners should still work fine, but make sure they're not interfering
