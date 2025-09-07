@@ -892,7 +892,7 @@ function renderLandingPage(data) {
             max-width: 600px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: zz;
         }
         
         .logo {
