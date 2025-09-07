@@ -5148,7 +5148,7 @@ body{
     }
     
     .movie-title {
-        font-size: 1.2rem !important;
+        font-size: 1.1rem !important;
         line-height: 1.2 !important;
         margin-bottom: 10px !important;
         max-width: 90% !important;
@@ -5419,6 +5419,6 @@ body{
     
     .hero-content .left-content{
         justify-content: flex-end !important;
-        padding: 20px !important;
+        padding: 10px !important;
     }
 }
