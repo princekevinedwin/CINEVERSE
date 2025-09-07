@@ -5420,8 +5420,20 @@ body{
     .hero-content .left-content{
         justify-content: flex-end !important;
     }
-
-    .hero-content{
-        padding-left: 0 !important;
+    
+    @media (max-width: 425px) {
+    .hero-section .hero-content {
+        left: 0 !important;
+        transform: none !important;
+        text-align: left !important;
     }
-}
+
+    .hero-section .hero-content .left-content {
+        margin: 0 !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        width: auto !important;
+        max-width: 90% !important;
+        text-align: left !important;
+    }
+}}
