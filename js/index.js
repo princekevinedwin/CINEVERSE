@@ -430,38 +430,203 @@ const GENRES = {
 };
 // ====================== MOVIE CLASSES CONFIGS ======================
 const MOVIE_CLASSES = [
-    { id: 'hollywood', name: 'United States', description: 'American cinema productions', icon: '🇺🇸', countryCode: 'US' },
-    { id: 'bollywood', name: 'India', description: 'Indian Hindi cinema', icon: '🇮🇳', countryCode: 'IN' },
+    { 
+        id: 'hollywood', 
+        name: 'United States', 
+        description: 'American cinema productions', 
+        icon: '🇺🇸', 
+        countryCode: 'US',
+        flagUrl: 'https://flagcdn.com/w320/us.png'
+    },
+    { 
+        id: 'bollywood', 
+        name: 'India', 
+        description: 'Indian Hindi cinema', 
+        icon: '🇮🇳', 
+        countryCode: 'IN',
+        flagUrl: 'https://flagcdn.com/w320/in.png'
+    },
     { 
         id: 'nollywood', 
         name: 'Nigeria', 
         description: 'Nigerian trending films', 
         icon: '🇳🇬',
         countryCode: 'NG',
-        keywords: ['nigeria', 'nigerian', 'nollywood', 'african cinema', 'genevieve nnaji', 'omotola jalade', 'ramsey nouah', '2023', '2024', 'the black book', 'breath of life', 'gangs of lagos']
+        keywords: ['nigeria', 'nigerian', 'nollywood', 'african cinema', 'genevieve nnaji', 'omotola jalade', 'ramsey nouah', '2023', '2024', 'the black book', 'breath of life', 'gangs of lagos'],
+        flagUrl: 'https://flagcdn.com/w320/ng.png'
     },
-    { id: 'kdrama', name: 'South Korea', description: 'Current Korean series', icon: '🇰🇷', countryCode: 'KR' },
-    { id: 'anime', name: 'Japan', description: 'Japanese animation', icon: '🇯🇵', countryCode: 'JP' },
-    { id: 'british', name: 'United Kingdom', description: 'United Kingdom film productions', icon: '🇬🇧', countryCode: 'GB' },
-    { id: 'french', name: 'France', description: 'French film productions', icon: '🇫🇷', countryCode: 'FR' },
-    { id: 'chinese', name: 'China', description: 'Chinese film industry', icon: '🇨🇳', countryCode: 'CN' },
-    { id: 'lollywood', name: 'Pakistan', description: 'Pakistani cinema', icon: '🇵🇰', countryCode: 'PK' },
-    { id: 'ghallywood', name: 'Ghana', description: 'Ghanaian film industry', icon: '🇬🇭', countryCode: 'GH' },
-    { id: 'philippines', name: 'Philippines', description: 'Filipino trending films', icon: '🇵🇭', countryCode: 'PH', keywords: ['philippines', 'filipino', 'tagalog', 'philippine cinema'] },
-    { id: 'southafrica', name: 'South Africa', description: 'South African trending films', icon: '🇿🇦', countryCode: 'ZA', keywords: ['south africa', 'south african', 'african cinema', 'zulu'] },
-    { id: 'kenya', name: 'Kenya', description: 'Kenyan trending films', icon: '🇰🇪', countryCode: 'KE', keywords: ['kenya', 'kenyan', 'african cinema', 'swahili'] },
-    // Additional countries
-    { id: 'canada', name: 'Canada', description: 'Canadian film productions', icon: '🇨🇦', countryCode: 'CA' },
-    { id: 'australia', name: 'Australia', description: 'Australian cinema', icon: '🇦🇺', countryCode: 'AU' },
-    { id: 'mexico', name: 'Mexico', description: 'Mexican film industry', icon: '🇲🇽', countryCode: 'MX' },
-    { id: 'brazil', name: 'Brazil', description: 'Brazilian cinema', icon: '🇧🇷', countryCode: 'BR' },
-    { id: 'russia', name: 'Russia', description: 'Russian film productions', icon: '🇷🇺', countryCode: 'RU' },
-    { id: 'italy', name: 'Italy', description: 'Italian cinema', icon: '🇮🇹', countryCode: 'IT' },
-    { id: 'spain', name: 'Spain', description: 'Spanish film industry', icon: '🇪🇸', countryCode: 'ES' },
-    { id: 'egypt', name: 'Egypt', description: 'Egyptian cinema', icon: '🇪🇬', countryCode: 'EG' },
-    { id: 'thailand', name: 'Thailand', description: 'Thai film industry', icon: '🇹🇭', countryCode: 'TH' },
-    { id: 'turkey', name: 'Turkey', description: 'Turkish cinema', icon: '🇹🇷', countryCode: 'TR' },
-    { id: 'germany', name: 'Germany', description: 'German film productions', icon: '🇩🇪', countryCode: 'DE' }
+    { 
+        id: 'kdrama', 
+        name: 'South Korea', 
+        description: 'Current Korean series', 
+        icon: '🇰🇷', 
+        countryCode: 'KR',
+        flagUrl: 'https://flagcdn.com/w320/kr.png'
+    },
+    { 
+        id: 'anime', 
+        name: 'Japan', 
+        description: 'Japanese animation', 
+        icon: '🇯🇵', 
+        countryCode: 'JP',
+        flagUrl: 'https://flagcdn.com/w320/jp.png'
+    },
+    { 
+        id: 'british', 
+        name: 'United Kingdom', 
+        description: 'United Kingdom film productions', 
+        icon: '🇬🇧', 
+        countryCode: 'GB',
+        flagUrl: 'https://flagcdn.com/w320/gb.png'
+    },
+    { 
+        id: 'french', 
+        name: 'France', 
+        description: 'French film productions', 
+        icon: '🇫🇷', 
+        countryCode: 'FR',
+        flagUrl: 'https://flagcdn.com/w320/fr.png'
+    },
+    { 
+        id: 'chinese', 
+        name: 'China', 
+        description: 'Chinese film industry', 
+        icon: '🇨🇳', 
+        countryCode: 'CN',
+        flagUrl: 'https://flagcdn.com/w320/cn.png'
+    },
+    { 
+        id: 'lollywood', 
+        name: 'Pakistan', 
+        description: 'Pakistani cinema', 
+        icon: '🇵🇰', 
+        countryCode: 'PK',
+        flagUrl: 'https://flagcdn.com/w320/pk.png'
+    },
+    { 
+        id: 'ghallywood', 
+        name: 'Ghana', 
+        description: 'Ghanaian film industry', 
+        icon: '🇬🇭', 
+        countryCode: 'GH',
+        flagUrl: 'https://flagcdn.com/w320/gh.png'
+    },
+    { 
+        id: 'philippines', 
+        name: 'Philippines', 
+        description: 'Filipino trending films', 
+        icon: '🇵🇭', 
+        countryCode: 'PH', 
+        keywords: ['philippines', 'filipino', 'tagalog', 'philippine cinema'],
+        flagUrl: 'https://flagcdn.com/w320/ph.png'
+    },
+    { 
+        id: 'southafrica', 
+        name: 'South Africa', 
+        description: 'South African trending films', 
+        icon: '🇿🇦', 
+        countryCode: 'ZA', 
+        keywords: ['south africa', 'south african', 'african cinema', 'zulu'],
+        flagUrl: 'https://flagcdn.com/w320/za.png'
+    },
+    { 
+        id: 'kenya', 
+        name: 'Kenya', 
+        description: 'Kenyan trending films', 
+        icon: '🇰🇪', 
+        countryCode: 'KE', 
+        keywords: ['kenya', 'kenyan', 'african cinema', 'swahili'],
+        flagUrl: 'https://flagcdn.com/w320/ke.png'
+    },
+    // Additional countries with flag URLs
+    { 
+        id: 'canada', 
+        name: 'Canada', 
+        description: 'Canadian film productions', 
+        icon: '🇨🇦', 
+        countryCode: 'CA',
+        flagUrl: 'https://flagcdn.com/w320/ca.png'
+    },
+    { 
+        id: 'australia', 
+        name: 'Australia', 
+        description: 'Australian cinema', 
+        icon: '🇦🇺', 
+        countryCode: 'AU',
+        flagUrl: 'https://flagcdn.com/w320/au.png'
+    },
+    { 
+        id: 'mexico', 
+        name: 'Mexico', 
+        description: 'Mexican film industry', 
+        icon: '🇲🇽', 
+        countryCode: 'MX',
+        flagUrl: 'https://flagcdn.com/w320/mx.png'
+    },
+    { 
+        id: 'brazil', 
+        name: 'Brazil', 
+        description: 'Brazilian cinema', 
+        icon: '🇧🇷', 
+        countryCode: 'BR',
+        flagUrl: 'https://flagcdn.com/w320/br.png'
+    },
+    { 
+        id: 'russia', 
+        name: 'Russia', 
+        description: 'Russian film productions', 
+        icon: '🇷🇺', 
+        countryCode: 'RU',
+        flagUrl: 'https://flagcdn.com/w320/ru.png'
+    },
+    { 
+        id: 'italy', 
+        name: 'Italy', 
+        description: 'Italian cinema', 
+        icon: '🇮🇹', 
+        countryCode: 'IT',
+        flagUrl: 'https://flagcdn.com/w320/it.png'
+    },
+    { 
+        id: 'spain', 
+        name: 'Spain', 
+        description: 'Spanish film industry', 
+        icon: '🇪🇸', 
+        countryCode: 'ES',
+        flagUrl: 'https://flagcdn.com/w320/es.png'
+    },
+    { 
+        id: 'egypt', 
+        name: 'Egypt', 
+        description: 'Egyptian cinema', 
+        icon: '🇪🇬', 
+        countryCode: 'EG',
+        flagUrl: 'https://flagcdn.com/w320/eg.png'
+    },
+    { 
+        id: 'thailand', 
+        name: 'Thailand', 
+        description: 'Thai film industry', 
+        icon: '🇹🇭', 
+        countryCode: 'TH',
+        flagUrl: 'https://flagcdn.com/w320/th.png'
+    },
+    { 
+        id: 'turkey', 
+        name: 'Turkey', 
+        description: 'Turkish cinema', 
+        icon: '🇹🇷', 
+        countryCode: 'TR',
+        flagUrl: 'https://flagcdn.com/w320/tr.png'
+    },
+    { 
+        id: 'germany', 
+        name: 'Germany', 
+        description: 'German film productions', 
+        icon: '🇩🇪', 
+        countryCode: 'DE',
+        flagUrl: 'https://flagcdn.com/w320/de.png'
+    }
 ];
 // ====================== DOM ELEMENTS ======================
 const main = document.getElementById("section");
@@ -1251,6 +1416,7 @@ function renderLandingPage(data) {
             justify-content: space-around;
             margin: 4rem 0;
             padding: 2rem 0;
+            align-items: center;
             background: transparent;
             border-radius: 20px;
             margin-left: -2rem;
@@ -4151,56 +4317,146 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // ====================== FETCH ITEMS ======================
     async function returnItems(url, page = 1) {
-        try {
-            const fullUrl = `${url}&page=${page}`;
-            console.log("Fetching URL:", fullUrl);
-            
-            const res = await fetch(fullUrl);
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-            
-            const data = await res.json();
-            console.log("API Response:", data);
-            
-            if (data.results && data.results.length > 0) {
-                renderItems(data.results);
-                renderPagination(data.total_pages);
-            } else {
-                console.log("No results found");
-                showToast("No results found", "info");
-                main.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f5c518;">
-                    <h2>No results found</h2>
-                    <p>Try a different search term</p>
-                </div>`;
-            }
-        } catch (error) {
-            console.error("Error in returnItems:", error);
-            showToast("Error loading content. Please try again.", "error");
-            main.innerHTML = `<div style="text-align: center; padding: 2rem; color: #ff4444;">
-                <h2>Error loading content</h2>
-                <p>Please check your internet connection and try again</p>
+    try {
+        const fullUrl = `${url}&page=${page}`;
+        console.log("Fetching URL:", fullUrl);
+        
+        const res = await fetch(fullUrl);
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        console.log("API Response:", data);
+        
+        if (data.results && data.results.length > 0) {
+            renderItemsInGrid(data.results);
+            renderPagination(data.total_pages);
+        } else {
+            console.log("No results found");
+            showToast("No results found", "info");
+            main.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f5c518;">
+                <h2>No results found</h2>
+                <p>Try a different search term</p>
             </div>`;
         }
+    } catch (error) {
+        console.error("Error in returnItems:", error);
+        showToast("Error loading content. Please try again.", "error");
+        main.innerHTML = `<div style="text-align: center; padding: 2rem; color: #ff4444;">
+            <h2>Error loading content</h2>
+            <p>Please check your internet connection and try again</p>
+        </div>`;
     }
+}
+
+function renderItemsInGrid(items) {
+    main.innerHTML = "";
+    
+    // Create a grid container
+    const gridContainer = document.createElement("div");
+    gridContainer.className = "items-grid-container";
+    
+    items.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "movie-card";
+        
+        // Create poster container
+        const posterContainer = document.createElement("div");
+        posterContainer.className = "movie-poster-container";
+        
+        const image = document.createElement("img");
+        image.className = "movie-poster";
+        image.src = item.poster_path ? IMG_PATH + item.poster_path : "https://via.placeholder.com/300x450?text=No+Image";
+        image.alt = currentType === "movie" ? item.title : item.name;
+        
+        // Create play button
+        const playButton = document.createElement("div");
+        playButton.className = "play-button";
+        
+        // Create year badge
+        const yearBadge = document.createElement("div");
+        yearBadge.className = "year-badge";
+        const year = item.release_date ? new Date(item.release_date).getFullYear() : 
+                     item.first_air_date ? new Date(item.first_air_date).getFullYear() : 'N/A';
+        yearBadge.textContent = year;
+        
+        // Create genre tags (placeholder - you can fetch actual genres if needed)
+        const genreTags = document.createElement("div");
+        genreTags.className = "genre-tags";
+        
+        // Add some placeholder genre tags
+        const genres = ['Action', 'Drama', 'Thriller']; // Replace with actual genres
+        genres.slice(0, 2).forEach(genre => {
+            const tag = document.createElement("span");
+            tag.className = "genre-tag";
+            tag.textContent = genre;
+            genreTags.appendChild(tag);
+        });
+        
+        // Create movie info
+        const movieInfo = document.createElement("div");
+        movieInfo.className = "movie-info";
+        
+        const title = document.createElement("h3");
+        title.className = "movie-title";
+        title.textContent = currentType === "movie" ? item.title : item.name;
+        
+        const movieMeta = document.createElement("div");
+        movieMeta.className = "movie-meta";
+        
+        const rating = document.createElement("div");
+        rating.className = "movie-rating";
+        rating.innerHTML = `<i class="fas fa-star"></i> ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}`;
+        
+        // Build the structure
+        posterContainer.appendChild(image);
+        posterContainer.appendChild(playButton);
+        posterContainer.appendChild(yearBadge);
+        posterContainer.appendChild(genreTags);
+        
+        movieMeta.appendChild(rating);
+        movieInfo.appendChild(title);
+        movieInfo.appendChild(movieMeta);
+        
+        card.appendChild(posterContainer);
+        card.appendChild(movieInfo);
+        
+        gridContainer.appendChild(card);
+        
+        card.addEventListener("click", () => openModal(item));
+    });
+    
+    main.appendChild(gridContainer);
+}
     // ====================== RENDER ITEMS ======================
     function renderItems(items) {
-        main.innerHTML = "";
-        items.forEach(item => {
-            const div_card = document.createElement("div");
-            div_card.className = "card";
-            const image = document.createElement("img");
-            image.className = "thumbnail";
-            image.src = item.poster_path ? IMG_PATH + item.poster_path : "https://via.placeholder.com/300x450?text=No+Image";
-            const title = document.createElement("h3");
-            title.textContent = currentType === "movie" ? item.title : item.name;
-            div_card.appendChild(image);
-            div_card.appendChild(title);
-            main.appendChild(div_card);
-            
-            div_card.addEventListener("click", () => openModal(item));
-        });
-    }
+    main.innerHTML = "";
+    
+    // Create a wrapper div for the grid
+    const gridWrapper = document.createElement("div");
+    gridWrapper.className = "movies-grid-wrapper";
+    
+    items.forEach(item => {
+        const div_card = document.createElement("div");
+        div_card.className = "card";
+        
+        const image = document.createElement("img");
+        image.className = "thumbnail";
+        image.src = item.poster_path ? IMG_PATH + item.poster_path : "https://via.placeholder.com/300x450?text=No+Image";
+        
+        const title = document.createElement("h3");
+        title.textContent = currentType === "movie" ? item.title : item.name;
+        
+        div_card.appendChild(image);
+        div_card.appendChild(title);
+        gridWrapper.appendChild(div_card);
+        
+        div_card.addEventListener("click", () => openModal(item));
+    });
+    
+    main.appendChild(gridWrapper);
+}
     // ====================== RECOMMENDATIONS SYSTEM ======================
     async function getRecommendations(item) {
         try {
@@ -6635,6 +6891,119 @@ async function addFavoritesRecommendations(favorites) {
         localStorage.setItem("activeTab", "favorites");
         renderFavorites();
     });
+
+    async function showFavoritesPage() {
+    // Hide all other sections
+    section.style.display = "none";
+    pagination.style.display = "none";
+    trailerSlider.style.display = "none";
+    newsContainer.style.display = "none";
+    landingPageContainer.style.display = "none";
+    countriesContainer.style.display = "none";
+    
+    // Show favorites page
+    const favoritesPage = document.getElementById("favoritesPage");
+    const favoritesGrid = document.getElementById("favoritesGrid");
+    
+    if (favoritesPage) {
+        favoritesPage.style.display = "block";
+    }
+    
+    if (favoritesGrid) {
+        favoritesGrid.innerHTML = "";
+        
+        // Combine and deduplicate favorites
+        const allFavorites = [...movieFavorites, ...seriesFavorites];
+        const uniqueFavorites = Array.from(
+            new Map(allFavorites.map(item => [item.title, item])).values()
+        );
+        
+        if (uniqueFavorites.length > 0) {
+            uniqueFavorites.forEach((fav, index) => {
+                const card = document.createElement("div");
+                card.className = "favorite-card";
+                
+                const image = document.createElement("img");
+                image.src = fav.poster;
+                image.alt = fav.title;
+                
+                const info = document.createElement("div");
+                info.className = "favorite-info";
+                
+                const title = document.createElement("h3");
+                title.textContent = fav.title;
+                
+                const type = document.createElement("p");
+                type.textContent = fav.type === 'movie' ? '🎬 Movie' : '📺 Series';
+                
+                const actions = document.createElement("div");
+                actions.className = "favorite-actions";
+                
+                const infoBtn = document.createElement("button");
+                infoBtn.className = "info-btn";
+                infoBtn.innerHTML = '<i class="fas fa-info-circle"></i>';
+                infoBtn.title = 'View Details';
+                
+                const deleteBtn = document.createElement("button");
+                deleteBtn.className = "delete-btn";
+                deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                deleteBtn.title = 'Remove from Favorites';
+                
+                // Event listeners
+                card.addEventListener("click", () => openModalWithFavorite(fav));
+                infoBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    openModalWithFavorite(fav);
+                });
+                deleteBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    removeFromFavorites(fav.title, fav.type);
+                });
+                
+                // Build the card
+                info.appendChild(title);
+                info.appendChild(type);
+                actions.appendChild(infoBtn);
+                actions.appendChild(deleteBtn);
+                card.appendChild(image);
+                card.appendChild(info);
+                card.appendChild(actions);
+                
+                favoritesGrid.appendChild(card);
+            });
+        } else {
+            favoritesGrid.innerHTML = `
+                <div class="no-favorites">
+                    <h3>No Favorites Yet</h3>
+                    <p>Start adding movies and series to your favorites!</p>
+                </div>
+            `;
+        }
+    }
+}
+
+function removeFromFavorites(title, type) {
+    if (type === "movie") {
+        movieFavorites = movieFavorites.filter(f => f.title !== title);
+        localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+    } else {
+        seriesFavorites = seriesFavorites.filter(f => f.title !== title);
+        localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+    }
+    showFavoritesPage(); // Refresh the favorites page
+    showToast(`${title} removed from favorites`, "info");
+}
+
+function clearAllFavorites() {
+    if (confirm("Are you sure you want to clear all favorites?")) {
+        movieFavorites = [];
+        seriesFavorites = [];
+        localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+        localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+        showFavoritesPage(); // Refresh the favorites page
+        showToast("All favorites cleared", "success");
+    }
+}
     
     // Genre tab functionality
     genresTab.addEventListener("click", (e) => {
@@ -6959,6 +7328,9 @@ function showGenreSelection() {
     
     // Function to render movie classes (countries)
     function renderMovieClasses() {
+    const contentContainer = document.querySelector('#categoryContent');
+    if (!contentContainer) return;
+    
     contentContainer.innerHTML = '';
     
     const classesGrid = document.createElement('div');
@@ -6973,63 +7345,48 @@ function showGenreSelection() {
         const classCard = document.createElement('div');
         classCard.className = 'movie-class-card';
         classCard.dataset.classId = movieClass.id;
-        classCard.style.cssText = `
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-            border: 1px solid rgba(245,197,24,0.3);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        `;
         
-        const classIcon = document.createElement('div');
-        classIcon.style.cssText = `
-            font-size: 3rem;
-            margin-bottom: 10px;
-        `;
-        classIcon.textContent = movieClass.icon;
+        // Create flag container
+        const flagContainer = document.createElement('div');
+        flagContainer.className = 'flag-container';
         
-        // Add country code with better visibility
+        // Create flag image
+        const flagImage = document.createElement('img');
+        flagImage.className = 'flag-image';
+        flagImage.src = movieClass.flagUrl;
+        flagImage.alt = `${movieClass.name} flag`;
+        
+        // Fallback to emoji if image fails to load
+        flagImage.onerror = function() {
+            flagContainer.innerHTML = movieClass.icon;
+            flagContainer.style.fontSize = '3rem';
+            flagContainer.style.display = 'flex';
+            flagContainer.style.alignItems = 'center';
+            flagContainer.style.justifyContent = 'center';
+        };
+        
+        flagContainer.appendChild(flagImage);
+        
+        // Create country name
+        const countryName = document.createElement('h3');
+        countryName.className = 'country-name';
+        countryName.textContent = movieClass.name;
+        
+        // Create country description
+        const countryDesc = document.createElement('p');
+        countryDesc.className = 'country-description';
+        countryDesc.textContent = movieClass.description;
+        
+        // Create country code badge (this will be the element to replace)
         const countryCode = document.createElement('div');
+        countryCode.className = 'country-code';
         countryCode.textContent = movieClass.countryCode;
-        countryCode.style.cssText = `
-            color: #f5c518;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            background: rgba(0,0,0,0.5);
-            padding: 3px 8px;
-            border-radius: 10px;
-        `;
         
-        const className = document.createElement('h3');
-        className.textContent = movieClass.name;
-        className.style.cssText = `
-            color: #f5c518;
-            margin: 0 0 10px 0;
-            font-size: 1.3rem;
-            font-weight: bold;
-        `;
-        
-        const classDesc = document.createElement('p');
-        classDesc.textContent = movieClass.description;
-        classDesc.style.cssText = `
-            color: #ccc;
-            margin: 0;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        `;
-        
-        classCard.appendChild(classIcon);
-        classCard.appendChild(countryCode);
-        classCard.appendChild(className);
-        classCard.appendChild(classDesc);
+        // Add elements to card
+        classCard.appendChild(flagContainer);
+        classCard.appendChild(countryName);
+        classCard.appendChild(countryDesc);
+        classCard.appendChild(countryCode); // This is the second acronym to be replaced
         
         // Add hover effect
         classCard.addEventListener('mouseenter', () => {
@@ -7048,25 +7405,76 @@ function showGenreSelection() {
         
         // Add click event
         classCard.addEventListener('click', () => {
-        // Set current type based on media type selector
-        currentType = currentMediaType;
-        
-        // Set country mode and store country information
-        isCountryMode = true;
-        currentCountryCode = movieClass.countryCode;
-        currentCountryName = movieClass.name;
-        
-        // Reset page number when selecting a new country
-        currentPage = 1;
-        
-        // Fetch content by country using the corrected function
-        fetchMoviesByCountry(movieClass.countryCode, movieClass.name);
-    });
+            // Set current type based on media type selector
+            currentType = currentMediaType;
+            
+            // Set country mode and store country information
+            isCountryMode = true;
+            currentCountryCode = movieClass.countryCode;
+            currentCountryName = movieClass.name;
+            
+            // Reset page number when selecting a new country
+            currentPage = 1;
+            
+            // Fetch content by country
+            fetchMoviesByCountry(movieClass.countryCode, movieClass.name);
+        });
         
         classesGrid.appendChild(classCard);
+        
+        // Replace the country code with flag image after a short delay
+        setTimeout(() => {
+            replaceCountryCodeWithFlag(classCard, movieClass);
+        }, 100);
     });
     
     contentContainer.appendChild(classesGrid);
+}
+
+// Function to replace country code with flag image
+function replaceCountryCodeWithFlag(classCard, movieClass) {
+    const countryCodeElement = classCard.querySelector('.country-code');
+    if (countryCodeElement) {
+        // Create a new flag container to replace the country code
+        const newFlagContainer = document.createElement('div');
+        newFlagContainer.className = 'flag-container';
+        newFlagContainer.style.cssText = `
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 30px;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.1);
+            z-index: 2;
+        `;
+        
+        const flagImage = document.createElement('img');
+        flagImage.className = 'flag-image';
+        flagImage.src = movieClass.flagUrl;
+        flagImage.alt = `${movieClass.name} flag`;
+        flagImage.style.cssText = `
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        `;
+        
+        // Fallback to emoji if image fails to load
+        flagImage.onerror = function() {
+            newFlagContainer.innerHTML = movieClass.icon;
+            newFlagContainer.style.fontSize = '1.2rem';
+            newFlagContainer.style.display = 'flex';
+            newFlagContainer.style.alignItems = 'center';
+            newFlagContainer.style.justifyContent = 'center';
+        };
+        
+        newFlagContainer.appendChild(flagImage);
+        
+        // Replace the country code element with the new flag container
+        countryCodeElement.parentNode.replaceChild(newFlagContainer, countryCodeElement);
+    }
 }
     
     // Initially render genres
