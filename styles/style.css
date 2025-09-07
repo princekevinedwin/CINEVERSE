@@ -5203,7 +5203,7 @@ body{
     
     .watch-trailer-btn {
         padding: 8px 15px !important;
-        font-size: 0.4rem !important;
+        font-size: 0.7rem !important;
         margin-top: 10px !important;
     }
     
@@ -5419,6 +5419,5 @@ body{
     
     .hero-content .left-content{
         justify-content: flex-end !important;
-        padding: 10px !important;
     }
 }
