@@ -430,26 +430,38 @@ const GENRES = {
 };
 // ====================== MOVIE CLASSES CONFIGS ======================
 const MOVIE_CLASSES = [
-    { id: 'hollywood', name: 'Hollywood', description: 'American cinema productions', icon: '🇺🇸', countryCode: 'US' },
-    { id: 'bollywood', name: 'Bollywood', description: 'Indian Hindi cinema', icon: '🇮🇳', countryCode: 'IN' },
+    { id: 'hollywood', name: 'United States', description: 'American cinema productions', icon: '🇺🇸', countryCode: 'US' },
+    { id: 'bollywood', name: 'India', description: 'Indian Hindi cinema', icon: '🇮🇳', countryCode: 'IN' },
     { 
         id: 'nollywood', 
-        name: 'Nollywood', 
+        name: 'Nigeria', 
         description: 'Nigerian trending films', 
         icon: '🇳🇬',
         countryCode: 'NG',
         keywords: ['nigeria', 'nigerian', 'nollywood', 'african cinema', 'genevieve nnaji', 'omotola jalade', 'ramsey nouah', '2023', '2024', 'the black book', 'breath of life', 'gangs of lagos']
     },
-    { id: 'kdrama', name: 'K-Drama', description: 'Current Korean series', icon: '🇰🇷', countryCode: 'KR' },
-    { id: 'anime', name: 'Anime', description: 'Japanese animation', icon: '🇯🇵', countryCode: 'JP' },
-    { id: 'british', name: 'British Cinema', description: 'United Kingdom film productions', icon: '🇬🇧', countryCode: 'GB' },
-    { id: 'french', name: 'French Cinema', description: 'French film productions', icon: '🇫🇷', countryCode: 'FR' },
-    { id: 'chinese', name: 'Chinese Cinema', description: 'Chinese film industry', icon: '🇨🇳', countryCode: 'CN' },
-    { id: 'lollywood', name: 'Lollywood', description: 'Pakistani cinema', icon: '🇵🇰', countryCode: 'PK' },
-    { id: 'ghallywood', name: 'Ghallywood', description: 'Ghanaian film industry', icon: '🇬🇭', countryCode: 'GH' },
-    { id: 'philippines', name: 'Philippines Cinema', description: 'Filipino trending films', icon: '🇵🇭', countryCode: 'PH', keywords: ['philippines', 'filipino', 'tagalog', 'philippine cinema'] },
-    { id: 'southafrica', name: 'South African Cinema', description: 'South African trending films', icon: '🇿🇦', countryCode: 'ZA', keywords: ['south africa', 'south african', 'african cinema', 'zulu'] },
-    { id: 'kenya', name: 'Kenyan Cinema', description: 'Kenyan trending films', icon: '🇰🇪', countryCode: 'KE', keywords: ['kenya', 'kenyan', 'african cinema', 'swahili'] }
+    { id: 'kdrama', name: 'South Korea', description: 'Current Korean series', icon: '🇰🇷', countryCode: 'KR' },
+    { id: 'anime', name: 'Japan', description: 'Japanese animation', icon: '🇯🇵', countryCode: 'JP' },
+    { id: 'british', name: 'United Kingdom', description: 'United Kingdom film productions', icon: '🇬🇧', countryCode: 'GB' },
+    { id: 'french', name: 'France', description: 'French film productions', icon: '🇫🇷', countryCode: 'FR' },
+    { id: 'chinese', name: 'China', description: 'Chinese film industry', icon: '🇨🇳', countryCode: 'CN' },
+    { id: 'lollywood', name: 'Pakistan', description: 'Pakistani cinema', icon: '🇵🇰', countryCode: 'PK' },
+    { id: 'ghallywood', name: 'Ghana', description: 'Ghanaian film industry', icon: '🇬🇭', countryCode: 'GH' },
+    { id: 'philippines', name: 'Philippines', description: 'Filipino trending films', icon: '🇵🇭', countryCode: 'PH', keywords: ['philippines', 'filipino', 'tagalog', 'philippine cinema'] },
+    { id: 'southafrica', name: 'South Africa', description: 'South African trending films', icon: '🇿🇦', countryCode: 'ZA', keywords: ['south africa', 'south african', 'african cinema', 'zulu'] },
+    { id: 'kenya', name: 'Kenya', description: 'Kenyan trending films', icon: '🇰🇪', countryCode: 'KE', keywords: ['kenya', 'kenyan', 'african cinema', 'swahili'] },
+    // Additional countries
+    { id: 'canada', name: 'Canada', description: 'Canadian film productions', icon: '🇨🇦', countryCode: 'CA' },
+    { id: 'australia', name: 'Australia', description: 'Australian cinema', icon: '🇦🇺', countryCode: 'AU' },
+    { id: 'mexico', name: 'Mexico', description: 'Mexican film industry', icon: '🇲🇽', countryCode: 'MX' },
+    { id: 'brazil', name: 'Brazil', description: 'Brazilian cinema', icon: '🇧🇷', countryCode: 'BR' },
+    { id: 'russia', name: 'Russia', description: 'Russian film productions', icon: '🇷🇺', countryCode: 'RU' },
+    { id: 'italy', name: 'Italy', description: 'Italian cinema', icon: '🇮🇹', countryCode: 'IT' },
+    { id: 'spain', name: 'Spain', description: 'Spanish film industry', icon: '🇪🇸', countryCode: 'ES' },
+    { id: 'egypt', name: 'Egypt', description: 'Egyptian cinema', icon: '🇪🇬', countryCode: 'EG' },
+    { id: 'thailand', name: 'Thailand', description: 'Thai film industry', icon: '🇹🇭', countryCode: 'TH' },
+    { id: 'turkey', name: 'Turkey', description: 'Turkish cinema', icon: '🇹🇷', countryCode: 'TR' },
+    { id: 'germany', name: 'Germany', description: 'German film productions', icon: '🇩🇪', countryCode: 'DE' }
 ];
 // ====================== DOM ELEMENTS ======================
 const main = document.getElementById("section");
@@ -459,6 +471,9 @@ const trailerContainer = document.querySelector(".slider-container");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const paginationContainer = document.getElementById("pagination");
+// ====================== COUNTRY EXPLORER DOM ELEMENTS ======================
+const countriesTab = document.getElementById("countriesTab");
+const countriesContainer = document.getElementById("countriesContainer");
 // Modal and review elements
 const modal = document.getElementById("movieModal");
 const modalImage = document.getElementById("modalImage");
@@ -498,6 +513,12 @@ const landingPageContainer = document.createElement("div");
 landingPageContainer.id = "landingPageContainer";
 landingPageContainer.className = "landing-page-container";
 document.body.appendChild(landingPageContainer);
+let currentMediaType = 'movie'; // Default to movies
+// Add these with your other global variables
+let currentCountryCode = '';
+let currentCountryName = '';
+// Add these with your other global variables
+let isCountryMode = false;
 // ====================== PAGINATION ======================
 let currentPage = 1;
 let totalPages = 20;
@@ -2015,6 +2036,9 @@ homeTab.addEventListener("click", (e) => {
     if (genrePopup) {
         genrePopup.remove();
     }
+
+      // Reset country mode
+    isCountryMode = false;
     
     // STOP ALL TRAILERS WHEN SWITCHING TO HOME
     stopAllTrailers();
@@ -2032,9 +2056,12 @@ moviesTab.addEventListener("click", (e) => {
     if (genrePopup) {
         genrePopup.remove();
     }
+
+    // Reset country mode
+    isCountryMode = false;
     
     currentType = "movie";
-    currentAPIUrl = MOVIES_API;
+    currentAPIUrl = MOVIES_API; 
     currentPage = 1;
     returnItems(currentAPIUrl, currentPage);
     section.style.display = "grid";
@@ -2042,6 +2069,7 @@ moviesTab.addEventListener("click", (e) => {
     trailerSlider.style.display = "flex";
     favoritesContainer.style.display = "none";
     newsContainer.style.display = "none";
+    countriesContainer.style.display = "none";
     landingPageContainer.style.display = "none";
     removeActive();
     moviesTab.classList.add("active");
@@ -2058,6 +2086,9 @@ seriesTab.addEventListener("click", (e) => {
     if (genrePopup) {
         genrePopup.remove();
     }
+
+      // Reset country mode
+    isCountryMode = false;
     
     currentType = "tv";
     currentAPIUrl = SERIES_API;
@@ -2068,6 +2099,7 @@ seriesTab.addEventListener("click", (e) => {
     trailerSlider.style.display = "block";
     favoritesContainer.style.display = "none";
     newsContainer.style.display = "none";
+    countriesContainer.style.display = "none";
     landingPageContainer.style.display = "none";
     removeActive();
     seriesTab.classList.add("active");
@@ -2088,6 +2120,9 @@ favoritesTab.addEventListener("click", (e) => {
     // STOP ALL TRAILERS WHEN SWITCHING TO FAVORITES
     stopAllTrailers();
     
+  // Reset country mode
+    isCountryMode = false;
+
     section.style.display = "none";
     pagination.style.display = "none";
     trailerSlider.style.display = "none";
@@ -2105,13 +2140,14 @@ favoritesTab.addEventListener("click", (e) => {
     renderFavorites();
 });
 // Genre tab functionality
+// Genre tab functionality
 genresTab.addEventListener("click", (e) => {
     e.preventDefault();
     
     // STOP ALL TRAILERS WHEN SWITCHING TO GENRES
     stopAllTrailers();
     
-    section.style.display = "grid";
+    section.style.display = "flex";
     pagination.style.display = "none";
     trailerSlider.style.display = "none";
     favoritesContainer.style.display = "none";
@@ -2123,6 +2159,34 @@ genresTab.addEventListener("click", (e) => {
     
     // Show genre selection as part of the page
     showGenreSelection();
+});
+// Countries tab functionality
+countriesTab.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    // Stop all trailers when switching to countries
+    stopAllTrailers();
+    
+    // Hide all other sections
+    section.style.display = "none";
+    pagination.style.display = "none";
+    trailerSlider.style.display = "none";
+    favoritesContainer.style.display = "none";
+    newsContainer.style.display = "none";
+    landingPageContainer.style.display = "none";
+    
+    // Show countries container
+    countriesContainer.style.display = "flex";
+    
+    // Set active tab
+    removeActive();
+    countriesTab.classList.add("active");
+    localStorage.setItem("activeTab", "countries");
+    
+    // Initialize country explorer if not already done
+    if (countriesContainer.children.length === 0) {
+        initializeCountryExplorer();
+    }
 });
 // News tab functionality
 newsTab.addEventListener("click", async (e) => {
@@ -2137,10 +2201,14 @@ newsTab.addEventListener("click", async (e) => {
     // STOP ALL TRAILERS WHEN SWITCHING TO NEWS
     stopAllTrailers();
     
+  // Reset country mode
+    isCountryMode = false;
+
     section.style.display = "none";
     pagination.style.display = "none";
     trailerSlider.style.display = "none";
     favoritesContainer.style.display = "none";
+    countriesContainer.style.display = "none";
     newsContainer.style.display = "flex";
     newsContainer.style.flexDirection = "column";
     newsContainer.style.zIndex = "10"; // Ensure news container is above other elements
@@ -2214,6 +2282,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const savedType = localStorage.getItem("currentType") || "movie";
     const savedPage = parseInt(localStorage.getItem("currentPage")) || 1;
     const activeTab = localStorage.getItem("activeTab") || "home";
+       
+    if (activeTab === "countries") {
+        countriesTab.classList.add("active");
+        countriesContainer.style.display = "flex";
+        if (countriesContainer.children.length === 0) {
+            initializeCountryExplorer();
+        }
+    }
     currentType = savedType;
     currentPage = savedPage;
     currentAPIUrl = currentType === "movie" ? MOVIES_API : SERIES_API;
@@ -2259,6 +2335,73 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Load favorites
     renderFavorites();
 });
+
+// Add this to your existing JavaScript file, preferably near the DOMContentLoaded event
+
+// Hamburger menu functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const menu = document.querySelector('.topnav .menu');
+    const menuOverlay = document.createElement('div');
+    menuOverlay.className = 'menu-overlay';
+    document.body.appendChild(menuOverlay);
+
+    // Toggle menu function
+    function toggleMenu() {
+        hamburger.classList.toggle('active');
+        menu.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (menu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Hamburger click event
+    hamburger.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking on overlay
+    menuOverlay.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking on a menu item
+    const menuItems = menu.querySelectorAll('a');
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Only close menu if we're on mobile (where hamburger is visible)
+            if (window.innerWidth <= 992) {
+                toggleMenu();
+            }
+        });
+    });
+
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            // If window is resized above mobile breakpoint, ensure menu is properly reset
+            if (window.innerWidth > 992) {
+                hamburger.classList.remove('active');
+                menu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }, 250);
+    });
+
+    // Close menu with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && menu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+});
+
+// Also, update your existing navigation event listeners to work with the new structure
+// For example, your tab event listeners should still work fine, but make sure they're not interfering
     // ====================== NEWS AND UPDATES ======================
     async function fetchMovieNews() {
         try {
@@ -5504,43 +5647,63 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // ====================== RENDER PAGINATION ======================
     function renderPagination(total) {
-        paginationContainer.innerHTML = "";
-        const prev = document.createElement("button");
-        prev.textContent = "Prev";
-        prev.disabled = currentPage === 1;
-        prev.addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
+    const paginationContainer = document.getElementById("pagination");
+    if (!paginationContainer) return;
+    
+    paginationContainer.innerHTML = "";
+    const prev = document.createElement("button");
+    prev.textContent = "Prev";
+    prev.disabled = currentPage === 1;
+    prev.addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage--;
+            if (isCountryMode) {
+                // We're in country mode, refetch country data
+                fetchMoviesByCountry(currentCountryCode, currentCountryName);
+            } else {
                 returnItems(currentAPIUrl, currentPage);
-                localStorage.setItem("currentPage", currentPage);
             }
-        });
-        paginationContainer.appendChild(prev);
-        let maxPages = Math.min(total, 20);
-        for (let i = 1; i <= maxPages; i++) {
-            const btn = document.createElement("button");
-            btn.textContent = i;
-            btn.className = "page-number";
-            if (i === currentPage) btn.classList.add("active");
-            btn.addEventListener("click", () => {
-                currentPage = i;
-                returnItems(currentAPIUrl, currentPage);
-                localStorage.setItem("currentPage", currentPage);
-            });
-            paginationContainer.appendChild(btn);
+            localStorage.setItem("currentPage", currentPage);
         }
-        const next = document.createElement("button");
-        next.textContent = "Next";
-        next.disabled = currentPage === total || currentPage === 20;
-        next.addEventListener("click", () => {
-            if (currentPage < total && currentPage < 20) {
-                currentPage++;
+    });
+    paginationContainer.appendChild(prev);
+    
+    let maxPages = Math.min(total, 20);
+    for (let i = 1; i <= maxPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.className = "page-number";
+        if (i === currentPage) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+            currentPage = i;
+            if (isCountryMode) {
+                // We're in country mode, refetch country data
+                fetchMoviesByCountry(currentCountryCode, currentCountryName);
+            } else {
                 returnItems(currentAPIUrl, currentPage);
-                localStorage.setItem("currentPage", currentPage);
             }
+            localStorage.setItem("currentPage", currentPage);
         });
-        paginationContainer.appendChild(next);
+        paginationContainer.appendChild(btn);
     }
+    
+    const next = document.createElement("button");
+    next.textContent = "Next";
+    next.disabled = currentPage === total || currentPage === 20;
+    next.addEventListener("click", () => {
+        if (currentPage < total && currentPage < 20) {
+            currentPage++;
+            if (isCountryMode) {
+                // We're in country mode, refetch country data
+                fetchMoviesByCountry(currentCountryCode, currentCountryName);
+            } else {
+                returnItems(currentAPIUrl, currentPage);
+            }
+            localStorage.setItem("currentPage", currentPage);
+        }
+    });
+    paginationContainer.appendChild(next);
+}
     // ====================== SEARCH ======================
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -6495,38 +6658,423 @@ async function addFavoritesRecommendations(favorites) {
     });
     
     // Function to show genre selection as part of the page
-    function showGenreSelection() {
-        main.innerHTML = '';
+function showGenreSelection() {
+    // Reset country mode when entering genre selection
+    isCountryMode = false;
+    
+    // Rest of the function remains the same
+    main.innerHTML = '';
+    
+    // Create genre selection header
+    const headerDiv = document.createElement('div');
+    headerDiv.style.cssText = `
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba(245,197,24,0.1), rgba(245,197,24,0.05));
+        border-radius: 20px;
+        border: 2px solid rgba(245,197,24,0.3);
+    `;
+    
+    headerDiv.innerHTML = `
+        <h1 style="color: #f5c518; font-size: 3rem; margin: 0 0 1rem 0;">Browse by Category</h1>
+        <p style="color: #fff; font-size: 1.2rem; margin: 0;">Select a genre or movie class to explore</p>
+    `;
+    
+    main.appendChild(headerDiv);
+    
+    // Create category tabs
+    const categoryTabs = document.createElement('div');
+    categoryTabs.style.cssText = `
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3rem;
+        border-bottom: 1px solid rgba(245,197,24,0.3);
+    `;
+    
+    const genresTab = document.createElement('button');
+    genresTab.textContent = 'Genres';
+    genresTab.className = 'category-tab active';
+    genresTab.style.cssText = `
+        background: linear-gradient(45deg, #f5c518, #e6b800);
+        color: #000;
+        border: none;
+        border-radius: 8px 8px 0 0;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    
+    const classesTab = document.createElement('button');
+    classesTab.textContent = 'Movie Classes (Countries)';
+    classesTab.className = 'category-tab';
+    classesTab.style.cssText = `
+        background: transparent;
+        color: #f5c518;
+        border: none;
+        border-radius: 8px 8px 0 0;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    
+    categoryTabs.appendChild(genresTab);
+    categoryTabs.appendChild(classesTab);
+    main.appendChild(categoryTabs);
+    
+    // Create media type selector
+    const mediaTypeSelector = document.createElement('div');
+    mediaTypeSelector.style.cssText = `
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3rem;
+        gap: 15px;
+    `;
+    
+    const movieTypeBtn = document.createElement('button');
+    movieTypeBtn.textContent = 'Movies';
+    movieTypeBtn.className = 'media-type-btn active';
+    movieTypeBtn.style.cssText = `
+        background: linear-gradient(45deg, #f5c518, #e6b800);
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    
+    const seriesTypeBtn = document.createElement('button');
+    seriesTypeBtn.textContent = 'Series';
+    seriesTypeBtn.className = 'media-type-btn';
+    seriesTypeBtn.style.cssText = `
+        background: transparent;
+        color: #f5c518;
+        border: 2px solid #f5c518;
+        border-radius: 8px;
+        padding: 10px 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    
+    mediaTypeSelector.appendChild(movieTypeBtn);
+    mediaTypeSelector.appendChild(seriesTypeBtn);
+    main.appendChild(mediaTypeSelector);
+    
+    // Create content container
+    const contentContainer = document.createElement('div');
+    contentContainer.id = 'categoryContent';
+    
+    // Initially show genres
+    let currentCategory = 'genres';
+    
+    // Function to render genres
+    function renderGenres(type) {
+        contentContainer.innerHTML = '';
         
-        // Create genre selection header
-        const headerDiv = document.createElement('div');
-        headerDiv.style.cssText = `
+        const genresGrid = document.createElement('div');
+        genresGrid.className = 'genres-grid';
+        genresGrid.style.cssText = `
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        `;
+        
+        const genres = GENRES[type];
+        genres.forEach(genre => {
+            const genreCard = document.createElement('div');
+            genreCard.className = 'genre-card';
+            genreCard.dataset.genreId = genre.id;
+            genreCard.dataset.genreName = genre.name;
+            genreCard.dataset.mediaType = type;
+            genreCard.style.cssText = `
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(245,197,24,0.3);
+                border-radius: 10px;
+                padding: 15px;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            `;
+            
+            const genreIcon = document.createElement('div');
+            genreIcon.style.cssText = `
+                font-size: 2rem;
+                margin-bottom: 10px;
+                color: #f5c518;
+            `;
+            
+            // Set icon based on genre
+            switch(genre.id) {
+                case 28: // Action
+                case 10759: // Action & Adventure
+                    genreIcon.innerHTML = '<i class="fas fa-fist-raised"></i>';
+                    break;
+                case 12: // Adventure
+                    genreIcon.innerHTML = '<i class="fas fa-compass"></i>';
+                    break;
+                case 16: // Animation
+                    genreIcon.innerHTML = '<i class="fas fa-film"></i>';
+                    break;
+                case 35: // Comedy
+                    genreIcon.innerHTML = '<i class="fas fa-laugh"></i>';
+                    break;
+                case 80: // Crime
+                    genreIcon.innerHTML = '<i class="fas fa-user-secret"></i>';
+                    break;
+                case 99: // Documentary
+                    genreIcon.innerHTML = '<i class="fas fa-video"></i>';
+                    break;
+                case 18: // Drama
+                    genreIcon.innerHTML = '<i class="fas fa-theater-masks"></i>';
+                    break;
+                case 10751: // Family
+                    genreIcon.innerHTML = '<i class="fas fa-users"></i>';
+                    break;
+                case 14: // Fantasy
+                    genreIcon.innerHTML = '<i class="fas fa-dragon"></i>';
+                    break;
+                case 36: // History
+                    genreIcon.innerHTML = '<i class="fas fa-landmark"></i>';
+                    break;
+                case 27: // Horror
+                    genreIcon.innerHTML = '<i class="fas fa-ghost"></i>';
+                    break;
+                case 10402: // Music
+                    genreIcon.innerHTML = '<i class="fas fa-music"></i>';
+                    break;
+                case 9648: // Mystery
+                    genreIcon.innerHTML = '<i class="fas fa-search"></i>';
+                    break;
+                case 10749: // Romance
+                    genreIcon.innerHTML = '<i class="fas fa-heart"></i>';
+                    break;
+                case 878: // Science Fiction
+                case 10765: // Sci-Fi & Fantasy
+                    genreIcon.innerHTML = '<i class="fas fa-rocket"></i>';
+                    break;
+                case 53: // Thriller
+                    genreIcon.innerHTML = '<i class="fas fa-bolt"></i>';
+                    break;
+                case 10752: // War
+                case 10768: // War & Politics
+                    genreIcon.innerHTML = '<i class="fas fa-shield-alt"></i>';
+                    break;
+                case 37: // Western
+                    genreIcon.innerHTML = '<i class="fas fa-hat-cowboy"></i>';
+                    break;
+                case 10762: // Kids
+                    genreIcon.innerHTML = '<i class="fas fa-child"></i>';
+                    break;
+                case 10763: // News
+                    genreIcon.innerHTML = '<i class="fas fa-newspaper"></i>';
+                    break;
+                case 10764: // Reality
+                    genreIcon.innerHTML = '<i class="fas fa-tv"></i>';
+                    break;
+                case 10766: // Soap
+                    genreIcon.innerHTML = '<i class="fas fa-comment-alt"></i>';
+                    break;
+                case 10767: // Talk
+                    genreIcon.innerHTML = '<i class="fas fa-microphone"></i>';
+                    break;
+                default:
+                    genreIcon.innerHTML = '<i class="fas fa-film"></i>';
+            }
+            
+            const genreName = document.createElement("h3");
+            genreName.textContent = genre.name;
+            genreName.style.cssText = `
+                color: #fff;
+                margin: 0;
+                font-size: 1.1rem;
+                font-weight: bold;
+            `;
+            
+            genreCard.appendChild(genreIcon);
+            genreCard.appendChild(genreName);
+            
+            // Add hover effect
+            genreCard.addEventListener('mouseenter', () => {
+                genreCard.style.transform = 'translateY(-5px)';
+                genreCard.style.background = 'rgba(245,197,24,0.1)';
+                genreCard.style.borderColor = '#f5c518';
+                genreCard.style.boxShadow = '0 5px 15px rgba(245,197,24,0.2)';
+            });
+            
+            genreCard.addEventListener('mouseleave', () => {
+                genreCard.style.transform = 'translateY(0)';
+                genreCard.style.background = 'rgba(255,255,255,0.05)';
+                genreCard.style.borderColor = 'rgba(245,197,24,0.3)';
+                genreCard.style.boxShadow = 'none';
+            });
+            
+            // Add click event
+            genreCard.addEventListener('click', () => {
+                // Set current type and fetch content
+                currentType = type;
+                const genreId = genreCard.dataset.genreId;
+                const genreName = genreCard.dataset.genreName;
+                
+                // Create API URL with genre filter
+                currentAPIUrl = `${BASE_URL}/discover/${type}?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`;
+                
+                // Show content section
+                section.style.display = "flex";
+                pagination.style.display = "flex";
+                trailerSlider.style.display = "flex";
+                favoritesContainer.style.display = "none";
+                newsContainer.style.display = "none";
+                landingPageContainer.style.display = "none";
+                
+                // Set active tab
+                removeActive();
+                if (type === "movie") {
+                    moviesTab.classList.add("active");
+                } else {
+                    seriesTab.classList.add("active");
+                }
+                
+                // Reset pagination and fetch content
+                currentPage = 1;
+                returnItems(currentAPIUrl, currentPage);
+                
+                // Show toast notification
+                showToast(`Showing ${type === "movie" ? "movies" : "series"} in ${genreName}`, "success");
+            });
+            
+            genresGrid.appendChild(genreCard);
+        });
+        
+        contentContainer.appendChild(genresGrid);
+    }
+    
+    // Function to render movie classes (countries)
+    function renderMovieClasses() {
+    contentContainer.innerHTML = '';
+    
+    const classesGrid = document.createElement('div');
+    classesGrid.className = 'classes-grid';
+    classesGrid.style.cssText = `
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    `;
+    
+    MOVIE_CLASSES.forEach(movieClass => {
+        const classCard = document.createElement('div');
+        classCard.className = 'movie-class-card';
+        classCard.dataset.classId = movieClass.id;
+        classCard.style.cssText = `
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(245,197,24,0.3);
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, rgba(245,197,24,0.1), rgba(245,197,24,0.05));
-            border-radius: 20px;
-            border: 2px solid rgba(245,197,24,0.3);
-        `;
-        
-        headerDiv.innerHTML = `
-            <h1 style="color: #f5c518; font-size: 3rem; margin: 0 0 1rem 0;">Browse by Category</h1>
-            <p style="color: #fff; font-size: 1.2rem; margin: 0;">Select a genre or movie class to explore</p>
-        `;
-        
-        main.appendChild(headerDiv);
-        
-        // Create category tabs
-        const categoryTabs = document.createElement('div');
-        categoryTabs.style.cssText = `
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 100%;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid rgba(245,197,24,0.3);
         `;
         
-        const genresTab = document.createElement('button');
-        genresTab.textContent = 'Genres';
+        const classIcon = document.createElement('div');
+        classIcon.style.cssText = `
+            font-size: 3rem;
+            margin-bottom: 10px;
+        `;
+        classIcon.textContent = movieClass.icon;
+        
+        // Add country code with better visibility
+        const countryCode = document.createElement('div');
+        countryCode.textContent = movieClass.countryCode;
+        countryCode.style.cssText = `
+            color: #f5c518;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: rgba(0,0,0,0.5);
+            padding: 3px 8px;
+            border-radius: 10px;
+        `;
+        
+        const className = document.createElement('h3');
+        className.textContent = movieClass.name;
+        className.style.cssText = `
+            color: #f5c518;
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+            font-weight: bold;
+        `;
+        
+        const classDesc = document.createElement('p');
+        classDesc.textContent = movieClass.description;
+        classDesc.style.cssText = `
+            color: #ccc;
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        `;
+        
+        classCard.appendChild(classIcon);
+        classCard.appendChild(countryCode);
+        classCard.appendChild(className);
+        classCard.appendChild(classDesc);
+        
+        // Add hover effect
+        classCard.addEventListener('mouseenter', () => {
+            classCard.style.transform = 'translateY(-8px)';
+            classCard.style.background = 'linear-gradient(135deg, rgba(245,197,24,0.15), rgba(245,197,24,0.05))';
+            classCard.style.borderColor = '#f5c518';
+            classCard.style.boxShadow = '0 10px 25px rgba(245,197,24,0.3)';
+        });
+        
+        classCard.addEventListener('mouseleave', () => {
+            classCard.style.transform = 'translateY(0)';
+            classCard.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))';
+            classCard.style.borderColor = 'rgba(245,197,24,0.3)';
+            classCard.style.boxShadow = 'none';
+        });
+        
+        // Add click event
+        classCard.addEventListener('click', () => {
+        // Set current type based on media type selector
+        currentType = currentMediaType;
+        
+        // Set country mode and store country information
+        isCountryMode = true;
+        currentCountryCode = movieClass.countryCode;
+        currentCountryName = movieClass.name;
+        
+        // Reset page number when selecting a new country
+        currentPage = 1;
+        
+        // Fetch content by country using the corrected function
+        fetchMoviesByCountry(movieClass.countryCode, movieClass.name);
+    });
+        
+        classesGrid.appendChild(classCard);
+    });
+    
+    contentContainer.appendChild(classesGrid);
+}
+    
+    // Initially render genres
+    renderGenres(currentMediaType);
+    
+    // Add category tab switching
+    genresTab.addEventListener('click', () => {
+        currentCategory = 'genres';
         genresTab.className = 'category-tab active';
         genresTab.style.cssText = `
             background: linear-gradient(45deg, #f5c518, #e6b800);
@@ -6540,8 +7088,6 @@ async function addFavoritesRecommendations(favorites) {
             transition: all 0.3s ease;
         `;
         
-        const classesTab = document.createElement('button');
-        classesTab.textContent = 'Movie Classes';
         classesTab.className = 'category-tab';
         classesTab.style.cssText = `
             background: transparent;
@@ -6555,21 +7101,43 @@ async function addFavoritesRecommendations(favorites) {
             transition: all 0.3s ease;
         `;
         
-        categoryTabs.appendChild(genresTab);
-        categoryTabs.appendChild(classesTab);
-        main.appendChild(categoryTabs);
-        
-        // Create media type selector
-        const mediaTypeSelector = document.createElement('div');
-        mediaTypeSelector.style.cssText = `
-            display: flex;
-            justify-content: center;
-            margin-bottom: 3rem;
-            gap: 15px;
+        renderGenres(currentMediaType);
+    });
+    
+    classesTab.addEventListener('click', () => {
+        currentCategory = 'classes';
+        classesTab.className = 'category-tab active';
+        classesTab.style.cssText = `
+            background: linear-gradient(45deg, #f5c518, #e6b800);
+            color: #000;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
         `;
         
-        const movieTypeBtn = document.createElement('button');
-        movieTypeBtn.textContent = 'Movies';
+        genresTab.className = 'category-tab';
+        genresTab.style.cssText = `
+            background: transparent;
+            color: #f5c518;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        `;
+        
+        renderMovieClasses();
+    });
+    
+    // Add media type switch functionality
+    movieTypeBtn.addEventListener('click', () => {
+        currentMediaType = 'movie';
         movieTypeBtn.className = 'media-type-btn active';
         movieTypeBtn.style.cssText = `
             background: linear-gradient(45deg, #f5c518, #e6b800);
@@ -6583,8 +7151,6 @@ async function addFavoritesRecommendations(favorites) {
             transition: all 0.3s ease;
         `;
         
-        const seriesTypeBtn = document.createElement('button');
-        seriesTypeBtn.textContent = 'Series';
         seriesTypeBtn.className = 'media-type-btn';
         seriesTypeBtn.style.cssText = `
             background: transparent;
@@ -6598,542 +7164,363 @@ async function addFavoritesRecommendations(favorites) {
             transition: all 0.3s ease;
         `;
         
-        mediaTypeSelector.appendChild(movieTypeBtn);
-        mediaTypeSelector.appendChild(seriesTypeBtn);
-        main.appendChild(mediaTypeSelector);
-        
-        // Create content container
-        const contentContainer = document.createElement('div');
-        contentContainer.id = 'categoryContent';
-        
-        // Initially show genres
-        let currentMediaType = 'movie';
-        let currentCategory = 'genres';
-        
-        // Function to render genres
-        function renderGenres(type) {
-            contentContainer.innerHTML = '';
-            
-            const genresGrid = document.createElement('div');
-            genresGrid.className = 'genres-grid';
-            genresGrid.style.cssText = `
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 15px;
-            `;
-            
-            const genres = GENRES[type];
-            genres.forEach(genre => {
-                const genreCard = document.createElement('div');
-                genreCard.className = 'genre-card';
-                genreCard.dataset.genreId = genre.id;
-                genreCard.dataset.genreName = genre.name;
-                genreCard.dataset.mediaType = type;
-                genreCard.style.cssText = `
-                    background: rgba(255,255,255,0.05);
-                    border: 1px solid rgba(245,197,24,0.3);
-                    border-radius: 10px;
-                    padding: 15px;
-                    text-align: center;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                `;
-                
-                const genreIcon = document.createElement('div');
-                genreIcon.style.cssText = `
-                    font-size: 2rem;
-                    margin-bottom: 10px;
-                    color: #f5c518;
-                `;
-                
-                // Set icon based on genre
-                switch(genre.id) {
-                    case 28: // Action
-                    case 10759: // Action & Adventure
-                        genreIcon.innerHTML = '<i class="fas fa-fist-raised"></i>';
-                        break;
-                    case 12: // Adventure
-                        genreIcon.innerHTML = '<i class="fas fa-compass"></i>';
-                        break;
-                    case 16: // Animation
-                        genreIcon.innerHTML = '<i class="fas fa-film"></i>';
-                        break;
-                    case 35: // Comedy
-                        genreIcon.innerHTML = '<i class="fas fa-laugh"></i>';
-                        break;
-                    case 80: // Crime
-                        genreIcon.innerHTML = '<i class="fas fa-user-secret"></i>';
-                        break;
-                    case 99: // Documentary
-                        genreIcon.innerHTML = '<i class="fas fa-video"></i>';
-                        break;
-                    case 18: // Drama
-                        genreIcon.innerHTML = '<i class="fas fa-theater-masks"></i>';
-                        break;
-                    case 10751: // Family
-                        genreIcon.innerHTML = '<i class="fas fa-users"></i>';
-                        break;
-                    case 14: // Fantasy
-                        genreIcon.innerHTML = '<i class="fas fa-dragon"></i>';
-                        break;
-                    case 36: // History
-                        genreIcon.innerHTML = '<i class="fas fa-landmark"></i>';
-                        break;
-                    case 27: // Horror
-                        genreIcon.innerHTML = '<i class="fas fa-ghost"></i>';
-                        break;
-                    case 10402: // Music
-                        genreIcon.innerHTML = '<i class="fas fa-music"></i>';
-                        break;
-                    case 9648: // Mystery
-                        genreIcon.innerHTML = '<i class="fas fa-search"></i>';
-                        break;
-                    case 10749: // Romance
-                        genreIcon.innerHTML = '<i class="fas fa-heart"></i>';
-                        break;
-                    case 878: // Science Fiction
-                    case 10765: // Sci-Fi & Fantasy
-                        genreIcon.innerHTML = '<i class="fas fa-rocket"></i>';
-                        break;
-                    case 53: // Thriller
-                        genreIcon.innerHTML = '<i class="fas fa-bolt"></i>';
-                        break;
-                    case 10752: // War
-                    case 10768: // War & Politics
-                        genreIcon.innerHTML = '<i class="fas fa-shield-alt"></i>';
-                        break;
-                    case 37: // Western
-                        genreIcon.innerHTML = '<i class="fas fa-hat-cowboy"></i>';
-                        break;
-                    case 10762: // Kids
-                        genreIcon.innerHTML = '<i class="fas fa-child"></i>';
-                        break;
-                    case 10763: // News
-                        genreIcon.innerHTML = '<i class="fas fa-newspaper"></i>';
-                        break;
-                    case 10764: // Reality
-                        genreIcon.innerHTML = '<i class="fas fa-tv"></i>';
-                        break;
-                    case 10766: // Soap
-                        genreIcon.innerHTML = '<i class="fas fa-comment-alt"></i>';
-                        break;
-                    case 10767: // Talk
-                        genreIcon.innerHTML = '<i class="fas fa-microphone"></i>';
-                        break;
-                    default:
-                        genreIcon.innerHTML = '<i class="fas fa-film"></i>';
-                }
-                
-                const genreName = document.createElement("h3");
-                genreName.textContent = genre.name;
-                genreName.style.cssText = `
-                    color: #fff;
-                    margin: 0;
-                    font-size: 1.1rem;
-                    font-weight: bold;
-                `;
-                
-                genreCard.appendChild(genreIcon);
-                genreCard.appendChild(genreName);
-                
-                // Add hover effect
-                genreCard.addEventListener('mouseenter', () => {
-                    genreCard.style.transform = 'translateY(-5px)';
-                    genreCard.style.background = 'rgba(245,197,24,0.1)';
-                    genreCard.style.borderColor = '#f5c518';
-                    genreCard.style.boxShadow = '0 5px 15px rgba(245,197,24,0.2)';
-                });
-                
-                genreCard.addEventListener('mouseleave', () => {
-                    genreCard.style.transform = 'translateY(0)';
-                    genreCard.style.background = 'rgba(255,255,255,0.05)';
-                    genreCard.style.borderColor = 'rgba(245,197,24,0.3)';
-                    genreCard.style.boxShadow = 'none';
-                });
-                
-                // Add click event
-                genreCard.addEventListener('click', () => {
-                    // Set current type and fetch content
-                    currentType = type;
-                    const genreId = genreCard.dataset.genreId;
-                    const genreName = genreCard.dataset.genreName;
-                    
-                    // Create API URL with genre filter
-                    currentAPIUrl = `${BASE_URL}/discover/${type}?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`;
-                    
-                    // Show content section
-                    section.style.display = "flex";
-                    pagination.style.display = "flex";
-                    trailerSlider.style.display = "flex";
-                    favoritesContainer.style.display = "none";
-                    newsContainer.style.display = "none";
-                    landingPageContainer.style.display = "none";
-                    
-                    // Set active tab
-                    removeActive();
-                    if (type === "movie") {
-                        moviesTab.classList.add("active");
-                    } else {
-                        seriesTab.classList.add("active");
-                    }
-                    
-                    // Reset pagination and fetch content
-                    currentPage = 1;
-                    returnItems(currentAPIUrl, currentPage);
-                    
-                    // Show toast notification
-                    showToast(`Showing ${type === "movie" ? "movies" : "series"} in ${genreName}`, "success");
-                });
-                
-                genresGrid.appendChild(genreCard);
-            });
-            
-            contentContainer.appendChild(genresGrid);
-        }
-        
-        // Function to render movie classes
-        function renderMovieClasses() {
-            contentContainer.innerHTML = '';
-            
-            const classesGrid = document.createElement('div');
-            classesGrid.className = 'classes-grid';
-            classesGrid.style.cssText = `
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 20px;
-            `;
-            
-            MOVIE_CLASSES.forEach(movieClass => {
-                const classCard = document.createElement('div');
-                classCard.className = 'movie-class-card';
-                classCard.dataset.classId = movieClass.id;
-                classCard.style.cssText = `
-                    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-                    border: 1px solid rgba(245,197,24,0.3);
-                    border-radius: 15px;
-                    padding: 20px;
-                    text-align: center;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                `;
-                
-                const classIcon = document.createElement('div');
-                classIcon.style.cssText = `
-                    font-size: 3rem;
-                    margin-bottom: 15px;
-                `;
-                classIcon.textContent = movieClass.icon;
-                
-                // Add country code with better visibility
-                const countryCode = document.createElement('div');
-                countryCode.textContent = movieClass.countryCode;
-                countryCode.style.cssText = `
-                    color: #f5c518;
-                    font-size: 0.9rem;
-                    font-weight: bold;
-                    margin-bottom: 10px;
-                    background: rgba(0,0,0,0.5);
-                    padding: 3px 8px;
-                    border-radius: 10px;
-                `;
-                
-                const className = document.createElement('h3');
-                className.textContent = movieClass.name;
-                className.style.cssText = `
-                    color: #f5c518;
-                    margin: 0 0 10px 0;
-                    font-size: 1.3rem;
-                    font-weight: bold;
-                `;
-                
-                const classDesc = document.createElement('p');
-                classDesc.textContent = movieClass.description;
-                classDesc.style.cssText = `
-                    color: #ccc;
-                    margin: 0;
-                    font-size: 0.9rem;
-                    line-height: 1.4;
-                `;
-                
-                classCard.appendChild(classIcon);
-                classCard.appendChild(countryCode);
-                classCard.appendChild(className);
-                classCard.appendChild(classDesc);
-                
-                // Add hover effect
-                classCard.addEventListener('mouseenter', () => {
-                    classCard.style.transform = 'translateY(-8px)';
-                    classCard.style.background = 'linear-gradient(135deg, rgba(245,197,24,0.15), rgba(245,197,24,0.05))';
-                    classCard.style.borderColor = '#f5c518';
-                    classCard.style.boxShadow = '0 10px 25px rgba(245,197,24,0.3)';
-                });
-                
-                classCard.addEventListener('mouseleave', () => {
-                    classCard.style.transform = 'translateY(0)';
-                    classCard.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))';
-                    classCard.style.borderColor = 'rgba(245,197,24,0.3)';
-                    classCard.style.boxShadow = 'none';
-                });
-                
-                // Add click event
-                classCard.addEventListener('click', () => {
-                    // Set current type based on movie class
-                    if (movieClass.id === 'kdrama' || movieClass.id === 'anime') {
-                        currentType = 'tv';
-                    } else {
-                        currentType = currentMediaType;
-                    }
-                    
-                    let apiUrl = '';
-                    switch(movieClass.id) {
-                        case 'nollywood':
-                            // Improved Nollywood search with multiple strategies
-                            // Try different approaches to find Nigerian movies
-                            apiUrl = `${SEARCH_MOVIE}nigeria`;
-                            break;
-                            
-                        case 'kdrama':
-                            // Use discover API for Korean TV dramas
-                            if (currentMediaType === 'tv') {
-                                apiUrl = `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_original_language=ko&sort_by=popularity.desc&first_air_date_year=2023`;
-                            } else {
-                                // For movies, we can try to get Korean movies
-                                apiUrl = `${BASE_URL}/discover/movie?api_key=${API_KEY}&region=KR&sort_by=popularity.desc&primary_release_year=2023`;
-                            }
-                            break;
-                            
-                        case 'anime':
-                            // Use discover API for Japanese animation
-                            if (currentMediaType === 'tv') {
-                                apiUrl = `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_original_language=ja&with_genres=16&sort_by=popularity.desc&first_air_date_year=2023`;
-                            } else {
-                                apiUrl = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_original_language=ja&with_genres=16&sort_by=popularity.desc&primary_release_year=2023`;
-                            }
-                            break;
-                            
-                        case 'philippines':
-                            apiUrl = `${SEARCH_MOVIE}philippines`;
-                            break;
-                            
-                        case 'southafrica':
-                            apiUrl = `${SEARCH_MOVIE}south africa`;
-                            break;
-                            
-                        case 'kenya':
-                            apiUrl = `${SEARCH_MOVIE}kenya`;
-                            break;
-                            
-                        default:
-                            // For other classes, use the existing keyword search
-                            let keyword = '';
-                            switch(movieClass.id) {
-                                case 'hollywood':
-                                    keyword = 'hollywood';
-                                    break;
-                                case 'bollywood':
-                                    keyword = 'bollywood';
-                                    break;
-                                case 'british':
-                                    keyword = 'british';
-                                    break;
-                                case 'french':
-                                    keyword = 'french';
-                                    break;
-                                case 'chinese':
-                                    keyword = 'chinese';
-                                    break;
-                                case 'lollywood':
-                                    keyword = 'pakistani';
-                                    break;
-                                case 'ghallywood':
-                                    keyword = 'ghanaian';
-                                    break;
-                                default:
-                                    keyword = movieClass.name;
-                            }
-                            
-                            // Use search API with the keyword
-                            apiUrl = currentMediaType === "movie" 
-                                ? `${SEARCH_MOVIE}${encodeURIComponent(keyword)}`
-                                : `${SEARCH_SERIES}${encodeURIComponent(keyword)}`;
-                    }
-                    
-                    // Show content section
-                    section.style.display = "flex";
-                    pagination.style.display = "flex";
-                    trailerSlider.style.display = "flex";
-                    favoritesContainer.style.display = "none";
-                    newsContainer.style.display = "none";
-                    landingPageContainer.style.display = "none";
-                    
-                    // Set active tab
-                    removeActive();
-                    if (currentMediaType === "movie") {
-                        moviesTab.classList.add("active");
-                    } else {
-                        seriesTab.classList.add("active");
-                    }
-                    
-                    // Reset pagination and fetch content
-                    currentPage = 1;
-                    currentAPIUrl = apiUrl;
-                    returnItems(currentAPIUrl, currentPage);
-                    
-                    // Show toast notification
-                    showToast(`Showing ${currentMediaType === "movie" ? "movies" : "series"} from ${movieClass.name}`, "success");
-                });
-                
-                classesGrid.appendChild(classCard);
-            });
-            
-            contentContainer.appendChild(classesGrid);
-        }
-        
-        // Initially render genres
-        renderGenres(currentMediaType);
-        
-        // Add category tab switching
-        genresTab.addEventListener('click', () => {
-            currentCategory = 'genres';
-            genresTab.className = 'category-tab active';
-            genresTab.style.cssText = `
-                background: linear-gradient(45deg, #f5c518, #e6b800);
-                color: #000;
-                border: none;
-                border-radius: 8px 8px 0 0;
-                padding: 10px 20px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            `;
-            
-            classesTab.className = 'category-tab';
-            classesTab.style.cssText = `
-                background: transparent;
-                color: #f5c518;
-                border: none;
-                border-radius: 8px 8px 0 0;
-                padding: 10px 20px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            `;
-            
-            renderGenres(currentMediaType);
-        });
-        
-        classesTab.addEventListener('click', () => {
-            currentCategory = 'classes';
-            classesTab.className = 'category-tab active';
-            classesTab.style.cssText = `
-                background: linear-gradient(45deg, #f5c518, #e6b800);
-                color: #000;
-                border: none;
-                border-radius: 8px 8px 0 0;
-                padding: 10px 20px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            `;
-            
-            genresTab.className = 'category-tab';
-            genresTab.style.cssText = `
-                background: transparent;
-                color: #f5c518;
-                border: none;
-                border-radius: 8px 8px 0 0;
-                padding: 10px 20px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            `;
-            
+        if (currentCategory === 'genres') {
+            renderGenres('movie');
+        } else {
             renderMovieClasses();
-        });
+        }
+    });
+    
+    seriesTypeBtn.addEventListener('click', () => {
+        currentMediaType = 'tv';
+        seriesTypeBtn.className = 'media-type-btn active';
+        seriesTypeBtn.style.cssText = `
+            background: linear-gradient(45deg, #f5c518, #e6b800);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        `;
         
-        // Add media type switch functionality
-        movieTypeBtn.addEventListener('click', () => {
-            currentMediaType = 'movie';
-            movieTypeBtn.className = 'media-type-btn active';
-            movieTypeBtn.style.cssText = `
-                background: linear-gradient(45deg, #f5c518, #e6b800);
-                color: #000;
-                border: none;
-                border-radius: 8px;
-                padding: 10px 25px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            `;
-            
-            seriesTypeBtn.className = 'media-type-btn';
-            seriesTypeBtn.style.cssText = `
-                background: transparent;
-                color: #f5c518;
-                border: 2px solid #f5c518;
-                border-radius: 8px;
-                padding: 10px 25px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            `;
-            
-            if (currentCategory === 'genres') {
-                renderGenres('movie');
-            } else {
-                renderMovieClasses();
-            }
-        });
+        movieTypeBtn.className = 'media-type-btn';
+        movieTypeBtn.style.cssText = `
+            background: transparent;
+            color: #f5c518;
+            border: 2px solid #f5c518;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        `;
         
-        seriesTypeBtn.addEventListener('click', () => {
-            currentMediaType = 'tv';
-            seriesTypeBtn.className = 'media-type-btn active';
-            seriesTypeBtn.style.cssText = `
-                background: linear-gradient(45deg, #f5c518, #e6b800);
-                color: #000;
-                border: none;
-                border-radius: 8px;
-                padding: 10px 25px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            `;
-            
-            movieTypeBtn.className = 'media-type-btn';
-            movieTypeBtn.style.cssText = `
-                background: transparent;
-                color: #f5c518;
-                border: 2px solid #f5c518;
-                border-radius: 8px;
-                padding: 10px 25px;
-                font-size: 1rem;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            `;
-            
-            if (currentCategory === 'genres') {
-                renderGenres('tv');
-            } else {
-                renderMovieClasses();
-            }
-        });
+        if (currentCategory === 'genres') {
+            renderGenres('tv');
+        } else {
+            renderMovieClasses();
+        }
+    });
+    
+    main.appendChild(contentContainer);
+}
+
+// Function to fetch movies by country
+async function fetchMoviesByCountry(countryCode, countryName) {
+    // Set the current type based on media type selection
+    currentType = currentMediaType;
+    
+    // Show loading message
+    main.innerHTML = '<div class="loading">🔄 Loading ' + (currentMediaType === 'movie' ? 'movies' : 'TV shows') + ' from ' + countryName + '...</div>';
+    
+    try {
+        // Construct API URL based on current media type and include the current page
+        let url;
+        if (currentMediaType === 'movie') {
+            url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_origin_country=${countryCode}&sort_by=popularity.desc&page=${currentPage}`;
+        } else {
+            url = `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_origin_country=${countryCode}&sort_by=popularity.desc&page=${currentPage}`;
+        }
         
-        main.appendChild(contentContainer);
+        // Fetch data from API
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Display content using the appropriate function based on media type
+        if (currentMediaType === 'movie') {
+            displayMoviesInGenreView(data.results, countryName);
+        } else {
+            displaySeriesInGenreView(data.results, countryName);
+        }
+        
+        // Show pagination
+        renderPagination(data.total_pages);
+        
+        // Set current API URL and page for pagination
+        currentAPIUrl = url;
+        
+    } catch (error) {
+        console.error('Error fetching content:', error);
+        main.innerHTML = `
+            <div class="error">
+                <h3>⚠️ Error Loading Content</h3>
+                <p>We couldn't load ${currentMediaType === 'movie' ? 'movies' : 'TV shows'} from ${countryName}. Please try again later.</p>
+                <p><small>Error: ${error.message}</small></p>
+            </div>
+        `;
+    }
+}
+
+function displaySeriesInGenreView(items, countryName) {
+    // Clear the main content area but keep the header
+    const header = main.querySelector('.genre-selection-header');
+    main.innerHTML = '';
+    
+    // Add the header back if it exists
+    if (header) {
+        main.appendChild(header);
     }
     
+    // Create a new header for the country series
+    const countryHeader = document.createElement('div');
+    countryHeader.className = 'country-series-header';
+    countryHeader.style.cssText = `
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, rgba(245,197,24,0.1), rgba(245,197,24,0.05));
+        border-radius: 15px;
+        border: 2px solid rgba(245,197,24,0.3);
+    `;
+    
+    countryHeader.innerHTML = `
+        <h2 style="color: #f5c518; font-size: 2rem; margin: 0 0 0.5rem 0;">Popular TV Shows from ${countryName}</h2>
+        <p style="color: #fff; font-size: 1.1rem; margin: 0;">Click on a series to view details</p>
+    `;
+    
+    main.appendChild(countryHeader);
+    
+    // Create a grid container for the series
+    const seriesGrid = document.createElement('div');
+    seriesGrid.className = 'series-grid';
+    seriesGrid.style.cssText = `
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 0 1rem;
+    `;
+    
+    // Add series cards to the grid
+    items.forEach(item => {
+        const seriesCard = document.createElement('div');
+        seriesCard.className = 'series-card';
+        seriesCard.style.cssText = `
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(245,197,24,0.2);
+        `;
+        
+        const image = document.createElement('img');
+        image.className = 'series-poster';
+        image.src = item.poster_path ? IMG_PATH + item.poster_path : "https://via.placeholder.com/300x450?text=No+Image";
+        image.style.cssText = `
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        `;
+        
+        const title = document.createElement('h3');
+        title.textContent = item.name;
+        title.style.cssText = `
+            color: #fff;
+            padding: 0.8rem;
+            margin: 0;
+            font-size: 1rem;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        `;
+        
+        const rating = document.createElement('div');
+        rating.textContent = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}`;
+        rating.style.cssText = `
+            color: #f5c518;
+            text-align: center;
+            padding: 0 0.8rem 0.8rem;
+            font-size: 0.9rem;
+        `;
+        
+        seriesCard.appendChild(image);
+        seriesCard.appendChild(title);
+        seriesCard.appendChild(rating);
+        
+        // Add hover effect
+        seriesCard.addEventListener('mouseenter', () => {
+            seriesCard.style.transform = 'translateY(-5px)';
+            seriesCard.style.boxShadow = '0 10px 20px rgba(0,0,0,0.3)';
+            seriesCard.style.borderColor = '#f5c518';
+            image.style.transform = 'scale(1.05)';
+        });
+        
+        seriesCard.addEventListener('mouseleave', () => {
+            seriesCard.style.transform = 'translateY(0)';
+            seriesCard.style.boxShadow = 'none';
+            seriesCard.style.borderColor = 'rgba(245,197,24,0.2)';
+            image.style.transform = 'scale(1)';
+        });
+        
+        // Add click event to open modal
+        seriesCard.addEventListener("click", () => {
+            currentType = "tv";
+            openModal(item);
+        });
+        
+        seriesGrid.appendChild(seriesCard);
+    });
+    
+    main.appendChild(seriesGrid);
+    
+    // Add pagination container
+    const paginationContainer = document.createElement('div');
+    paginationContainer.id = 'pagination';
+    paginationContainer.style.cssText = `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        gap: 0.5rem;
+    `;
+    main.appendChild(paginationContainer);
+    
+    // Set the main section to use grid display
+    main.style.display = 'grid';
+}
+
+// Add this new function to display movies properly in the genre view
+function displayMoviesInGenreView(items, countryName) {
+    // Clear the main content area but keep the header
+    const header = main.querySelector('.genre-selection-header');
+    main.innerHTML = '';
+    
+    // Add the header back if it exists
+    if (header) {
+        main.appendChild(header);
+    }
+    
+    // Create a new header for the country movies
+    const countryHeader = document.createElement('div');
+    countryHeader.className = 'country-movies-header';
+    countryHeader.style.cssText = `
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, rgba(245,197,24,0.1), rgba(245,197,24,0.05));
+        border-radius: 15px;
+        border: 2px solid rgba(245,197,24,0.3);
+    `;
+    
+    countryHeader.innerHTML = `
+        <h2 style="color: #f5c518; font-size: 2rem; margin: 0 0 0.5rem 0;">Popular Movies from ${countryName}</h2>
+        <p style="color: #fff; font-size: 1.1rem; margin: 0;">Click on a movie to view details</p>
+    `;
+    
+    main.appendChild(countryHeader);
+    
+    // Create a grid container for the movies
+    const moviesGrid = document.createElement('div');
+    moviesGrid.className = 'movies-grid';
+    moviesGrid.style.cssText = `
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 0 1rem;
+    `;
+    
+    // Add movie cards to the grid
+    items.forEach(item => {
+        const movieCard = document.createElement('div');
+        movieCard.className = 'movie-card';
+        movieCard.style.cssText = `
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(245,197,24,0.2);
+        `;
+        
+        const image = document.createElement('img');
+        image.className = 'movie-poster';
+        image.src = item.poster_path ? IMG_PATH + item.poster_path : "https://via.placeholder.com/300x450?text=No+Image";
+        image.style.cssText = `
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        `;
+        
+        const title = document.createElement('h3');
+        title.textContent = item.title;
+        title.style.cssText = `
+            color: #fff;
+            padding: 0.8rem;
+            margin: 0;
+            font-size: 1rem;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        `;
+        
+        const rating = document.createElement('div');
+        rating.textContent = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}`;
+        rating.style.cssText = `
+            color: #f5c518;
+            text-align: center;
+            padding: 0 0.8rem 0.8rem;
+            font-size: 0.9rem;
+        `;
+        
+        movieCard.appendChild(image);
+        movieCard.appendChild(title);
+        movieCard.appendChild(rating);
+        
+        // Add hover effect
+        movieCard.addEventListener('mouseenter', () => {
+            movieCard.style.transform = 'translateY(-5px)';
+            movieCard.style.boxShadow = '0 10px 20px rgba(0,0,0,0.3)';
+            movieCard.style.borderColor = '#f5c518';
+            image.style.transform = 'scale(1.05)';
+        });
+        
+        movieCard.addEventListener('mouseleave', () => {
+            movieCard.style.transform = 'translateY(0)';
+            movieCard.style.boxShadow = 'none';
+            movieCard.style.borderColor = 'rgba(245,197,24,0.2)';
+            image.style.transform = 'scale(1)';
+        });
+        
+        // Add click event to open modal
+        movieCard.addEventListener("click", () => {
+            currentType = "movie";
+            openModal(item);
+        });
+        
+        moviesGrid.appendChild(movieCard);
+    });
+    
+    main.appendChild(moviesGrid);
+    
+    // Add pagination container 
+    const paginationContainer = document.createElement('div');
+    paginationContainer.id = 'pagination';
+    paginationContainer.style.cssText = `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        gap: 0.5rem;
+    `;
+    main.appendChild(paginationContainer);
+    
+    // Set the main section to use grid display
+    main.style.display = 'grid';
+}
+
     // News tab functionality
     newsTab.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -7546,3 +7933,236 @@ async function addFavoritesRecommendations(favorites) {
             showToast("Review Submitted ✅", "success");
         });
     }
+    // ====================== COUNTRY EXPLORER FUNCTIONS ======================
+
+// Function to initialize the country explorer
+function initializeCountryExplorer() {
+    // Set the container structure
+    countriesContainer.innerHTML = `
+        <div class="container">
+            <div class="sidebar">
+                <h2>🌍 Countries</h2>
+                <ul class="country-list">
+                    <li class="country-item" data-country="US">
+                        <span class="country-flag">🇺🇸</span>
+                        <span class="country-name">United States</span>
+                    </li>
+                    <li class="country-item" data-country="IN">
+                        <span class="country-flag">🇮🇳</span>
+                        <span class="country-name">India</span>
+                    </li>
+                    <li class="country-item" data-country="NG">
+                        <span class="country-flag">🇳🇬</span>
+                        <span class="country-name">Nigeria</span>
+                    </li>
+                    <li class="country-item" data-country="KR">
+                        <span class="country-flag">🇰🇷</span>
+                        <span class="country-name">South Korea</span>
+                    </li>
+                    <li class="country-item" data-country="JP">
+                        <span class="country-flag">🇯🇵</span>
+                        <span class="country-name">Japan</span>
+                    </li>
+                    <li class="country-item" data-country="GB">
+                        <span class="country-flag">🇬🇧</span>
+                        <span class="country-name">United Kingdom</span>
+                    </li>
+                    <li class="country-item" data-country="FR">
+                        <span class="country-flag">🇫🇷</span>
+                        <span class="country-name">France</span>
+                    </li>
+                    <li class="country-item" data-country="CN">
+                        <span class="country-flag">🇨🇳</span>
+                        <span class="country-name">China</span>
+                    </li>
+                    <li class="country-item" data-country="PK">
+                        <span class="country-flag">🇵🇰</span>
+                        <span class="country-name">Pakistan</span>
+                    </li>
+                    <li class="country-item" data-country="GH">
+                        <span class="country-flag">🇬🇭</span>
+                        <span class="country-name">Ghana</span>
+                    </li>
+                    <li class="country-item" data-country="PH">
+                        <span class="country-flag">🇵🇭</span>
+                        <span class="country-name">Philippines</span>
+                    </li>
+                    <li class="country-item" data-country="ZA">
+                        <span class="country-flag">🇿🇦</span>
+                        <span class="country-name">South Africa</span>
+                    </li>
+                    <li class="country-item" data-country="KE">
+                        <span class="country-flag">🇰🇪</span>
+                        <span class="country-name">Kenya</span>
+                    </li>
+                    <li class="country-item" data-country="CA">
+                        <span class="country-flag">🇨🇦</span>
+                        <span class="country-name">Canada</span>
+                    </li>
+                    <li class="country-item" data-country="AU">
+                        <span class="country-flag">🇦🇺</span>
+                        <span class="country-name">Australia</span>
+                    </li>
+                    <li class="country-item" data-country="MX">
+                        <span class="country-flag">🇲🇽</span>
+                        <span class="country-name">Mexico</span>
+                    </li>
+                    <li class="country-item" data-country="BR">
+                        <span class="country-flag">🇧🇷</span>
+                        <span class="country-name">Brazil</span>
+                    </li>
+                    <li class="country-item" data-country="RU">
+                        <span class="country-flag">🇷🇺</span>
+                        <span class="country-name">Russia</span>
+                    </li>
+                    <li class="country-item" data-country="IT">
+                        <span class="country-flag">🇮🇹</span>
+                        <span class="country-name">Italy</span>
+                    </li>
+                    <li class="country-item" data-country="ES">
+                        <span class="country-flag">🇪🇸</span>
+                        <span class="country-name">Spain</span>
+                    </li>
+                    <li class="country-item" data-country="EG">
+                        <span class="country-flag">🇪🇬</span>
+                        <span class="country-name">Egypt</span>
+                    </li>
+                    <li class="country-item" data-country="TH">
+                        <span class="country-flag">🇹🇭</span>
+                        <span class="country-name">Thailand</span>
+                    </li>
+                    <li class="country-item" data-country="TR">
+                        <span class="country-flag">🇹🇷</span>
+                        <span class="country-name">Turkey</span>
+                    </li>
+                    <li class="country-item" data-country="DE">
+                        <span class="country-flag">🇩🇪</span>
+                        <span class="country-name">Germany</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="content">
+                <div class="content-header">
+                    <h1 id="country-title">Select a Country</h1>
+                    <p id="country-description">Choose a country to explore its popular movies</p>
+                </div>
+                <div id="movies-container" class="movies-container">
+                    <div class="loading">🎬 Select a country to view movies</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add event listeners to country items
+    const countryItems = countriesContainer.querySelectorAll(".country-item");
+    const moviesContainer = countriesContainer.querySelector("#movies-container");
+    const countryTitle = countriesContainer.querySelector("#country-title");
+    const countryDescription = countriesContainer.querySelector("#country-description");
+    
+    countryItems.forEach(item => {
+        item.addEventListener("click", function() {
+            // Remove selected class from all items
+            countryItems.forEach(i => i.classList.remove("selected-country"));
+            
+            // Add selected class to clicked item
+            this.classList.add("selected-country");
+            
+            // Get country code and name
+            const countryCode = this.getAttribute("data-country");
+            const countryName = this.querySelector(".country-name").textContent;
+            
+            // Update header
+            countryTitle.textContent = `Popular Movies from ${countryName}`;
+            countryDescription.textContent = `Discover trending films from ${countryName}'s cinema`;
+            
+            // Fetch movies for selected country
+            fetchMoviesByCountry(countryCode, countryName, moviesContainer);
+        });
+    });
+}
+
+// Function to fetch movies by country
+async function fetchMoviesByCountryForExplorer(countryCode, countryName, moviesContainer) {
+    // Show loading message
+    moviesContainer.innerHTML = '<div class="loading">🔄 Loading movies from ' + countryName + '...</div>';
+    
+    try {
+        // Construct API URL for discovering movies by country
+        const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_origin_country=${countryCode}&sort_by=popularity.desc&page=1`;
+        
+        // Fetch data from API
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Display movies
+        displayMovies(data.results, countryName, moviesContainer);
+        
+    } catch (error) {
+        console.error('Error fetching movies:', error);
+        moviesContainer.innerHTML = `
+            <div class="error">
+                <h3>⚠️ Error Loading Movies</h3>
+                <p>We couldn't load movies from ${countryName}. Please try again later.</p>
+                <p><small>Error: ${error.message}</small></p>
+            </div>
+        `;
+    }
+}
+
+fetchMoviesByCountryForExplorer(countryCode, countryName, moviesContainer);
+
+// Function to display movies
+function displayMovies(movies, countryName, moviesContainer) {
+    // Clear previous movies
+    moviesContainer.innerHTML = '';
+    
+    if (movies.length === 0) {
+        moviesContainer.innerHTML = `
+            <div class="error">
+                <h3>🎭 No Movies Found</h3>
+                <p>We couldn't find any popular movies from ${countryName} at the moment.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Create movie cards
+    movies.forEach(movie => {
+        const movieCard = document.createElement("div");
+        movieCard.className = "movie-card";
+        
+        // Get poster path or use placeholder
+        const posterPath = movie.poster_path 
+            ? `${IMG_PATH + movie.poster_path}` 
+            : `https://picsum.photos/seed/${movie.id}/300/450.jpg`;
+        
+        // Get release year
+        const releaseYear = movie.release_date 
+            ? new Date(movie.release_date).getFullYear() 
+            : 'Unknown';
+        
+        // Set movie card HTML
+        movieCard.innerHTML = `
+            <img src="${posterPath}" 
+                 alt="${movie.title}" 
+                 class="movie-poster"
+                 onerror="this.src='https://picsum.photos/seed/${movie.id}/300/450.jpg'">
+            <div class="movie-info">
+                <div class="movie-title">${movie.title}</div>
+                <div class="movie-year">${releaseYear}</div>
+                <div class="movie-rating">
+                    ⭐ ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}
+                </div>
+            </div>
+        `;
+        
+        // Add to container
+        moviesContainer.appendChild(movieCard);
+    });
+}
