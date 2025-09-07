@@ -5430,7 +5430,7 @@ body{
 
     .hero-section .hero-content .left-content {
         margin: 0 !important;
-        padding-left: 20px !important;
+        padding-left: 1rem !important;
         padding-right: 20px !important;
         width: auto !important;
         max-width: 90% !important;
