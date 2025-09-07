@@ -760,6 +760,24 @@ function showInternetStatus(online) {
 if (!isOnline) {
     showInternetStatus(false);
 }
+
+// Make sure this function is in the global scope
+function changeHero(direction) {
+    // Clear the current interval
+    if (heroRotationInterval) {
+        clearInterval(heroRotationInterval);
+    }
+    
+    // Update current index
+    currentHeroIndex = (currentHeroIndex + direction + heroItems.length) % heroItems.length;
+    
+    // Update hero content
+    updateHeroContent();
+    
+    // Restart the interval
+    heroRotationInterval = setInterval(updateHeroContent, 6000);
+}
+
 // ====================== LANDING PAGE ======================
 async function fetchLandingPageData() {
     try {
@@ -2473,11 +2491,76 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
     
-    // Add resize handler for hero images
-    let resizeTimer;
+    // Add this to your DOMContentLoaded event listener
+function initHeroSwipe() {
+    const heroSection = document.querySelector('.hero-section');
+    if (!heroSection) return;
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let swipeThreshold = 50; // Minimum distance to be considered a swipe
+    
+    // Touch start event
+    heroSection.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    // Touch end event
+    heroSection.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+    
+    // Handle swipe direction
+    function handleSwipe() {
+        const swipeDistance = touchEndX - touchStartX;
+        
+        // Swipe right (previous)
+        if (swipeDistance > swipeThreshold) {
+            changeHero(-1);
+        }
+        // Swipe left (next)
+        else if (swipeDistance < -swipeThreshold) {
+            changeHero(1);
+        }
+    }
+    
+    // Optional: Add visual feedback for swiping
+    heroSection.addEventListener('touchmove', function(e) {
+        const currentX = e.changedTouches[0].screenX;
+        const diff = currentX - touchStartX;
+        
+        // Only apply transform if we're actually swiping (not a tap)
+        if (Math.abs(diff) > 5) {
+            // Apply a subtle transform to give visual feedback
+            heroSection.style.transform = `translateX(${diff * 0.2}px)`;
+        }
+    }, false);
+    
+    // Reset transform when touch ends
+    heroSection.addEventListener('touchend', function() {
+        heroSection.style.transform = '';
+    }, false);
+}
+
+    // Initialize swipe functionality on mobile
+    if (window.innerWidth <= 425.5) {
+        initHeroSwipe();
+    }
+
+    // Re-initialize on resize if needed
     window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
+        if (window.innerWidth <= 425.5) {
+            initHeroSwipe();
+        }
+    });
+
+
+// Add resize handler for hero images
+let resizeTimer;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
             // Only update if we're on the landing page
             if (landingPageContainer.style.display === 'block') {
                 updateHeroContent();
