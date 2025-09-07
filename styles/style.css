@@ -5417,7 +5417,7 @@ body{
         display: none !important;
     }
     
-    .hero-content{
-        padding: 20px 0 !important;
+    .hero-content .left-content{
+        justify-content: flex-end !important;
     }
 }
