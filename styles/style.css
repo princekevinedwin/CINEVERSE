@@ -5426,11 +5426,12 @@ body{
         left: 0 !important;
         transform: none !important;
         text-align: left !important;
+        padding: 20px !important;
     }
 
     .hero-section .hero-content .left-content {
         margin: 0 !important;
-        padding-left: 1rem !important;
+        padding-left: 20px !important;
         padding-right: 20px !important;
         width: auto !important;
         max-width: 90% !important;
