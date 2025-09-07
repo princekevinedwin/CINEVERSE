@@ -831,6 +831,76 @@ async function fetchLandingPageData() {
         };
     }
 }
+
+// Add this function to initialize swipe functionality
+function initHeroSwipe() {
+    const heroSection = document.querySelector('.hero-section');
+    if (!heroSection) return;
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50; // Minimum distance to be considered a swipe
+    
+    // Touch start event
+    heroSection.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    // Touch end event
+    heroSection.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+    
+    // Handle swipe direction
+    function handleSwipe() {
+        const swipeDistance = touchEndX - touchStartX;
+        
+        // Swipe right (previous)
+        if (swipeDistance > swipeThreshold) {
+            changeHero(-1);
+        }
+        // Swipe left (next)
+        else if (swipeDistance < -swipeThreshold) {
+            changeHero(1);
+        }
+    }
+    
+    // Optional: Add visual feedback during swipe
+    heroSection.addEventListener('touchmove', function(e) {
+        const currentX = e.changedTouches[0].screenX;
+        const diff = currentX - touchStartX;
+        
+        // Only apply transform if we're actually swiping (not a tap)
+        if (Math.abs(diff) > 5) {
+            // Apply a subtle transform to give visual feedback
+            heroSection.style.transform = `translateX(${diff * 0.2}px)`;
+        }
+    }, false);
+    
+    // Reset transform when touch ends
+    heroSection.addEventListener('touchend', function() {
+        heroSection.style.transform = '';
+    }, false);
+}
+
+// Make sure changeHero function is globally accessible
+function changeHero(direction) {
+    // Clear the current interval
+    if (heroRotationInterval) {
+        clearInterval(heroRotationInterval);
+    }
+    
+    // Update current index
+    currentHeroIndex = (currentHeroIndex + direction + heroItems.length) % heroItems.length;
+    
+    // Update hero content
+    updateHeroContent();
+    
+    // Restart the interval
+    heroRotationInterval = setInterval(updateHeroContent, 6000);
+}
+
 function renderLandingPage(data) {
     landingPageContainer.innerHTML = '';
     
@@ -892,7 +962,7 @@ function renderLandingPage(data) {
             max-width: 600px;
             display: flex;
             flex-direction: column;
-            justify-content: zz;
+            justify-content: center;
         }
         
         .logo {
@@ -1605,38 +1675,40 @@ function renderLandingPage(data) {
     // Create hero section
     const heroSection = document.createElement('div');
     heroSection.className = 'hero-section';
+    // In your renderLandingPage function, update the hero section HTML
     heroSection.innerHTML = `
-        <div class="hero-background" id="heroBackground"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="left-content">
-                <div class="logo">Cineverse</div>
-                <div class="whats-new">What's new in <span id="type-indicator">movies</span></div>
-                <h1 class="movie-title" id="landing-title">Loading...</h1>
-                <div class="rating-container">
-                    <div class="rating-circle">
-                        <div class="rating-value" id="landing-rating">0.0</div>
-                        <div class="rating-imdb">IMDb</div>
-                        <svg class="rating-svg" viewBox="0 0 36 36">
-                            <path class="rating-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#333" stroke-width="3"/>
-                            <path class="rating-progress" id="rating-progress" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f5c518" stroke-width="3" stroke-dasharray="0, 100"/>
-                        </svg>
-                    </div>
-                    <div class="movie-time" id="landing-runtime">
-                        <i class="far fa-clock"></i> --
-                    </div>
+    <div class="hero-background" id="heroBackground"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="left-content">
+            <div class="logo">Cineverse</div>
+            <div class="whats-new">What's new in <span id="type-indicator">movies</span></div>
+            <h1 class="movie-title" id="landing-title">Loading...</h1>
+            <div class="rating-container">
+                <div class="rating-circle">
+                    <div class="rating-value" id="landing-rating">0.0</div>
+                    <div class="rating-imdb">IMDb</div>
+                    <svg class="rating-svg" viewBox="0 0 36 36">
+                        <path class="rating-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#333" stroke-width="3"/>
+                        <path class="rating-progress" id="rating-progress" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#f5c518" stroke-width="3" stroke-dasharray="0, 100"/>
+                    </svg>
                 </div>
-                <div class="movie-summary" id="landing-summary">Loading...</div>
-                <div class="movie-cast" id="landing-cast"><span>Starring:</span> --</div>
-                <div class="movie-genre" id="landing-genre"><span>Genre:</span> --</div>
-                <button class="watch-trailer-btn" id="landing-trailer-btn">
-                    <i class="fas fa-play"></i> Watch Trailer
-                </button>
+                <div class="movie-time" id="landing-runtime">
+                    <i class="far fa-clock"></i> --
+                </div>
             </div>
+            <div class="movie-summary" id="landing-summary">Loading...</div>
+            <div class="movie-cast" id="landing-cast"><span>Starring:</span> --</div>
+            <div class="movie-genre" id="landing-genre"><span>Genre:</span> --</div>
+            <button class="watch-trailer-btn" id="landing-trailer-btn">
+                <i class="fas fa-play"></i> Watch Trailer
+            </button>
         </div>
-        <button class="hero-nav-btn prev-btn" onclick="changeHero(-1)">❮</button>
-        <button class="hero-nav-btn next-btn" onclick="changeHero(1)">❯</button>
-    `;
+    </div>
+    <div class="swipe-indicator">
+        <span>← Swipe →</span>
+    </div>
+`;
     landingPageContainer.appendChild(heroSection);
     
     // Set up hero rotation with 10 movies and 10 series
@@ -2492,17 +2564,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     // Add this to your DOMContentLoaded event listener
-function initHeroSwipe() {
+    function initHeroSwipe() {
     const heroSection = document.querySelector('.hero-section');
     if (!heroSection) return;
     
     let touchStartX = 0;
     let touchEndX = 0;
-    let swipeThreshold = 50; // Minimum distance to be considered a swipe
+    const swipeThreshold = 50;
+    let hasInteracted = false;
     
     // Touch start event
     heroSection.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX;
+        if (!hasInteracted) {
+            hasInteracted = true;
+            // Hide swipe indicator after first interaction
+            const swipeIndicator = document.querySelector('.swipe-indicator');
+            if (swipeIndicator) {
+                swipeIndicator.style.opacity = '0';
+                setTimeout(() => {
+                    swipeIndicator.style.display = 'none';
+                }, 300);
+            }
+        }
     }, false);
     
     // Touch end event
@@ -2525,7 +2609,7 @@ function initHeroSwipe() {
         }
     }
     
-    // Optional: Add visual feedback for swiping
+    // Optional: Add visual feedback during swipe
     heroSection.addEventListener('touchmove', function(e) {
         const currentX = e.changedTouches[0].screenX;
         const diff = currentX - touchStartX;
@@ -2541,7 +2625,7 @@ function initHeroSwipe() {
     heroSection.addEventListener('touchend', function() {
         heroSection.style.transform = '';
     }, false);
-}
+} 
 
     // Initialize swipe functionality on mobile
     if (window.innerWidth <= 425.5) {
@@ -2555,7 +2639,20 @@ function initHeroSwipe() {
         }
     });
 
+// Initialize swipe functionality when DOM is loaded
+initHeroSwipe();
 
+// Re-initialize on resize if needed
+window.addEventListener('resize', function() {
+    clearTimeout(window.resizeTimer);
+    window.resizeTimer = setTimeout(function() {
+        // Only initialize if we're on mobile
+        if (window.innerWidth <= 426) {
+            initHeroSwipe();
+        }
+    }, 250);
+});
+    
 // Add resize handler for hero images
 let resizeTimer;
 window.addEventListener('resize', function() {
