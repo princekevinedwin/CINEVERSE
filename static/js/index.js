@@ -2371,7 +2371,7 @@ document.addEventListener('DOMContentLoaded', function() {
     menuItems.forEach(item => {
         item.addEventListener('click', () => {
             // Only close menu if we're on mobile (where hamburger is visible)
-            if (window.innerWidth <= 992) {
+            if (window.innerWidth <= 1300) {
                 toggleMenu();
             }
         });
@@ -2383,7 +2383,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function() {
             // If window is resized above mobile breakpoint, ensure menu is properly reset
-            if (window.innerWidth > 992) {
+            if (window.innerWidth > 1300) {
                 hamburger.classList.remove('active');
                 menu.classList.remove('active');
                 menuOverlay.classList.remove('active');

@@ -3346,3 +3346,255 @@ input::-webkit-input-placeholder {
         padding-top: 100px;
     }
   }
+
+  /* Update the hamburger menu to appear at 1300px */
+@media (max-width: 1300px) {
+    .hamburger {
+        display: flex;
+        order: 3;
+    }
+    
+    .topnav {
+        flex-wrap: wrap;
+        padding: 10px 20px;
+    }
+    
+    .topnav .logo {
+        order: 1;
+        font-size: 1.8rem;
+    }
+    
+    .topnav .search-container {
+        order: 2;
+        margin: 0 auto;
+    }
+    
+    .topnav .menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background-color: hsl(0, 0%, 11%);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 80px;
+        gap: 0;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+    }
+    
+    .topnav .menu.active {
+        right: 0;
+    }
+    
+    .topnav .menu a {
+        padding: 20px 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        text-align: left;
+        font-size: 1.1rem;
+    }
+    
+    .topnav .menu a::after {
+        display: none;
+    }
+    
+    .topnav .menu a:hover {
+        background-color: rgba(219, 219, 2, 0.1);
+        color: rgb(219, 219, 2);
+    }
+    
+    .topnav .menu a.active {
+        background-color: rgba(219, 219, 2, 0.2);
+        border-left: 4px solid rgb(219, 219, 2);
+    }
+    
+    /* Overlay when menu is open */
+    .menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .menu-overlay.active {
+        display: block;
+        opacity: 1;
+    }
+}
+
+/* Desktop styles above 1300px */
+@media (min-width: 1301px) {
+    .hamburger {
+        display: none;
+    }
+    
+    .topnav .menu {
+        position: static;
+        width: auto;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        padding-top: 0;
+        gap: 25px;
+        box-shadow: none;
+    }
+    
+    .topnav .menu a {
+        padding: 0;
+        border: none;
+        width: auto;
+        text-align: center;
+    }
+    
+    .topnav .menu a::after {
+        display: block;
+    }
+    
+    .topnav .menu a:hover {
+        background-color: transparent;
+    }
+    
+    .topnav .menu a.active {
+        background-color: transparent;
+        border-left: none;
+    }
+}
+
+/* Update the stats container layout */
+.stats-section {
+    display: flex;
+    justify-content: space-around;
+    margin: 4rem 0;
+    padding: 2rem 0;
+    background: transparent;
+    border-radius: 20px;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    margin: 0 3rem;
+    text-align: center;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* For screens 1300px and above, keep text under the circle */
+@media (min-width: 1301px) {
+    .stat-item {
+        flex-direction: column;
+    }
+    
+    .stat-label {
+        margin-top: 1rem;
+    }
+}
+
+/* For screens between 992px and 1300px, place text beside the circle */
+@media (max-width: 1300px) and (min-width: 992px) {
+    .stats-section {
+        justify-content: center;
+        gap: 4rem; /* Increased gap between stats */
+    }
+    
+    .stat-item {
+        flex-direction: row;
+        width: auto;
+        height: auto;
+        margin: 1rem;
+        align-items: center;
+        gap: 2rem; /* Space between circle and text */
+    }
+    
+    .stat-circle {
+        margin: 0;
+    }
+    
+    .stat-label {
+        margin: 0;
+        text-align: left;
+        font-size: 1.1rem;
+        min-width: 120px; /* Ensure consistent width for labels */
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+}
+
+/* For screens between 768px and 992px */
+@media (max-width: 991px) and (min-width: 768px) {
+    .stats-section {
+        justify-content: center;
+        gap: 3rem;
+    }
+    
+    .stat-item {
+        flex-direction: row;
+        width: auto;
+        height: auto;
+        margin: 1rem;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    
+    .stat-circle {
+        margin: 0;
+    }
+    
+    .stat-label {
+        margin: 0;
+        text-align: left;
+        font-size: 1rem;
+        min-width: 100px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+}
+
+/* For very small screens (below 768px) */
+@media (max-width: 767px) {
+    .stats-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+    
+    .stat-item {
+        flex-direction: column;
+        width: 120px;
+        height: 120px;
+        margin: 0;
+    }
+    
+    .stat-circle {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+}
