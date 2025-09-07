@@ -4775,6 +4775,10 @@ body{
     overflow-x: hidden;
 }
 
+.left-content{
+    justify-content: flex-end !important;
+}
+
 /* Phone Styles - 425px */
 @media (max-width: 425.5px) {
     /* Navigation */
@@ -4839,10 +4843,6 @@ body{
     /* Hero Section */
     .hero-section {
         height: 60vh;
-    }
-    
-    .hero-content {
-        padding: 2rem 1rem;
     }
     
     .movie-title {
@@ -5409,9 +5409,5 @@ body{
 
     .prev-btn, .nextBtn {
         display: none !important;
-    }
-
-    .hero-content{
-
     }
 }
