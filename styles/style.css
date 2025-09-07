@@ -4786,7 +4786,7 @@ body{
 
 
 /* Phone Styles - 425px */
-@media (max-width: 425.5px) {
+@media (max-width: 425px) {
     /* Navigation */
     .topnav {
         flex-direction: column;
@@ -5043,7 +5043,7 @@ body{
 }
 
 /* Phone Styles - 425px */
-@media (max-width: 425.5px) {
+@media (max-width: 425px) {
     /* Navigation */
     .topnav {
         flex-direction: column;
@@ -5064,7 +5064,7 @@ body{
         display: none; /* Hidden by default, shown via hamburger */
         position: fixed;
         top: 100px; /* Adjusted for new layout */
-        left: 50%;
+        left: 65%;
         transform: translateX(-50%);
         width: 80%; /* Reduced from 100% */
         max-width: 300px;
@@ -5138,7 +5138,7 @@ body{
     }
 
     .logo {
-        font-size: 1rem !important;
+        font-size: 0.8rem !important;
         margin-bottom: 5px !important; ;
     }
     
@@ -5148,7 +5148,7 @@ body{
     }
     
     .movie-title {
-        font-size: 1.5rem !important;
+        font-size: 1.2rem !important;
         line-height: 1.2 !important;
         margin-bottom: 10px !important;
         max-width: 90% !important;
@@ -5163,22 +5163,22 @@ body{
     }
     
     .rating-circle {
-        width: 30px !important;
-        height: 30px !important;
+        width: 20px !important;
+        height: 20px !important;
         margin-right: 5px !important;
     }
     
     .rating-value {
-        font-size: 0.4rem !important;
+        font-size: 0.3rem !important;
     }
     
     .rating-imdb {
-        font-size: 0.6rem !important;
+        font-size: 0.4rem !important;
         bottom: -12px !important;
     }
     
     .movie-time {
-        font-size: 0.8rem !important;
+        font-size: 0.6rem !important;
     }
     
     .movie-summary {
@@ -5203,7 +5203,7 @@ body{
     
     .watch-trailer-btn {
         padding: 8px 15px !important;
-        font-size: 0.8rem !important;
+        font-size: 0.7rem !important;
         margin-top: 10px !important;
     }
     
@@ -5400,7 +5400,7 @@ body{
 }
 
 /* Phone Styles - 425px */
-@media (max-width: 425.5px) {
+@media (max-width: 425px) {
     .hero-section {
         user-select: none; /* Prevent text selection */
         -webkit-user-select: none; /* Safari */
