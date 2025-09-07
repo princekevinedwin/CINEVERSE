@@ -5420,4 +5420,8 @@ body{
     .hero-content .left-content{
         justify-content: flex-end !important;
     }
+
+    .header-content{
+        padding-left: 0 !important;
+    }
 }
