@@ -4775,9 +4775,15 @@ body{
     overflow-x: hidden;
 }
 
-.left-content{
+.hero-section .left-content{
     justify-content: flex-end !important;
 }
+
+.hero-section{
+    height: 90vh;
+}
+
+
 
 /* Phone Styles - 425px */
 @media (max-width: 425.5px) {
@@ -5409,5 +5415,9 @@ body{
 
     .prev-btn, .nextBtn {
         display: none !important;
+    }
+    
+    .hero-content{
+        padding: 20px 0 !important;
     }
 }
