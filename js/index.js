@@ -2809,6 +2809,65 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Add this to your existing JavaScript file
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to detect center item and apply zoom effect
+    function detectCenterItem() {
+        const containers = document.querySelectorAll('.top10-scroll-container');
+        
+        containers.forEach(container => {
+            const scroll = container.querySelector('.top10-scroll');
+            const items = container.querySelectorAll('.top10-item');
+            
+            if (!scroll || items.length === 0) return;
+            
+            // Remove center class from all items
+            items.forEach(item => {
+                item.classList.remove('center');
+            });
+            
+            // Calculate center position
+            const containerRect = container.getBoundingClientRect();
+            const centerX = containerRect.left + containerRect.width / 2;
+            
+            // Find the item closest to center
+            let closestItem = null;
+            let closestDistance = Infinity;
+            
+            items.forEach(item => {
+                const itemRect = item.getBoundingClientRect();
+                const itemCenterX = itemRect.left + itemRect.width / 2;
+                const distance = Math.abs(centerX - itemCenterX);
+                
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestItem = item;
+                }
+            });
+            
+            // Apply center class to the closest item
+            if (closestItem) {
+                closestItem.classList.add('center');
+            }
+        });
+    }
+    
+    // Initial detection
+    detectCenterItem();
+    
+    // Update on scroll
+    const scrollContainers = document.querySelectorAll('.top10-scroll-container');
+    scrollContainers.forEach(container => {
+        container.addEventListener('scroll', detectCenterItem);
+    });
+    
+    // Update on window resize
+    window.addEventListener('resize', detectCenterItem);
+    
+    // Set up periodic check for continuous scrolling
+    setInterval(detectCenterItem, 100);
+});
+
 
 // Also, update your existing navigation event listeners to work with the new structure
 // For example, your tab event listeners should still work fine, but make sure they're not interfering
