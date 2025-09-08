@@ -1903,7 +1903,7 @@ function renderLandingPage(data) {
     aboutSection.innerHTML = `
         <div class="about-content">
             <div class="about-text">
-                <h2>About Cineverse</h2>
+                <h2>What is Cineverse?</h2>
                 <p>Cineverse is your ultimate destination for discovering and exploring movies and TV shows from around the world. With a vast library of content and intuitive features, we make it easy to find your next favorite film or series.</p>
                 <p>Our platform provides comprehensive information about movies and TV shows, including ratings, reviews, trailers, and availability across multiple streaming platforms.</p>
                 <div class="about-features">
@@ -1926,7 +1926,7 @@ function renderLandingPage(data) {
                 </div>
             </div>
             <div class="about-image">
-                <img src="https://picsum.photos/seed/cinema/600/400.jpg" alt="Cinema">
+                <img src="/images/cineve.jpg" alt="Cinema">
             </div>
         </div>
     `;
