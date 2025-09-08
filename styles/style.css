@@ -5904,4 +5904,8 @@ body{
         width: 110px !important;
         padding: 0 5px !important;
     }
+
+    .stat-circle{
+        width: 110px !important;
+    }
 }
