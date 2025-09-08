@@ -5895,4 +5895,13 @@ body{
     .stats-section{
         margin: 2rem auto !important;
     }
+
+    .stats-container{
+        overflow-y: hidden !important;
+    }
+
+    .stat-item{
+        width: 110px !important;
+        padding: 0 5px !important;
+    }
 }
