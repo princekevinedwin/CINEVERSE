@@ -5719,7 +5719,7 @@ body{
         display: flex;
         flex-wrap: nowrap;
         flex-direction: row;
-        height: 130px;
+        height: fit-content;
     }
     
     .stat-circle {
@@ -5819,9 +5819,9 @@ body{
     .stats-container {
         display: flex;
         justify-content: space-around;
-        margin: 2rem 0;
+        margin: 0.5rem 0 !important;
         padding: 0 1rem;
-        gap: 1.5rem;
+        gap: 1rem !important;
         width: 100%;
         overflow-x: auto;
         scrollbar-width: thin;
@@ -5878,10 +5878,10 @@ body{
     .stat-label {
         font-size: 0.8rem !important;
         color: #ffffff;
-        margin-top: 0.3rem;
+        margin-top: 0 !important;
         text-align: center;
         line-height: 1.1;
-        width: 150px;
+        width: 80px;
         margin: auto;
     }
     
