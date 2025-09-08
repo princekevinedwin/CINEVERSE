@@ -2009,6 +2009,248 @@ function createCircularStat(container, targetValue, label, fillPercentage) {
     observer.observe(statItem);
 }
 
+// Add this function to your JavaScript file
+function setupMobileModalLayout() {
+    // Check if we're on mobile (425px or smaller)
+    if (window.innerWidth <= 426) {
+        const modalContent = document.querySelector('.modal-content');
+        const modalbox = document.querySelector('.modalbox');
+        const modalActions = document.querySelector('.modal-actions');
+        const movieInfo = document.querySelector('.movie-info');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalGenres = document.getElementById('modalGenres');
+        const modalOverview = document.getElementById('modalOverview');
+        const reviews = document.querySelector('.reviews');
+        
+        // Reorganize the modal structure for mobile
+        if (modalContent && modalbox) {
+            // Clear the modal content
+            const currentChildren = Array.from(modalContent.children);
+            
+            // Create a new structure
+            const newStructure = document.createElement('div');
+            newStructure.className = 'mobile-modal-structure';
+            
+            // 1. Add modalbox (poster and actions)
+            newStructure.appendChild(modalbox.cloneNode(true));
+            
+            // 2. Add title
+            const titleContainer = document.createElement('div');
+            titleContainer.appendChild(modalTitle.cloneNode(true));
+            newStructure.appendChild(titleContainer);
+            
+            // 3. Add genres
+            const genresContainer = document.createElement('div');
+            genresContainer.appendChild(modalGenres.cloneNode(true));
+            newStructure.appendChild(genresContainer);
+            
+            // 4. Add overview
+            const overviewContainer = document.createElement('div');
+            overviewContainer.appendChild(modalOverview.cloneNode(true));
+            newStructure.appendChild(overviewContainer);
+            
+            // 5. Add movie info
+            const movieInfoContainer = document.createElement('div');
+            movieInfoContainer.appendChild(movieInfo.cloneNode(true));
+            newStructure.appendChild(movieInfoContainer);
+            
+            // 6. Add reviews
+            const reviewsContainer = document.createElement('div');
+            reviewsContainer.appendChild(reviews.cloneNode(true));
+            newStructure.appendChild(reviewsContainer);
+            
+            // Replace the modal content
+            modalContent.innerHTML = '';
+            modalContent.appendChild(newStructure);
+            
+            // Re-attach event listeners
+            attachModalEventListeners();
+        }
+    }
+}
+
+// Function to re-attach event listeners after restructuring
+function attachModalEventListeners() {
+    // Re-attach download button listener
+    const downloadBtn = document.getElementById("downloadMovie");
+    if (downloadBtn) {
+        downloadBtn.addEventListener("click", async () => {
+            const downloadPanel = document.getElementById("downloadOptions");
+            downloadPanel.classList.toggle("active");
+            
+            if (downloadPanel.classList.contains("active")) {
+                const movieId = document.querySelector('.modal-content').dataset.movieId;
+                if (movieId) {
+                    const currentItem = {
+                        title: document.getElementById("modalTitle").textContent,
+                        release_date: currentType === "movie" ? new Date().getFullYear() : null,
+                        first_air_date: currentType === "tv" ? new Date().getFullYear() : null,
+                        id: movieId
+                    };
+                    
+                    showAvailabilityLoading();
+                    await checkAndUpdateAvailability(currentItem);
+                }
+            }
+        });
+    }
+    
+    // Re-attach trailer button listener
+    const trailerBtn = document.getElementById("watchTrailer");
+    if (trailerBtn) {
+        trailerBtn.addEventListener("click", async () => {
+            const modal = document.querySelector('.modal-content');
+            const movieId = modal.dataset.movieId;
+            console.log(`Fetching trailer for ${currentType} with ID: ${movieId}`);
+            
+            try {
+                const videosRes = await fetch(`${BASE_URL}/${currentType}/${movieId}/videos?api_key=${API_KEY}`);
+                const videosData = await videosRes.json();
+                
+                const trailer = videosData.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+                if (trailer) {
+                    console.log("Trailer found:", trailer.key);
+                    
+                    const modalImage = document.getElementById("modalImage");
+                    const trailerEmbed = document.getElementById("trailerEmbed");
+                    
+                    modalImage.style.display = "none";
+                    trailerEmbed.style.display = "block";
+                    
+                    const playerId = `trailer-player-${Date.now()}`;
+                    trailerEmbed.innerHTML = `<div id="${playerId}" style="width: 100%; height: 100%;"></div>`;
+                    
+                    player = new YT.Player(playerId, {
+                        videoId: trailer.key,
+                        playerVars: {
+                            'autoplay': 1,
+                            'controls': 1,
+                            'rel': 0,
+                            'modestbranding': 1,
+                            'showinfo': 0
+                        },
+                        events: {
+                            'onReady': function(event) {
+                                console.log("Trailer player is ready");
+                            }
+                        }
+                    });
+                } else {
+                    console.log("No trailer found");
+                    showToast("No trailer available ❌", "error");
+                }
+            } catch (error) {
+                console.error("Error fetching trailer:", error);
+                showToast("Error loading trailer ❌", "error");
+            }
+        });
+    }
+    
+    // Re-attach favorite button listener
+    const favoriteBtn = document.getElementById("addFavorite");
+    if (favoriteBtn) {
+        favoriteBtn.addEventListener("click", () => {
+            const title = document.getElementById("modalTitle").textContent;
+            const poster = document.getElementById("modalImage").src;
+            
+            const favorites = currentType === "movie" ? movieFavorites : seriesFavorites;
+            const isFav = favorites.some(f => f.title === title);
+            
+            if (isFav) {
+                if (currentType === "movie") {
+                    movieFavorites = movieFavorites.filter(f => f.title !== title);
+                    localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+                } else {
+                    seriesFavorites = seriesFavorites.filter(f => f.title !== title);
+                    localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+                }
+                favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+                favoriteBtn.classList.remove("favorited");
+                showToast(`${title} was removed from favorites`, "info");
+            } else {
+                if (currentType === "movie") {
+                    movieFavorites.push({ title, poster, type: currentType });
+                    localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+                } else {
+                    seriesFavorites.push({ title, poster, type: currentType });
+                    localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+                }
+                favoriteBtn.innerHTML = '<i class="fas fa-heart"></i>';
+                favoriteBtn.classList.add("favorited");
+                showToast(`${title} added to favorites`, "success");
+            }
+            
+            renderFavorites();
+        });
+    }
+    
+    // Re-attach reviews button listener
+    const reviewsBtn = document.getElementById("openReviews");
+    if (reviewsBtn) {
+        reviewsBtn.addEventListener("click", () => {
+            const reviewsPopup = document.getElementById("reviewsPopup");
+            reviewsPopup.classList.add("show");
+        });
+    }
+    
+    // Re-attach review submission listener
+    const submitReviewBtn = document.getElementById("submitReview");
+    if (submitReviewBtn) {
+        submitReviewBtn.addEventListener("click", () => {
+            const reviewInput = document.getElementById("reviewInput");
+            const reviewText = reviewInput.value.trim();
+            
+            if (!reviewText || reviewText.length === 0) {
+                showToast("Failed ❌ - Empty Review", "error");
+                return;
+            }
+            
+            const currentMovieTitle = document.getElementById("modalTitle").textContent;
+            const reviewItem = document.createElement("div");
+            reviewItem.className = "review-bubble";
+            reviewItem.innerHTML = `<strong>${currentMovieTitle}</strong>${reviewText}`;
+            
+            const allReviewsList = document.getElementById("allReviewsList");
+            allReviewsList.appendChild(reviewItem);
+            allReviewsList.scrollTo({
+                top: allReviewsList.scrollHeight,
+                behavior: "smooth"
+            });
+            
+            reviewInput.value = "";
+            
+            const reviewsPopup = document.getElementById("reviewsPopup");
+            reviewsPopup.classList.add("show");
+            
+            showToast("Review Submitted ✅", "success");
+        });
+    }
+}
+
+// Call this function when the modal is opened
+// Modify your openModal function to include this call
+async function openModal(item) {
+    // ... existing code ...
+    
+    // After setting up the modal content
+    modal.style.display = "flex";
+    
+    // Check if we're on mobile and apply mobile layout
+    if (window.innerWidth <= 426) {
+        setupMobileModalLayout();
+    }
+    
+    // ... rest of the existing code ...
+}
+
+// Also call this function on window resize
+window.addEventListener('resize', () => {
+    const modal = document.getElementById('movieModal');
+    if (modal.style.display === "flex" && window.innerWidth <= 426) {
+        setupMobileModalLayout();
+    }
+});
+
 // Update the animateStat function to use the fill percentage
 function animateStat(progressElement, numberElement, targetValue, fillPercentage) {
     const circumference = 2 * Math.PI * 45; // r = 45
@@ -2807,6 +3049,43 @@ document.addEventListener('DOMContentLoaded', function() {
             handleHeroImageError(heroBackground, isMobile);
         });
     }
+});
+
+// Add this to your JavaScript file
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we're on mobile and apply mobile layout
+    if (window.innerWidth <= 426) {
+        // Add a class to the body for mobile detection
+        document.body.classList.add('mobile-view');
+        
+        // Set up mobile modal layout when modal is opened
+        const originalOpenModal = window.openModal;
+        if (originalOpenModal) {
+            window.openModal = async function(item) {
+                // Call the original function
+                await originalOpenModal.call(this, item);
+                
+                // Then apply mobile layout
+                setupMobileModalLayout();
+            };
+        }
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        const modal = document.getElementById('movieModal');
+        if (modal) {
+            if (window.innerWidth <= 426) {
+                document.body.classList.add('mobile-view');
+                if (modal.style.display === "flex") {
+                    setupMobileModalLayout();
+                }
+            } else {
+                document.body.classList.remove('mobile-view');
+                // You might want to restore desktop layout here
+            }
+        }
+    });
 });
 
 // Add this to your existing JavaScript file

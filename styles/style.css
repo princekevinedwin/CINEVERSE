@@ -6098,3 +6098,288 @@ body{
     }
 
 }
+
+/* Add these styles to your CSS file */
+
+/* Mobile Modal Styles for 425px and 375px */
+@media (max-width: 426px) {
+    /* Modal adjustments for mobile */
+    .modal-content {
+        width: 95% !important;
+        max-width: 95% !important;
+        padding: 15px !important;
+        border-radius: 12px !important;
+        margin: 10px auto !important;
+        max-height: 70vh !important;
+        overflow-y: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .modalbox {
+        flex-direction: column !important;
+        height: auto !important;
+    }
+    
+    #mediaContainer {
+        width: 100% !important;
+        height: 250px !important;
+    }
+    
+    #modalImage {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        border-radius: 8px !important;
+    }
+    
+    .modal-actions {
+        flex-direction: row !important;
+        overflow: hidden !important;
+        gap: 10px !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Style for icon-only buttons */
+    .modal-actions button {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 5px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.2rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Hide text in buttons, keep only icons */
+    .modal-actions button span {
+        display: none !important;
+    }
+    
+    .movie-info {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        border-radius: 8px !important;
+    }
+    
+    .movie-info span {
+        font-size: 0.8rem !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .movie-info span i {
+        margin-bottom: 5px !important;
+        font-size: 1rem !important;
+    }
+    
+    #modalTitle {
+        font-size: 1.5rem !important;
+        text-align: center !important;
+        color: #f5c518 !important;
+    }
+    
+    #modalGenres {
+        font-size: 0.9rem !important;
+        margin: 5px 0 !important;
+        text-align: center !important;
+        color: #ccc !important;
+    }
+    
+    .movie-overview {
+        font-size: 0.9rem !important;
+        line-height: 1.4 !important;
+        margin: 15px 0 !important;
+        overflow-y: auto !important;
+        padding: 10px !important;
+        background: rgba(0, 0, 0, 0.2) !important;
+        border-radius: 8px !important;
+        height: 100px !important;
+        border-left: 3px solid #f5c518 !important;
+    }
+    
+    .reviews {
+        margin-top: 15px !important;
+        padding: 10px !important;
+        background: rgba(0, 0, 0, 0.2) !important;
+        border-radius: 8px !important;
+    }
+    
+    .reviews h3 {
+        font-size: 1.1rem !important;
+        margin-bottom: 10px !important;
+        color: #f5c518 !important;
+    }
+    
+    .review-box {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 10px !important;
+    }
+    
+    .review-box input {
+        width: 100% !important;
+        padding: 10px !important;
+        border-radius: 8px !important;
+        border: 1px solid rgba(245, 197, 24, 0.3) !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        color: #fff !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .review-box button {
+        align-self: flex-end !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #f5c518 !important;
+        color: #000 !important;
+        border: none !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Download options panel */
+    #downloadOptions {
+        margin-top: 15px !important;
+        padding: 10px !important;
+        border-radius: 8px !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    #downloadOptions h3 {
+        font-size: 1.1rem !important;
+        margin-bottom: 10px !important;
+        color: #f5c518 !important;
+    }
+    
+    .source-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        padding: 8px 12px !important;
+        margin-bottom: 8px !important;
+        border-radius: 8px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        border: 1px solid rgba(245, 197, 24, 0.2) !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .source-btn i {
+        margin-right: 8px !important;
+    }
+    
+    /* Series download container */
+    #seriesDownloadContainer {
+        margin-top: 15px !important;
+        padding: 10px !important;
+        border-radius: 8px !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    #seriesDownloadContainer h3 {
+        font-size: 1.1rem !important;
+        margin-bottom: 10px !important;
+        color: #f5c518 !important;
+    }
+
+    .seasons-list {
+        margin-top: 10px !important;
+    }
+    
+    .season-box {
+        margin-bottom: 10px !important;
+        padding: 8px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+    }
+    
+    .season-title {
+        font-weight: bold !important;
+        color: #f5c518 !important;
+        margin-bottom: 5px !important;
+        cursor: pointer !important;
+    }
+    
+    .episodes-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 5px !important;
+    }
+    
+    .episode-btn {
+        padding: 5px 10px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 0.8rem !important;
+    }
+    
+    /* Close button adjustments */
+    .modal .close {
+        top: 10px !important;
+        right: 10px !important;
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 1.2rem !important;
+    }
+}
+
+/* Additional adjustments for 375px screens */
+@media (max-width: 376px) {
+    .modal-content {
+        padding: 10px !important;
+    }
+    
+    #mediaContainer {
+        height: 200px !important;
+    }
+    
+    .modal-actions button {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 1rem !important;
+    }
+    
+    .movie-info span {
+        font-size: 0.7rem !important;
+    }
+    
+    .movie-info span i {
+        font-size: 0.9rem !important;
+    }
+    
+    #modalTitle {
+        font-size: 1.3rem !important;
+    }
+    
+    .movie-overview {
+        max-height: 80px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .review-box input {
+        font-size: 0.8rem !important;
+    }
+    
+    .review-box button {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 0.9rem !important;
+    }
+}
