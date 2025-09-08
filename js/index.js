@@ -1717,7 +1717,7 @@ function renderLandingPage(data) {
     // Stats Section
     const statsSection = document.createElement('div');
     statsSection.className = 'landing-section stats-section';
-    statsSection.innerHTML = '<h2 class="section-title">Platform Statistics</h2>';
+    statsSection.innerHTML = '<h2 class="section-title">What to expect!</h2>';
     
     const statsContainer = document.createElement('div');
     statsContainer.className = 'stats-container';
@@ -2156,7 +2156,7 @@ function updateHeroContent() {
     const data = item.data;
     
     // Check if we're on mobile (425px or smaller)
-    const isMobile = window.innerWidth <= 425.5;
+    const isMobile = window.innerWidth <= 426;
     
     // Update background - use poster for mobile, backdrop for desktop
     const heroBackground = document.getElementById('heroBackground');
@@ -2296,13 +2296,13 @@ async function showLandingPage() {
             renderLandingPage(data);
             
             // After rendering, update hero content to use mobile images if needed
-            if (window.innerWidth <= 425.5) {
+            if (window.innerWidth <= 426) {
                 updateHeroContent();
             }
         });
     } else {
         // If landing page is already loaded, update hero content for mobile
-        if (window.innerWidth <= 425.5) {
+        if (window.innerWidth <= 426) {
             updateHeroContent();
         }
     }
@@ -2628,13 +2628,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 } 
 
     // Initialize swipe functionality on mobile
-    if (window.innerWidth <= 425.5) {
+    if (window.innerWidth <= 426) {
         initHeroSwipe();
     }
 
     // Re-initialize on resize if needed
     window.addEventListener('resize', function() {
-        if (window.innerWidth <= 425.5) {
+        if (window.innerWidth <= 426) {
             initHeroSwipe();
         }
     });
@@ -2803,7 +2803,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const heroBackground = document.getElementById('heroBackground');
     if (heroBackground) {
         heroBackground.addEventListener('error', function() {
-            const isMobile = window.innerWidth <= 425.5;
+            const isMobile = window.innerWidth <= 426;
             handleHeroImageError(heroBackground, isMobile);
         });
     }
