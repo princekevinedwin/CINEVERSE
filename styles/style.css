@@ -5898,6 +5898,8 @@ body{
 
     .stats-container{
         overflow-y: hidden !important;
+        width: 98% !important;
+        overflow: hidden !important;
     }
 
     .stat-item{
@@ -5906,6 +5908,6 @@ body{
     }
 
     .stat-circle{
-        width: 110px !important;
+        width: 105px !important;
     }
 }
