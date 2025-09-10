@@ -707,13 +707,14 @@ input::-webkit-input-placeholder {
 
 /* Trailer button (yellow theme) */
 .trailer-btn {
-  background: #ffcc00;
+  background: red;
   color: #1c1c1c;
   font-weight: bold;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
   font-size: 14px;
+  color: white !important;
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -721,7 +722,11 @@ input::-webkit-input-placeholder {
   margin-right: 6px;
 }
 .trailer-btn:hover {
-  background: #e6b800;
+  background: #c20713;
+}
+
+.trailer-btn span{
+    color:#fff !important;
 }
 
 /* Slide-in Reviews Popup */
@@ -1437,7 +1442,7 @@ input::-webkit-input-placeholder {
 }
 
 .episode-btn {
-    background-color: #333;
+    background-color: #4CAF50;
     color: #fff;
     border: none;
     font-weight: bold;
@@ -1445,11 +1450,12 @@ input::-webkit-input-placeholder {
     cursor: pointer;
     border-radius: 4px;
     font-size: 1rem;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .episode-btn:hover {
-    background-color: #f5c518;
-    color: black;
+    background-color: #45a049;
+    color: #fff;
 }
 
 /* ===========================
@@ -1550,6 +1556,7 @@ input::-webkit-input-placeholder {
 .modal-actions button {
     margin: 0 !important;
     height: 2.5rem;
+    width: 10rem !important;
 }
 
 /* News/Updates Page Styles */
@@ -2642,6 +2649,20 @@ input::-webkit-input-placeholder {
       flex-direction: column !important;
       padding: 2rem !important;
       justify-content: center !important;
+    }
+
+    .recommendations-btn{
+        background-color:#f5c518;
+        border:none;
+        border-radius:5px;
+        font-weight: bold;
+        font-size:0.9rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .recommendations-btn:hover{
+        background-color:#e6b800;
     }
 
 /* Responsive Grid */
@@ -4783,7 +4804,283 @@ body{
     height: 90vh;
 }
 
+.movie-info{
+    display: flex !important;
+    flex-direction: row !important;
+}
 
+.download-options-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(245, 197, 24, 0.3);
+}
+
+.download-options-close {
+    background: none;
+    border: none;
+    color: #f5c518;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.download-options-close:hover {
+    color: #ff6b6b;
+}
+
+/* Download Options Panel Styles */
+.download-options {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Start off-screen */
+    width: 350px;
+    height: 100%;
+    background-color: #1f1f1f;
+    color: white;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.5);
+    padding: 20px;
+    transition: right 0.4s ease-in-out;
+    z-index: 1000;
+    overflow-y: auto;
+    border-left: 5px solid #f5c518;
+}
+
+.download-options.active {
+    right: 0; /* Slide in */
+}
+
+.download-options-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(245, 197, 24, 0.3);
+}
+
+.download-options-header h3 {
+    color: #f5c518;
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.download-options-close {
+    background: none;
+    border: none;
+    color: #f5c518;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.download-options-close:hover {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.source-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 8px;
+    background: #2a2a2a;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+    position: relative;
+}
+
+.source-btn i {
+    margin-right: 8px;
+    color: #f5c518;
+}
+
+.source-btn:hover {
+    background: #f5c518;
+    color: black;
+}
+
+.source-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.source-btn:disabled:hover {
+    background: #2a2a2a;
+    color: white;
+}
+
+/* Loading indicator for availability check */
+.source-btn.loading::after {
+    content: '🔄';
+    position: absolute;
+    right: 12px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Available/Unavailable indicators */
+.source-btn.available::after {
+    content: '✅';
+    position: absolute;
+    right: 12px;
+    color: #4CAF50;
+}
+
+.source-btn.unavailable::after {
+    content: '❌';
+    position: absolute;
+    right: 12px;
+    color: #f44336;
+}
+
+.close-download-options {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #f5c518;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.close-download-options:hover {
+    background: rgba(245, 197, 24, 0.2);
+    transform: scale(1.1);
+}
+
+.download-options {
+    position: relative; /* Needed for absolute positioning of close button */
+    /* ... existing styles ... */
+}
+
+.download-options {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Start off-screen to the right */
+    width: 380px;
+    height: 100vh;
+    background: linear-gradient(135deg, #000000, #1f1f1f);
+    border-left: 2px solid #f5c518;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.download-options.active {
+    right: 0; /* Slide in to the screen */
+}
+
+.download-options h3 {
+    color: #f5c518;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    text-align: center;
+    position: relative;
+    padding-right: 30px; /* Space for close button */
+}
+
+.source-btn {
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    border: 1px solid rgba(245,197,24,0.3);
+    border-radius: 8px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+.source-btn:hover {
+    background: rgba(245,197,24,0.1);
+    border-color: #f5c518;
+    transform: translateX(-5px);
+}
+
+.source-btn i {
+    font-size: 1.1rem;
+    color: #f5c518;
+}
+
+.close-download-options {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #f5c518;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.close-download-options:hover {
+    background: rgba(245, 197, 24, 0.2);
+    transform: scale(1.1);
+}
+
+/* Add scrollbar styling */
+.download-options::-webkit-scrollbar {
+    width: 7px;
+}
+
+.download-options::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.download-options::-webkit-scrollbar-thumb {
+    background: #f5c518;
+    border-radius: 10px;
+    border: none;
+}
+
+.download-options::-webkit-scrollbar-thumb:hover {
+    background: #e6b814;
+}
 
 /* Phone Styles - 425px */
 @media (max-width: 425.5px) {

@@ -2094,7 +2094,21 @@ function attachModalEventListeners() {
             }
         });
     }
-    
+    // Update the download button click handler in openModal function
+    downloadBtn.addEventListener("click", async () => {
+        const downloadPanel = document.getElementById("downloadOptions");
+        
+        // If availability hasn't been checked yet, check it first
+        if (!downloadPanel.hasAttribute('data-availability-checked')) {
+            showAvailabilityLoading();
+            await checkAndUpdateAvailability(item);
+            downloadPanel.setAttribute('data-availability-checked', 'true');
+        }
+        
+        // Always show the panel when download button is clicked
+        downloadPanel.style.display = "block";
+    });
+        
     // Re-attach trailer button listener
     const trailerBtn = document.getElementById("watchTrailer");
     if (trailerBtn) {
@@ -2773,26 +2787,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     // Enhance modal close button
-    if (closeModal) {
-        closeModal.style.cssText = `
-            position: absolute;
-            top: 15px;
-            right: 25px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(245, 197, 24, 0.2);
-            color: #f5c518;
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 1001;
-            display: none;
-        `;
+    // In your openModal function, ensure the close button is visible
+if (closeModal) {
+    closeModal.style.display = 'block';
+    closeModal.style.cssText = `
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(245, 197, 24, 0.2);
+        color: #f5c518;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1001;
+    `;
         
         closeModal.addEventListener('mouseenter', () => {
             closeModal.style.background = 'rgba(245, 197, 24, 0.4)';
@@ -3049,6 +3063,24 @@ document.addEventListener('DOMContentLoaded', function() {
             handleHeroImageError(heroBackground, isMobile);
         });
     }
+});
+
+// Add this to your DOMContentLoaded event listener or initialization code
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing code ...
+    
+    // Add event listener for download options close button
+    const closeDownloadBtn = document.querySelector('.close-download-options');
+    if (closeDownloadBtn) {
+        closeDownloadBtn.addEventListener('click', function() {
+            const downloadPanel = document.getElementById("downloadOptions");
+            if (downloadPanel) {
+                downloadPanel.style.display = "none";
+            }
+        });
+    }
+    
+    // ... rest of initialization code ...
 });
 
 // Add this to your JavaScript file
@@ -5490,7 +5522,25 @@ function renderItemsInGrid(items) {
                 }
             };
         });
+
+            // Show the sliding download options panel
+    const downloadPanel = document.getElementById("downloadOptions");
+    if (downloadPanel) {
+        downloadPanel.classList.add('active');
     }
+    
+    // Check availability for the episode
+    const episodeItem = {
+        title: tvShow.name,
+        name: tvShow.name,
+        first_air_date: tvShow.first_air_date,
+        season_number: seasonNumber,
+        episode_number: episodeNumber
+    };
+    
+    checkAndUpdateAvailability(episodeItem);
+}
+    
     // ====================== ENHANCED AVAILABILITY CHECKER ======================
     async function fetchWithProxies(url, options = {}) {
         let lastError;
@@ -6209,244 +6259,234 @@ function renderItemsInGrid(items) {
             downloadOptions.insertBefore(backBtn, downloadOptions.firstChild);
         }
     }
+
     async function checkAndUpdateAvailability(item) {
-        // Show loading popup
-        showAvailabilityPopup(true);
+    // Show loading popup
+    showAvailabilityPopup(true);
+    
+    try {
+        const availability = await checkAllSitesAvailability(item);
         
-        try {
-            const availability = await checkAllSitesAvailability(item);
-            
-            // Hide loading indicators
-            hideAvailabilityLoading();
-            
-            // Update download buttons
-            updateDownloadButtons(availability);
-            
-            const availableCount = Object.values(availability).filter(Boolean).length;
-            const totalSites = Object.keys(availability).length;
-            
-            // Show results popup
-            const availableSites = Object.keys(availability).filter(site => availability[site]);
-            const itemTitle = currentType === "movie" ? item.title : item.name;
-            showAvailabilityPopup(false, availableSites, totalSites, itemTitle);
-            
-            if (availableCount === 0) {
-                showToast("Not available on any site", "error");
-            } else {
-                const itemType = currentType === "movie" ? "movie" : "series";
-                showToast(`Available on ${availableCount}/${totalSites} sites`, "success");
+        // Hide loading indicators
+        hideAvailabilityLoading();
+        
+        // Update download buttons
+        updateDownloadButtons(availability);
+        
+        // Show the sliding download options panel
+        const downloadPanel = document.getElementById("downloadOptions");
+        if (downloadPanel) {
+            downloadPanel.classList.add('active');
+        }
+        
+        const availableCount = Object.values(availability).filter(Boolean).length;
+        const totalSites = Object.keys(availability).length;
+        
+        // Show results popup
+        const availableSites = Object.keys(availability).filter(site => availability[site]);
+        const itemTitle = currentType === "movie" ? item.title : item.name;
+        showAvailabilityPopup(false, availableSites, totalSites, itemTitle);
+        
+        if (availableCount === 0) {
+            showToast("Not available on any site", "error");
+        } else {
+            const itemType = currentType === "movie" ? "movie" : "series";
+            showToast(`Available on ${availableCount}/${totalSites} sites`, "success");
+        }
+        
+        console.log('Availability Summary:', availability);
+        
+    } catch (error) {
+        hideAvailabilityLoading();
+        showToast("Error checking availability", "error");
+        console.error('Availability check failed:', error);
+        
+        // Show error popup
+        showAvailabilityPopup(false, [], Object.keys(SITE_CONFIGS).length, item.title || item.name);
+    }
+}
+
+// ====================== FIXED MODAL FUNCTION ======================
+// In your openModal function, update the series handling:
+
+async function openModal(item) {
+    modal.style.display = "flex";
+    modal.dataset.movieId = item.id;
+    trailerEmbed.style.display = "none";
+    modalImage.style.display = "block";
+    modalImage.src = item.poster_path ? IMG_PATH + item.poster_path : "https://via.placeholder.com/300x450?text=No+Image";
+    modalTitle.textContent = currentType === "movie" ? item.title : item.name;
+    modalRating.textContent = item.vote_average ? item.vote_average.toFixed(1) : "N/A";
+    
+    // Get and show recommendations
+    const recommendations = await getRecommendations(item);
+    
+    // Add or update recommendations button
+    let recButton = document.getElementById('showRecommendations');
+    if (!recButton) {
+        recButton = document.createElement('button');
+        recButton.id = 'showRecommendations';
+        recButton.innerHTML = '<i class="fas fa-thumbs-up"></i> Recommended';
+        recButton.className = 'recommendations-btn';
+        recButton.style.cssText = `
+            background: linear-gradient(45deg, #f5c518, #e6b800);
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s ease;
+        `;
+        
+        // Find the reviews button and insert after it
+        const reviewsBtn = document.getElementById('openReviews');
+        if (reviewsBtn && reviewsBtn.nextSibling) {
+            reviewsBtn.parentNode.insertBefore(recButton, reviewsBtn.nextSibling);
+        } else {
+            // Fallback: append to modal actions
+            const modalActions = document.querySelector('.modal-actions');
+            if (modalActions) {
+                modalActions.appendChild(recButton);
             }
-            
-            console.log('Availability Summary:', availability);
-            
-        } catch (error) {
-            hideAvailabilityLoading();
-            showToast("Error checking availability", "error");
-            console.error('Availability check failed:', error);
-            
-            // Show error popup
-            showAvailabilityPopup(false, [], Object.keys(SITE_CONFIGS).length, item.title || item.name);
         }
     }
-    // ====================== FIXED MODAL FUNCTION ======================
-    async function openModal(item) {
-        modal.style.display = "flex";
-        modal.dataset.movieId = item.id;
-        trailerEmbed.style.display = "none";
-        modalImage.style.display = "block";
-        modalImage.src = item.poster_path ? IMG_PATH + item.poster_path : "https://via.placeholder.com/300x450?text=No+Image";
-        modalTitle.textContent = currentType === "movie" ? item.title : item.name;
-        modalRating.textContent = item.vote_average ? item.vote_average.toFixed(1) : "N/A";
+    
+    // Remove existing event listener and add new one
+    recButton.onclick = () => {
+        createRecommendationsPanel(recommendations, item);
+    };
+    
+    // Show/hide based on recommendations availability
+    if (recommendations.length > 0) {
+        recButton.style.display = 'inline-block';
+    } else {
+        recButton.style.display = 'none';
+    }
+    
+    // Get movie/series details to estimate size
+    try {
+        const url = currentType === "movie"
+            ? `${BASE_URL}/movie/${item.id}?api_key=${API_KEY}&language=en-US`
+            : `${BASE_URL}/tv/${item.id}?api_key=${API_KEY}&language=en-US`;
+        const res = await fetch(url);
+        const details = await res.json();
         
-        // Get and show recommendations
-        const recommendations = await getRecommendations(item);
+        modalGenres.textContent = `Genres: ${details.genres.map(g => g.name).join(", ")}`;
+        modalRuntime.textContent = currentType === "movie" 
+            ? (details.runtime || "N/A") 
+            : (details.episode_run_time && details.episode_run_time.length > 0 ? formatRuntime(details.episode_run_time[0]) : 'N/A');
+        modalOverview.textContent = details.overview || "Overview: N/A";
         
-        // Add or update recommendations button after reviews button but before movie size
-        let recButton = document.getElementById('showRecommendations');
-        if (!recButton) {
-            recButton = document.createElement('button');
-            recButton.id = 'showRecommendations';
-            recButton.innerHTML = '<i class="fas fa-thumbs-up"></i> Recommended';
-            recButton.className = 'recommendations-btn';
-            recButton.style.cssText = `
-                background: linear-gradient(45deg, #f5c518, #e6b800);
-                color: #000;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 5px;
-                cursor: pointer;
-                font-weight: bold;
-                margin: 5px;
-                transition: all 0.3s ease;
-            `;
-            
-            // Find the reviews button and insert after it
-            const reviewsBtn = document.getElementById('openReviews');
-            if (reviewsBtn && reviewsBtn.nextSibling) {
-                reviewsBtn.parentNode.insertBefore(recButton, reviewsBtn.nextSibling);
-            } else {
-                // Fallback: append to modal actions
-                const modalActions = document.querySelector('.modal-actions');
-                if (modalActions) {
-                    modalActions.appendChild(recButton);
-                }
-            }
+        // Estimate file size based on runtime and type
+        let estimatedSize = "Unknown";
+        if (currentType === "movie" && details.runtime) {
+            // Estimate based on runtime (assuming ~1.5GB per hour for HD movies)
+            const hours = details.runtime / 60;
+            const sizeInGB = (hours * 1.5).toFixed(1);
+            estimatedSize = `~${sizeInGB}GB`;
+        } else if (currentType === "tv" && details.episode_run_time && details.episode_run_time[0]) {
+            // Estimate based on episode runtime (assuming ~800MB per hour for TV episodes)
+            const hours = details.episode_run_time[0] / 60;
+            const sizeInGB = (hours * 0.8).toFixed(1);
+            estimatedSize = `~${sizeInGB}GB/episode`;
         }
         
-        // Remove existing event listener and add new one
-        recButton.onclick = () => {
-            createRecommendationsPanel(recommendations, item);
+        movieSizeSpan.textContent = `Size: ${estimatedSize}`;
+        
+        // Handle trailer button
+        const trailerBtn = document.getElementById("watchTrailer");
+        
+        // Remove any existing click handlers by cloning the element
+        const newTrailerBtn = trailerBtn.cloneNode(true);
+        trailerBtn.parentNode.replaceChild(newTrailerBtn, trailerBtn);
+        
+        newTrailerBtn.onclick = async () => {
+            console.log(`Fetching trailer for ${currentType} with ID: ${item.id}`);
+            
+            try {
+                const videosRes = await fetch(`${BASE_URL}/${currentType}/${item.id}/videos?api_key=${API_KEY}`);
+                const videosData = await videosRes.json();
+                
+                console.log("Videos data:", videosData);
+                
+                const trailer = videosData.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+                if (trailer) {
+                    console.log("Trailer found:", trailer.key);
+                    
+                    modalImage.style.display = "none";
+                    trailerEmbed.style.display = "block";
+                    
+                    // Create a unique ID for this player
+                    const playerId = `trailer-player-${Date.now()}`;
+                    
+                    // Create a div for the player
+                    trailerEmbed.innerHTML = `<div id="${playerId}" style="width: 100%; height: 100%;"></div>`;
+                    
+                    // Create the player
+                    player = new YT.Player(playerId, {
+                        videoId: trailer.key,
+                        playerVars: {
+                            'autoplay': 1,
+                            'controls': 1,
+                            'rel': 0,
+                            'modestbranding': 1,
+                            'showinfo': 0
+                        },
+                        events: {
+                            'onReady': function(event) {
+                                console.log("Trailer player is ready");
+                            }
+                        }
+                    });
+                } else {
+                    console.log("No trailer found");
+                    showToast("No trailer available ❌", "error");
+                }
+            } catch (error) {
+                console.error("Error fetching trailer:", error);
+                showToast("Error loading trailer ❌", "error");
+            }
+        };
+    } catch (err) {
+        console.error("Error fetching movie details:", err);
+        movieSizeSpan.textContent = "Size: Unknown";
+    }
+    
+    // Download panel elements
+    const downloadPanel = document.getElementById("downloadOptions");
+    const downloadBtn = document.getElementById("downloadMovie");
+    
+    if (currentType === "tv") {
+        // For TV series, change download button to episode selector
+        downloadBtn.innerHTML = '<i class="fas fa-list-ol"></i> Select Episode';
+        downloadBtn.title = 'Select Episode';
+        downloadBtn.className = 'episode-btn';
+        
+        // Remove any existing click handlers
+        const newDownloadBtn = downloadBtn.cloneNode(true);
+        downloadBtn.parentNode.replaceChild(newDownloadBtn, downloadBtn);
+        
+        // Add new click handler for episode selection
+        newDownloadBtn.onclick = () => {
+            showSeriesSelectionPopup(item);
         };
         
-        // Show/hide based on recommendations availability
-        if (recommendations.length > 0) {
-            recButton.style.display = 'inline-block';
-        } else {
-            recButton.style.display = 'none';
-        }
+        // Hide the regular download options initially
+        downloadPanel.style.display = "none";
+    } else {
+        // For movies, keep download button as is
+        downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download';
+        downloadBtn.title = 'Download';
+        downloadBtn.className = 'download-btn';
         
-        // Get movie/series details to estimate size
-        try {
-            const url = currentType === "movie"
-                ? `${BASE_URL}/movie/${item.id}?api_key=${API_KEY}&language=en-US`
-                : `${BASE_URL}/tv/${item.id}?api_key=${API_KEY}&language=en-US`;
-            const res = await fetch(url);
-            const details = await res.json();
-            
-            modalGenres.textContent = `Genres: ${details.genres.map(g => g.name).join(", ")}`;
-            modalRuntime.textContent = currentType === "movie" 
-                ? (details.runtime || "N/A") 
-                : (details.episode_run_time && details.episode_run_time.length > 0 ? formatRuntime(details.episode_run_time[0]) : 'N/A');
-            modalOverview.textContent = details.overview || "Overview: N/A";
-            
-            // Estimate file size based on runtime and type
-            let estimatedSize = "Unknown";
-            if (currentType === "movie" && details.runtime) {
-                // Estimate based on runtime (assuming ~1.5GB per hour for HD movies)
-                const hours = details.runtime / 60;
-                const sizeInGB = (hours * 1.5).toFixed(1);
-                estimatedSize = `~${sizeInGB}GB`;
-            } else if (currentType === "tv" && details.episode_run_time && details.episode_run_time[0]) {
-                // Estimate based on episode runtime (assuming ~800MB per hour for TV episodes)
-                const hours = details.episode_run_time[0] / 60;
-                const sizeInGB = (hours * 0.8).toFixed(1);
-                estimatedSize = `~${sizeInGB}GB/episode`;
-            }
-            
-            movieSizeSpan.textContent = `Size: ${estimatedSize}`;
-            
-            // Fixed trailer button - Works for both movies AND series
-            const trailerBtn = document.getElementById("watchTrailer");
-            
-            // Remove any existing click handlers by cloning the element
-            const newTrailerBtn = trailerBtn.cloneNode(true);
-            trailerBtn.parentNode.replaceChild(newTrailerBtn, trailerBtn);
-            
-            newTrailerBtn.onclick = async () => {
-                console.log(`Fetching trailer for ${currentType} with ID: ${item.id}`);
-                
-                try {
-                    const videosRes = await fetch(`${BASE_URL}/${currentType}/${item.id}/videos?api_key=${API_KEY}`);
-                    const videosData = await videosRes.json();
-                    
-                    console.log("Videos data:", videosData);
-                    
-                    const trailer = videosData.results.find(v => v.type === "Trailer" && v.site === "YouTube");
-                    if (trailer) {
-                        console.log("Trailer found:", trailer.key);
-                        
-                        modalImage.style.display = "none";
-                        trailerEmbed.style.display = "block";
-                        
-                        // Create a unique ID for this player
-                        const playerId = `trailer-player-${Date.now()}`;
-                        
-                        // Create a div for the player
-                        trailerEmbed.innerHTML = `<div id="${playerId}" style="width: 100%; height: 100%;"></div>`;
-                        
-                        // Create the player
-                        player = new YT.Player(playerId, {
-                            videoId: trailer.key,
-                            playerVars: {
-                                'autoplay': 1,
-                                'controls': 1,
-                                'rel': 0,
-                                'modestbranding': 1,
-                                'showinfo': 0
-                            },
-                            events: {
-                                'onReady': function(event) {
-                                    console.log("Trailer player is ready");
-                                }
-                            }
-                        });
-                    } else {
-                        console.log("No trailer found");
-                        showToast("No trailer available ❌", "error");
-                    }
-                } catch (error) {
-                    console.error("Error fetching trailer:", error);
-                    showToast("Error loading trailer ❌", "error");
-                }
-            };
-        } catch (err) {
-            console.error("Error fetching movie details:", err);
-            movieSizeSpan.textContent = "Size: Unknown";
-        }
+        // Remove any existing click handlers
+        const newDownloadBtn = downloadBtn.cloneNode(true);
+        downloadBtn.parentNode.replaceChild(newDownloadBtn, downloadBtn);
         
-        // Download panel elements
-        const downloadPanel = document.getElementById("downloadOptions");
-        
-        if (currentType === "tv") {
-            // Hide the regular download options initially
-            downloadPanel.style.display = "none";
-            
-            // Create or update the "Select Episode" button
-            let selectEpisodeBtn = document.getElementById("selectEpisodeBtn");
-            if (!selectEpisodeBtn) {
-                selectEpisodeBtn = document.createElement('button');
-                selectEpisodeBtn.id = "selectEpisodeBtn";
-                selectEpisodeBtn.innerHTML = '<i class="fas fa-list-ol"></i> Select Episode';
-                selectEpisodeBtn.className = 'select-episode-btn';
-                selectEpisodeBtn.style.cssText = `
-                    background: linear-gradient(45deg, #4CAF50, #45a049);
-                    color: #fff;
-                    border: none;
-                    border-radius: 5px;
-                    padding: 10px 15px;
-                    cursor: pointer;
-                    font-weight: bold;
-                    margin: 5px;
-                    transition: all 0.3s ease;
-                `;
-                
-                // Insert after the recommendations button or in a suitable place
-                if (recButton && recButton.nextSibling) {
-                    recButton.parentNode.insertBefore(selectEpisodeBtn, recButton.nextSibling);
-                } else {
-                    // Fallback: append to modal actions
-                    const modalActions = document.querySelector('.modal-actions');
-                    if (modalActions) {
-                        modalActions.appendChild(selectEpisodeBtn);
-                    }
-                }
-            }
-            
-            // Set up the button click event
-            selectEpisodeBtn.onclick = () => {
-                showSeriesSelectionPopup(item);
-            };
-            
-            // Show the button
-            selectEpisodeBtn.style.display = 'inline-block';
-        } else {
-            // Hide the select episode button if it exists
-            const selectEpisodeBtn = document.getElementById("selectEpisodeBtn");
-            if (selectEpisodeBtn) {
-                selectEpisodeBtn.style.display = 'none';
-            }
-            
-            // For movies, show download options directly
+        // Add new click handler for download
+        newDownloadBtn.onclick = () => {
             downloadPanel.style.display = "block";
             const currentMovieTitle = currentType === "movie" ? item.title : item.name;
             
@@ -6478,11 +6518,128 @@ function renderItemsInGrid(items) {
             });
             
             // Check movie availability after setting up buttons
-            await checkAndUpdateAvailability(item);
-        }
-        
-        updateFavoriteButton(item);
+            checkAndUpdateAvailability(item);
+        };
+
+        downloadBtn.addEventListener("click", async () => {
+    const downloadPanel = document.getElementById("downloadOptions");
+    
+    // If availability hasn't been checked yet, check it first
+    if (!downloadPanel.hasAttribute('data-availability-checked')) {
+        showAvailabilityLoading();
+        await checkAndUpdateAvailability(item);
+        downloadPanel.setAttribute('data-availability-checked', 'true');
+    } else {
+        // If already checked, just show the panel
+        downloadPanel.classList.add('active');
     }
+});
+
+// Add event listeners for the close button and outside clicks
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listener for download options close button
+    const closeDownloadBtn = document.querySelector('.close-download-options');
+    if (closeDownloadBtn) {
+        closeDownloadBtn.addEventListener('click', function() {
+            const downloadPanel = document.getElementById("downloadOptions");
+            if (downloadPanel) {
+                downloadPanel.classList.remove('active');
+            }
+        });
+    }
+    
+    // Close the panel when clicking outside of it
+    document.addEventListener('click', function(event) {
+        const downloadPanel = document.getElementById("downloadOptions");
+        if (downloadPanel && downloadPanel.classList.contains('active')) {
+            // If the click is outside the panel and not on a button that opens it
+            if (!downloadPanel.contains(event.target) && 
+                !event.target.closest('#downloadMovie') && 
+                !event.target.closest('.episode-btn')) {
+                downloadPanel.classList.remove('active');
+            }
+        }
+    });
+    
+    // Also close panel when pressing Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const downloadPanel = document.getElementById("downloadOptions");
+            if (downloadPanel && downloadPanel.classList.contains('active')) {
+                downloadPanel.classList.remove('active');
+            }
+        }
+    });
+});
+
+        
+        // Show download options for movies
+        downloadPanel.style.display = "block";
+    }
+    
+    updateFavoriteButton(item);
+}
+
+    function initializeDownloadOptions() {
+    const downloadPanel = document.getElementById("downloadOptions");
+    
+    // Set up the panel structure
+    downloadPanel.innerHTML = `
+        <div class="download-options-header">
+            <h3>Download Sources</h3>
+            <button class="download-options-close">&times;</button>
+        </div>
+        <div class="download-sources">
+            <!-- Source buttons will be added here -->
+        </div>
+    `;
+    
+    // Add close functionality
+    const closeBtn = downloadPanel.querySelector('.download-options-close');
+    closeBtn.addEventListener('click', () => {
+        downloadPanel.classList.remove('active');
+    });
+    
+    // Create source buttons
+    const sourcesContainer = downloadPanel.querySelector('.download-sources');
+    const siteNames = Object.keys(SITE_CONFIGS);
+    
+    siteNames.forEach(siteName => {
+        const btn = document.createElement('button');
+        btn.className = 'source-btn';
+        btn.setAttribute('data-site', siteName);
+        btn.innerHTML = `<i class="fas fa-external-link-alt"></i> ${siteName.charAt(0).toUpperCase() + siteName.slice(1)}`;
+        
+        // Add click handler
+        btn.addEventListener('click', () => {
+            const query = encodeURIComponent(modalTitle.textContent);
+            let searchUrl = "";
+            
+            switch(siteName) {
+                case "waploaded": searchUrl = `https://www.waploaded.com/search?q=${query}`; break;
+                case "nkiri": searchUrl = `https://nkiri.com/?s=${query}`; break;
+                case "stagatv": searchUrl = `https://www.stagatv.com/?s=${query}`; break;
+                case "netnaija": searchUrl = `https://www.thenetnaija.net/search?t=${query}`; break;
+                case "fzmovies": searchUrl = `https://fzmovie.co.za/search.php?searchname=${query}`; break;
+                case "o2tvseries": searchUrl = `https://o2tvseries.com/search?q=${query}`; break;
+                case "toxicwap": searchUrl = `https://newtoxic.com/search.php?search=${query}`; break;
+                case "9jarocks": searchUrl = `https://9jarocks.net/search?q=${query}`; break;
+                case "netflix": searchUrl = `https://www.netflix.com/search?q=${query}`; break;
+                case "yts": searchUrl = `https://yts.mx/browse-movies/${query}`; break;
+                case "eztv": searchUrl = `https://eztv.re/search/${query}`; break;
+                case "piratebay": searchUrl = `https://thepiratebay.org/search.php?q=${query}`; break;
+                case "limetorrents": searchUrl = `https://www.limetorrents.lol/search/all/${query}/`; break;
+            }
+            
+            if (searchUrl) {
+                window.open(searchUrl, "_blank");
+                showToast(`Opening ${siteName.charAt(0).toUpperCase() + siteName.slice(1)}...`, "info");
+            }
+        });
+        
+        sourcesContainer.appendChild(btn);
+    });
+}
     // ====================== RENDER PAGINATION ======================
     function renderPagination(total) {
     const paginationContainer = document.getElementById("pagination");
