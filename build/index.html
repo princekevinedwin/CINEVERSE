@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CINEVERSE</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/static/styles/style.css">
+</head>
+<body>
+  
+  <!-- Top Navigation -->
+  <div class="topnav">
+    <a href="#" class="logo active">
+      <img src="/static/images/ChatGPT Image Aug 18, 2025, 02_12_54 AM.png" alt="" style="width: 16rem; height: 3rem; padding-top: 12px;">
+    </a>
+
+    <button class="hamburger" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <div class="menu">
+      <a href="#" id="homeTab">Home</a>
+      <a href="#" id="moviesTab">Movies</a>
+      <a href="#" id="seriesTab">Series</a>
+      <a href="#" id="favoritesTab">Favorites</a>
+      <a href="#" id="genresTab">Genres</a>
+      <a href="#" id="newsTab">News / Updates</a>
+    </div>
+    <div class="search-container">
+      <form role="search" id="form">
+        <i class="fas fa-search"></i>
+        <input type="search" id="query" name="q" placeholder="search for movies, series, genres...">
+      </form>
+    </div>
+  </div>
+  
+  <!-- Landing Page Container -->
+  <div id="landingPageContainer" class="landing-page-container"></div>
+  
+  <!-- Trailer Slider -->
+  <section id="trailer-slider">
+    <div class="slider-container"></div>
+    <button id="prevBtn" class="slider-btn">⏮</button>
+    <button id="nextBtn" class="slider-btn">⏭</button>
+  </section>
+  
+  <!-- Genre/Movie Class Header - Permanent Header -->
+  <div id="genreHeader">
+    <div class="header-content">
+      <div class="header-info">
+        <h2 id="genreTitle">Now Showing</h2>
+        <p id="genreSubtitle">Select from our collection</p>
+      </div>
+      <div class="header-actions">
+        <div class="media-type-badge" id="mediaTypeBadge">Movies</div>
+        <button class="back-btn" onclick="backToGenres()">
+          <i class="fas fa-arrow-left"></i> Back to Genres
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Movies / Series Section -->
+  <section id="section" class="section" style="display: none;"></section>
+  
+  <!-- Favorites Section -->
+  <section id="favoritesContainer" class="section" style="display:none; flex-wrap: wrap; gap: 1rem;"></section>
+  <a href="#" id="countriesTab" class="tab" style="display: none;">Countries</a>
+  <!-- Country Explorer Container -->
+<div id="countriesContainer" style="display: none;">
+    <!-- Country explorer content will be inserted here -->
+</div>
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
+  
+  <!-- Movie / Series Modal -->
+<!-- Update your modal structure in the HTML file to better support mobile layout -->
+<div id="movieModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    
+    <!-- Main modal container -->
+    <div class="modalbox">
+      <!-- Media container (poster/trailer) -->
+      <div id="mediaContainer">
+        <img id="modalImage" src="" alt="Movie Poster">
+        <div id="trailerEmbed" class="trailer-embed"></div>
+      </div>
+      
+      <!-- Modal actions (buttons) -->
+      <div class="modal-actions" id="modalActions">
+        <button id="downloadMovie" class="download-btn" title="Download">
+          <i class="fas fa-download"></i>
+          <span>Download</span>
+        </button>
+        <button id="watchTrailer" class="trailer-btn" title="Watch Trailer">
+          <i class="fab fa-youtube"></i>
+          <span>Trailer</span>
+        </button>
+        <button id="addFavorite" class="favorite-btn" title="Add Favorite">
+          <i class="fas fa-heart"></i>
+          <span>Add Favorite</span>
+        </button>
+        <button id="openReviews" class="reviews-btn" title="Reviews">
+          <i class="fas fa-comment"></i>
+          <span>Reviews</span>
+        </button>
+        <button id="showRecommendations" class="recommendations-btn" title="Recommended" style="display: none;">
+          <i class="fas fa-thumbs-up"></i>
+          <span>Recommended</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Movie title -->
+    <h2 id="modalTitle">Movie Title</h2>
+    
+    <!-- Movie genres -->
+    <p id="modalGenres">Genres: </p>
+    
+    <!-- Movie overview -->
+    <p id="modalOverview" class="movie-overview">Overview: </p>
+    
+    <!-- Movie info (runtime, rating, size) -->
+    <div class="movie-info">
+      <span id="movieSize" class="movie-size" title="File Size">
+        <i class="fas fa-hdd"></i>
+        <span>Size: N/A</span>
+      </span>
+      <span class="movie-runtime" title="Runtime">
+        <i class="fas fa-hourglass-half"></i>
+        <span id="modalRuntime">120</span> min
+      </span>
+      <span class="imdb-rating" title="IMDb Rating">
+        <i class="fas fa-star"></i>
+        <span id="modalRating">8.5</span>/10
+      </span>
+    </div>
+    
+    <!-- Reviews section -->
+    <div class="reviews">
+      <h3>Leave a Review</h3>
+      <div class="review-box">
+        <input type="text" id="reviewInput" placeholder="Write a review..." />
+        <button id="submitReview" title="Submit Review">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Series Download Side Panel -->
+    <div id="seriesDownloadContainer" class="series-download-container" style="display:none;">
+      <h3>Download Seasons & Episodes</h3>
+      <div id="seasonsList" class="seasons-list"></div>
+      <button id="downloadAllBtn" class="download-all-btn">
+        <i class="fas fa-download"></i> Download All
+      </button>
+    </div>
+    
+    <!-- Download Options Panel -->
+<div id="downloadOptions" class="download-options">
+    <button class="close-download-options" title="Close">&times;</button>
+    <h3>Download From:</h3>
+    <button class="source-btn" data-site="waploaded">
+        <i class="fas fa-download"></i> Waploaded
+    </button>
+    <button class="source-btn" data-site="nkiri">
+        <i class="fas fa-download"></i> Nkiri
+    </button>
+    <button class="source-btn" data-site="stagatv">
+        <i class="fas fa-download"></i> Stagatv
+    </button>
+    <button class="source-btn" data-site="netnaija">
+        <i class="fas fa-download"></i> NetNaija
+    </button>
+    <button class="source-btn" data-site="fzmovies">
+        <i class="fas fa-download"></i> Fzmovies
+    </button>
+    <button class="source-btn" data-site="o2tvseries">
+        <i class="fas fa-download"></i> O2TvSeries
+    </button>
+    <button class="source-btn" data-site="toxicwap">
+        <i class="fas fa-download"></i> ToxicWap
+    </button>
+    <button class="source-btn" data-site="9jarocks">
+        <i class="fas fa-download"></i> 9jaRocks
+    </button>
+    <button class="source-btn" data-site="netflix">
+        <i class="fas fa-download"></i> Netflix
+    </button>
+    <button class="source-btn" data-site="yts">
+        <i class="fas fa-download"></i> YTS.mx
+    </button>
+    <button class="source-btn" data-site="eztv">
+        <i class="fas fa-download"></i> EZTV
+    </button>
+    <button class="source-btn" data-site="piratebay">
+        <i class="fas fa-download"></i> The Pirate Bay
+    </button>
+    <button class="source-btn" data-site="limetorrents">
+        <i class="fas fa-download"></i> LimeTorrents
+    </button>
+</div>
+  </div>
+</div>
+  
+  <!-- Reviews Popup -->
+  <div id="reviewsPopup" class="reviews-popup">
+    <div class="reviews-popup-content">
+      <button class="back-to-movie">&larr; Back</button>
+      <h2>All Reviews</h2>
+      <div id="allReviewsList"></div>
+    </div>
+  </div>
+  
+  <!-- News Container -->
+  <div id="newsContainer" class="news-container" style="display: none;"></div>
+  
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="/static/js/index.js"></script>
+  <script src="/static/js/backend-integration.js"></script>
+  
+  <!-- Add this script to fix genres page and favorites duplication -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const section = document.getElementById('section');
+      const genreHeader = document.getElementById('genreHeader');
+      const genreTitle = document.getElementById('genreTitle');
+      const genreSubtitle = document.getElementById('genreSubtitle');
+      const mediaTypeBadge = document.getElementById('mediaTypeBadge');
+      const genresTab = document.getElementById('genresTab');
+      const otherTabs = ['homeTab', 'moviesTab', 'seriesTab', 'favoritesTab', 'newsTab'];
+      
+      // Variable to track current media type
+      let currentMediaType = 'movie';
+      
+      // Function to show genre header
+      function showGenreHeader(genreName, mediaType) {
+        genreTitle.textContent = `Now Showing: ${genreName}`;
+        genreSubtitle.textContent = `${mediaType === 'movie' ? 'Movies' : 'Series'} in ${genreName}`;
+        mediaTypeBadge.textContent = mediaType === 'movie' ? 'Movies' : 'Series';
+        genreHeader.style.display = 'block';
+        section.classList.add('with-header');
+      }
+      
+      // Function to hide genre header
+      function hideGenreHeader() {
+        genreHeader.style.display = 'none';
+        section.classList.remove('with-header');
+      }
+      
+      // Back to genres function
+      window.backToGenres = function() {
+        hideGenreHeader();
+        section.classList.add('genre-page');
+        section.innerHTML = '';
+        showGenreSelection();
+      };
+      
+      // Handle genre page class toggling
+      if (genresTab) {
+        genresTab.addEventListener('click', function(e) {
+          e.preventDefault();
+          // Add genre-page class to section
+          section.classList.add('genre-page');
+          // Hide genre header
+          hideGenreHeader();
+        });
+      }
+      
+      // Add event listeners to other tabs to remove genre-page class and hide header
+      otherTabs.forEach(tabId => {
+        const tab = document.getElementById(tabId);
+        if (tab) {
+          tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Remove genre-page class from section
+            section.classList.remove('genre-page');
+            // Hide genre header
+            hideGenreHeader();
+          });
+        }
+      });
+      
+      // Fix for genre cards and movie class cards - remove genre-page class when clicked
+      document.addEventListener('click', function(e) {
+        // Check if the clicked element is a genre card
+        const genreCard = e.target.closest('.genre-card');
+        if (genreCard) {
+          // Remove the genre-page class from the section
+          section.classList.remove('genre-page');
+          
+          // Get genre name
+          const genreName = genreCard.querySelector('h3').textContent;
+          
+          // Show genre header
+          showGenreHeader(genreName, currentMediaType);
+        }
+        
+        // Check if the clicked element is a movie class card
+        const movieClassCard = e.target.closest('.movie-class-card');
+        if (movieClassCard) {
+          // Remove the genre-page class from the section
+          section.classList.remove('genre-page');
+          
+          // Get movie class name
+          const className = movieClassCard.querySelector('h3').textContent;
+          
+          // Show genre header
+          showGenreHeader(className, currentMediaType);
+        }
+      });
+      
+      // Override the renderFavorites function to fix duplication
+      setTimeout(() => {
+        if (typeof renderFavorites === 'function') {
+          const originalRenderFavorites = renderFavorites;
+          
+          renderFavorites = function() {
+            favoritesContainer.style.paddingTop = "2rem";
+            favoritesContainer.style.display = "flex";
+            favoritesContainer.style.flexDirection = "column";
+            favoritesContainer.innerHTML = "";
+            
+            // Combine and deduplicate favorites using both id and type
+            const allFavorites = [...movieFavorites, ...seriesFavorites];
+            const uniqueFavorites = Array.from(
+              new Map(
+                allFavorites.map(item => {
+                  // Use a combination of id and type as the key
+                  const key = item.id ? `${item.id}-${item.type}` : `${item.title}-${item.type}`;
+                  return [key, item];
+                })
+              ).values()
+            );
+            
+            if (uniqueFavorites.length > 0) {
+              // Add recommendation section only once
+              let recommendationsAdded = false;
+              if (!recommendationsAdded) {
+                addFavoritesRecommendations(uniqueFavorites);
+                recommendationsAdded = true;
+              }
+              
+              const headerDiv = document.createElement("div");
+              headerDiv.style.cssText = `
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+                width: 90%;
+              `;
+              
+              const favTitle = document.createElement("h2");
+              favTitle.textContent = "Your Favorites";
+              favTitle.style.cssText = `
+                color: #f5c518;
+                font-size: 2.5rem;
+                margin: 0;
+              `;
+              
+              const clearBtn = document.createElement("button");
+              clearBtn.innerHTML = '<i class="fas fa-trash"></i> Clear All';
+              clearBtn.style.cssText = `
+                background: linear-gradient(45deg, #ff4444, #cc0000);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 0.8rem 1.5rem;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 1.2rem;
+                transition: all 0.3s ease;
+              `;
+              
+              clearBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all favorites?')) {
+                  movieFavorites = [];
+                  seriesFavorites = [];
+                  localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+                  localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+                  renderFavorites();
+                }
+              });
+              
+              headerDiv.appendChild(favTitle);
+              headerDiv.appendChild(clearBtn);
+              favoritesContainer.appendChild(headerDiv);
+              
+              // Render unique favorites
+              uniqueFavorites.forEach((fav, index) => {
+                const card = document.createElement("div");
+                card.className = "favorite-card";
+                
+                const leftDiv = document.createElement("div");
+                leftDiv.className = "left-content";
+                
+                const img = document.createElement("img");
+                img.src = fav.poster;
+                
+                const infoDiv = document.createElement("div");
+                infoDiv.className = "info";
+                
+                const title = document.createElement("div");
+                title.className = "title";
+                title.textContent = fav.title;
+                
+                const typeLabel = document.createElement("div");
+                typeLabel.className = "type";
+                typeLabel.textContent = fav.type === 'movie' ? '🎬 Movie' : '📺 Series';
+                
+                infoDiv.appendChild(title);
+                infoDiv.appendChild(typeLabel);
+                leftDiv.appendChild(img);
+                leftDiv.appendChild(infoDiv);
+                
+                const rightDiv = document.createElement("div");
+                rightDiv.className = "right-content";
+                
+                const infoBtn = document.createElement("button");
+                infoBtn.className = "info-btn";
+                infoBtn.innerHTML = '<i class="fas fa-info-circle"></i>';
+                infoBtn.title = 'View Details';
+                
+                const delBtn = document.createElement("button");
+                delBtn.className = "delete-btn";
+                delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                delBtn.title = 'Remove from Favorites';
+                
+                infoBtn.addEventListener("click", (e) => {
+                  e.stopPropagation();
+                  openModalWithFavorite(fav);
+                });
+                
+                delBtn.addEventListener("click", (e) => {
+                  e.stopPropagation();
+                  if (fav.type === "movie") {
+                    movieFavorites = movieFavorites.filter(f => {
+                      const key = f.id ? `${f.id}-${f.type}` : `${f.title}-${f.type}`;
+                      const favKey = fav.id ? `${fav.id}-${fav.type}` : `${fav.title}-${f.type}`;
+                      return key !== favKey;
+                    });
+                    localStorage.setItem("movieFavorites", JSON.stringify(movieFavorites));
+                  } else {
+                    seriesFavorites = seriesFavorites.filter(f => {
+                      const key = f.id ? `${f.id}-${f.type}` : `${f.title}-${f.type}`;
+                      const favKey = fav.id ? `${fav.id}-${fav.type}` : `${fav.title}-${f.type}`;
+                      return key !== favKey;
+                    });
+                    localStorage.setItem("seriesFavorites", JSON.stringify(seriesFavorites));
+                  }
+                  renderFavorites();
+                });
+                
+                rightDiv.appendChild(infoBtn);
+                rightDiv.appendChild(delBtn);
+                card.appendChild(leftDiv);
+                card.appendChild(rightDiv);
+                
+                card.addEventListener("click", () => {
+                  openModalWithFavorite(fav);
+                });
+                
+                favoritesContainer.appendChild(card);
+              });
+            } else {
+              favoritesContainer.innerHTML = `
+                <div style="text-align: center; margin-top: 10rem;">
+                  <h1 style="color:#f5c518; font-size:4rem; margin-bottom: 1rem;">No Favorites Yet 😿</h1>
+                  <p style="color:#fff; font-size:1.2rem;">Start adding movies and series to your favorites!</p>
+                </div>
+              `;
+            }
+          };
+        }
+      }, 100);
+    });
+
+    // Function to initialize modal buttons
+function initializeModalButtons() {
+    const buttons = document.querySelectorAll('.modal-actions button');
+    const isMobile = window.matchMedia('(max-width: 426px)').matches;
+
+    buttons.forEach(button => {
+        // Remove text on mobile, keep icons
+        if (isMobile) {
+            button.innerHTML = button.querySelector('i') ? button.querySelector('i').outerHTML : button.innerHTML; // Keep only icon
+        } else {
+            // Restore text if needed (optional, depends on your desktop setup)
+            // Example: button.innerHTML = `<i class="${button.className.split(' ')[0].replace('-btn', '')}-icon"></i> Download`; // Adjust based on your JS
+        }
+
+        // Event listeners
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const action = this.className.split(' ')[0]; // e.g., 'download-btn'
+            switch (action) {
+                case 'download-btn':
+                    document.getElementById('downloadOptions').classList.add('active');
+                    break;
+                case 'trailer-btn':
+                    playTrailer(); // Replace with your function
+                    break;
+                case 'favorite-btn':
+                    this.classList.toggle('favorited');
+                    toggleFavorite(); // Replace with your function
+                    break;
+                case 'reviews-btn':
+                    showReviews(); // Replace with your function
+                    break;
+                case 'recommendations-btn':
+                    showRecommendations(); // Replace with your function
+                    break;
+            }
+        });
+
+        // Touch event for mobile
+        button.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            this.click(); // Simulate click on touch
+        }, { passive: true });
+    });
+}
+
+// Call on page load and resize
+window.addEventListener('load', initializeModalButtons);
+window.addEventListener('resize', initializeModalButtons);
+
+// Placeholder functions
+function playTrailer() {
+    console.log("Playing trailer...");
+    // Your trailer logic
+}
+
+function toggleFavorite() {
+    console.log("Toggling favorite...");
+    // Your favorite logic
+}
+
+function showReviews() {
+    console.log("Showing reviews...");
+    // Your reviews logic
+}
+
+function showRecommendations() {
+    console.log("Showing recommendations...");
+    // Your recommendations logic
+}
+
+// Example modal show function
+function showModal() {
+    const modal = document.querySelector('.modal');
+    modal.style.display = 'block';
+    initializeModalButtons(); // Reinitialize on show if modal is dynamic
+}
+  </script>
+</body>
+</html>

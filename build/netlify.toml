@@ -1,0 +1,11 @@
+[build]
+  # Command to run before building (executes your script to generate static files)
+  command = "python build_static.py"
+  # Directory where the static files are output
+  publish = "build"
+
+[[redirects]]
+  # Redirect all requests to index.html for client-side routing (if applicable)
+  from = "/*"
+  to = "/index.html"
+  status = 200
