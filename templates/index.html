@@ -6,13 +6,14 @@
   <title>CINEVERSE</title>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/static/styles/style.css">
 </head>
 <body>
+  
   <!-- Top Navigation -->
   <div class="topnav">
     <a href="#" class="logo active">
-      <img src="/images/ChatGPT Image Aug 18, 2025, 02_12_54 AM.png" alt="" style="width: 16rem; height: 3rem; padding-top: 12px;">
+      <img src="/static/images/ChatGPT Image Aug 18, 2025, 02_12_54 AM.png" alt="" style="width: 16rem; height: 3rem; padding-top: 12px;">
     </a>
 
     <button class="hamburger" aria-label="Toggle navigation menu">
@@ -221,7 +222,8 @@
   
   <!-- YouTube IFrame API -->
   <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="/js/index.js"></script>
+  <script src="/static/js/index.js"></script>
+  <script src="/static/js/backend-integration.js"></script>
   
   <!-- Add this script to fix genres page and favorites duplication -->
   <script>
@@ -478,6 +480,84 @@
         }
       }, 100);
     });
+
+    // Function to initialize modal buttons
+function initializeModalButtons() {
+    const buttons = document.querySelectorAll('.modal-actions button');
+    const isMobile = window.matchMedia('(max-width: 426px)').matches;
+
+    buttons.forEach(button => {
+        // Remove text on mobile, keep icons
+        if (isMobile) {
+            button.innerHTML = button.querySelector('i') ? button.querySelector('i').outerHTML : button.innerHTML; // Keep only icon
+        } else {
+            // Restore text if needed (optional, depends on your desktop setup)
+            // Example: button.innerHTML = `<i class="${button.className.split(' ')[0].replace('-btn', '')}-icon"></i> Download`; // Adjust based on your JS
+        }
+
+        // Event listeners
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const action = this.className.split(' ')[0]; // e.g., 'download-btn'
+            switch (action) {
+                case 'download-btn':
+                    document.getElementById('downloadOptions').classList.add('active');
+                    break;
+                case 'trailer-btn':
+                    playTrailer(); // Replace with your function
+                    break;
+                case 'favorite-btn':
+                    this.classList.toggle('favorited');
+                    toggleFavorite(); // Replace with your function
+                    break;
+                case 'reviews-btn':
+                    showReviews(); // Replace with your function
+                    break;
+                case 'recommendations-btn':
+                    showRecommendations(); // Replace with your function
+                    break;
+            }
+        });
+
+        // Touch event for mobile
+        button.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            this.click(); // Simulate click on touch
+        }, { passive: true });
+    });
+}
+
+// Call on page load and resize
+window.addEventListener('load', initializeModalButtons);
+window.addEventListener('resize', initializeModalButtons);
+
+// Placeholder functions
+function playTrailer() {
+    console.log("Playing trailer...");
+    // Your trailer logic
+}
+
+function toggleFavorite() {
+    console.log("Toggling favorite...");
+    // Your favorite logic
+}
+
+function showReviews() {
+    console.log("Showing reviews...");
+    // Your reviews logic
+}
+
+function showRecommendations() {
+    console.log("Showing recommendations...");
+    // Your recommendations logic
+}
+
+// Example modal show function
+function showModal() {
+    const modal = document.querySelector('.modal');
+    modal.style.display = 'block';
+    initializeModalButtons(); // Reinitialize on show if modal is dynamic
+}
   </script>
 </body>
 </html>

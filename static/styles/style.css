@@ -6680,3 +6680,841 @@ body{
         font-size: 0.9rem !important;
     }
 }
+
+/* Mobile Modal Styles - Icons Only */
+@media (max-width: 426px) {
+    /* Modal adjustments for mobile */
+    .modal-content {
+        width: 95% !important;
+        max-width: 95% !important;
+        padding: 15px !important;
+        border-radius: 12px !important;
+        margin: 10px auto !important;
+        max-height: 80vh !important;
+        overflow-y: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .modalbox {
+        flex-direction: column !important;
+        height: auto !important;
+        margin-bottom: 15px !important;
+    }
+    
+    #mediaContainer {
+        width: 100% !important;
+        height: 250px !important;
+    }
+    
+    #modalImage {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        border-radius: 8px !important;
+    }
+    
+    /* HIDE TEXT IN BUTTONS - SHOW ICONS ONLY */
+    .modal-actions button {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.2rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-width: auto !important;
+    }
+    
+    /* HIDE ALL TEXT SPANS IN BUTTONS */
+    .modal-actions button span {
+        display: none !important;
+    }
+    
+    /* Adjust icon colors and sizes */
+    .modal-actions button i {
+        font-size: 1.2rem !important;
+        margin: 0 !important;
+    }
+    
+    /* Specific button styles */
+    .download-btn i {
+        color: white !important;
+    }
+    
+    .trailer-btn i {
+        color: white !important;
+    }
+    
+    .favorite-btn i {
+        color: black !important;
+    }
+    
+    .favorite-btn.favorited i {
+        color: white !important;
+    }
+    
+    .reviews-btn i {
+        color: black !important;
+    }
+    
+    .recommendations-btn i {
+        color: black !important;
+    }
+    
+    /* Fix favorite button background when favorited */
+    .favorite-btn.favorited {
+        background-color: #ff4444 !important;
+    }
+    
+    .modal-actions {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        padding: 0 5px !important;
+    }
+    
+    #modalTitle {
+        font-size: 1.2rem !important;
+        text-align: center !important;
+        color: #f5c518 !important;
+        margin: 10px 0 !important;
+    }
+    
+    #modalGenres {
+        font-size: 0.9rem !important;
+        margin: 5px 0 !important;
+        text-align: center !important;
+        color: #ccc !important;
+    }
+    
+    .movie-overview {
+        font-size: 0.9rem !important;
+        line-height: 1.4 !important;
+        margin: 10px 0 !important;
+        max-height: 100px !important;
+        overflow-y: auto !important;
+    }
+    
+    .movie-info {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        border-radius: 8px !important;
+        padding: 8px !important;
+        margin-top: 10px !important;
+    }
+    
+    .movie-info span {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        font-size: 0.8rem !important;
+        color: white !important;
+    }
+    
+    .movie-info span i {
+        margin-bottom: 4px !important;
+        font-size: 1rem !important;
+        color: #f5c518 !important;
+    }
+    
+    /* Reviews section */
+    .reviews {
+        margin-top: 15px !important;
+        padding: 10px !important;
+        background: rgba(0, 0, 0, 0.2) !important;
+        border-radius: 8px !important;
+    }
+    
+    .review-box {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .review-box input {
+        width: 100% !important;
+        padding: 12px !important;
+        border-radius: 8px !important;
+        border: 1px solid rgba(245, 197, 24, 0.3) !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        color: #fff !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .review-box button {
+        align-self: flex-end !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #f5c518 !important;
+        color: #000 !important;
+        border: none !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Close button */
+    .modal .close {
+        display: block !important;
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 20px !important;
+        background: rgba(245, 197, 24, 0.8) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        z-index: 1001 !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    /* Download options panel */
+    #downloadOptions {
+        position: fixed !important;
+        top: 0 !important;
+        right: -400px !important;
+        width: 350px !important;
+        height: 100vh !important;
+        background: linear-gradient(135deg, #000000, #1f1f1f) !important;
+        border-left: 2px solid #f5c518 !important;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5) !important;
+        z-index: 1000 !important;
+        overflow-y: auto !important;
+        transition: right 0.4s ease-in-out !important;
+        padding: 20px !important;
+    }
+    
+    #downloadOptions.active {
+        right: 0 !important;
+    }
+    
+    /* Ensure buttons are properly sized */
+    .modal-actions {
+        flex-wrap: nowrap !important;
+    }
+    
+    .modal-actions button {
+        flex-shrink: 0 !important;
+    }
+}
+
+/* Add this to your CSS file */
+#landingPageContainer {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 100vh;
+    display: none; /* Hidden by default, will be shown by JS */
+}
+
+/* Ensure all other sections are hidden initially */
+#section, 
+#trailer-slider, 
+#favoritesContainer, 
+#newsContainer, 
+#countriesContainer,
+#genreHeader {
+    display: none;
+}
+
+/* Make sure the body doesn't have overflow issues */
+body {
+    overflow-x: hidden;
+}
+
+/* MOBILE RESPONSIVE - 426px and below (e.g., iPhone portrait) */
+@media (max-width: 426px) {
+    body {
+        font-size: 0.9rem;
+        overflow-x: hidden;
+    }
+
+    /* Navigation Bar (unchanged for now) */
+    .topnav {
+        padding: 8px 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .topnav .logo {
+        font-size: 1.5rem;
+    }
+
+    .topnav .menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: hsl(0, 0%, 11%);
+        flex-direction: column;
+        gap: 0;
+        padding: 10px 0;
+        z-index: 100;
+    }
+
+    .topnav .menu.active {
+        display: flex;
+    }
+
+    .topnav .menu a {
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 1rem;
+    }
+
+     .hamburger {
+        display: flex;
+        order: 3;
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .topnav .menu {
+        position: fixed;
+        top: 0;
+        margin-left: 69%;
+        width: 280px;
+        height: 100vh;
+        background-color: hsl(0, 0%, 11%);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 80px;
+        gap: 0;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+    }
+    
+    .topnav .menu.active {
+        right: 0;
+    }
+    
+    .topnav .menu a {
+        padding: 20px 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        text-align: left;
+        font-size: 1.1rem;
+    }
+    
+    .topnav .menu a::after {
+        display: none;
+    }
+    
+    .topnav .menu a:hover {
+        background-color: rgba(219, 219, 2, 0.1);
+        color: rgb(219, 219, 2);
+    }
+    
+    .topnav .menu a.active {
+        background-color: rgba(219, 219, 2, 0.2);
+        border-left: 4px solid rgb(219, 219, 2);
+    }
+    
+    /* Overlay when menu is open */
+    .menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .menu-overlay.active {
+        display: block;
+        opacity: 1;
+    }
+
+    /* Search Bar */
+    .topnav .search-container form {
+        width: 100%;
+        max-width: none;
+        height: 40px;
+        padding: 0 8px;
+    }
+
+    input {
+        font-size: 0.9rem;
+    }
+
+    /* Movie Cards & Grid */
+    .column {
+        width: 100%;
+        padding: 8px;
+        height: auto;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 10px;
+        border-radius: 12px;
+    }
+
+    .thumbnail {
+        height: 250px;
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .card h3 {
+        bottom: -80px;
+        font-size: 1.2rem;
+        padding: 8px;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+
+    /* Trailer Slider */
+    #trailer-slider {
+        width: 100vw;
+        height: 50vh;
+        margin: 10px 0;
+        border-radius: 0;
+    }
+
+    .slider-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    /* Modal Popup */
+    .modal {
+        width: 95%;
+        max-width: 400px;
+        margin: 10px auto;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: #2c2c2c;
+        border-radius: 12px;
+        padding: 15px;
+    }
+
+    .modal-content {
+        padding: 0; /* Remove internal padding to avoid stacking issues */
+    }
+
+    .modal-actions {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        gap: 10px !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        padding: 0 5px !important;
+    }
+
+    .modal-actions button {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.2rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-width: auto !important;
+        background: #2c2c2c !important; /* Match modal background */
+        border: 2px solid #f5c518 !important; /* Yellow border for visibility */
+        cursor: pointer !important;
+        transition: background 0.3s ease !important;
+    }
+
+    .modal-actions button:hover {
+        background: #f5c518 !important;
+        color: #1f1f1f !important;
+    }
+
+    .modal-actions button span {
+        display: none !important; /* Keep text hidden, rely on icons */
+    }
+
+    .modal-actions button i {
+        font-size: 1.2rem !important;
+        margin: 0 !important;
+    }
+
+    .download-btn i {
+        color: #4CAF50 !important; /* Green for download */
+    }
+
+    .trailer-btn i {
+        color: #e50914 !important; /* Red for trailer */
+    }
+
+    .favorite-btn i {
+        color: #ff4444 !important; /* Red for favorite */
+    }
+
+    .favorite-btn.favorited i {
+        color: #ffffff !important; /* White when favorited */
+    }
+
+    .reviews-btn i {
+        color: #2196F3 !important; /* Blue for reviews */
+    }
+
+    .recommendations-btn i {
+        color: #9C27B0 !important; /* Purple for recommendations */
+    }
+
+    .favorite-btn.favorited {
+        background-color: #ff4444 !important;
+    }
+
+    #modalTitle {
+        font-size: 1rem !important;
+        text-align: center !important;
+        color: #f5c518 !important;
+        margin: 10px 0 !important;
+    }
+
+    #modalGenres {
+        font-size: 0.9rem !important;
+        margin: 5px 0 !important;
+        text-align: center !important;
+        color: #ccc !important;
+    }
+
+    .movie-overview {
+        font-size: 0.8rem !important;
+        line-height: 1.4 !important;
+        margin: 10px 0 !important;
+        max-height: 80px !important;
+        overflow-y: auto !important;
+    }
+
+    .movie-info {
+        flex-direction: column !important;
+        gap: 5px !important;
+        padding: 6px !important;
+        margin-top: 10px !important;
+    }
+
+    .movie-info span {
+        flex-direction: row !important;
+        gap: 5px !important;
+        font-size: 0.75rem !important;
+    }
+
+    .movie-info span i {
+        margin-bottom: 4px !important;
+        font-size: 1rem !important;
+        color: #f5c518 !important;
+    }
+
+    .reviews {
+        margin-top: 15px !important;
+        padding: 10px !important;
+        background: rgba(0, 0, 0, 0.2) !important;
+        border-radius: 8px !important;
+    }
+
+    .review-box {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .review-box input {
+        width: 100 !important;
+        padding: 10px !important;
+        border-radius: 8px !important;
+        border: 1px solid rgba(245, 197, 24, 0.3) !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        color: #fff !important;
+        font-size: 0.9rem !important;
+    }
+
+    .review-box button {
+        align-self: flex-end !important;
+        width: 35px !important;
+        height: 35px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #f5c518 !important;
+        color: #000 !important;
+        border: none !important;
+        font-size: 1rem !important;
+    }
+
+    .modal .close {
+        display: block !important;
+        position: absolute !important;
+        top: 5px !important;
+        right: 5px !important;
+        width: 25px !important;
+        height: 25px !important;
+        font-size: 16px !important;
+        background: rgba(245, 197, 24, 0.8) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        z-index: 1001 !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Download Panel (unchanged for now) */
+    #downloadOptions {
+        width: 100% !important;
+        right: -100% !important;
+        padding: 15px !important;
+    }
+
+    #downloadOptions.active {
+        right: 0 !important;
+    }
+
+    .source-btn {
+        width: 100% !important;
+        padding: 12px !important;
+        margin-bottom: 8px !important;
+        font-size: 0.9rem !important;
+        border-radius: 8px !important;
+    }
+}
+
+/* MOBILE RESPONSIVE - 426px and below (e.g., iPhone portrait) */
+@media (max-width: 426px) {
+    /* ... (other rules like .topnav, .column remain unchanged) ... */
+
+    /* Modal Popup */
+    .modal {
+        width: 95%;
+        max-width: 400px;
+        margin: 10px auto;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: #2c2c2c;
+        border-radius: 12px;
+        padding: 15px;
+    }
+
+    .modal-content {
+        padding: 0;
+    }
+
+    .modal-actions {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        gap: 10px !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        padding: 0 5px !important;
+    }
+
+    .modal-actions button {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.2rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-width: auto !important;
+        background: #2c2c2c !important;
+        border: 2px solid #f5c518 !important;
+        cursor: pointer !important;
+        transition: background 0.3s ease !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    .modal-actions button:hover {
+        background: #f5c518 !important;
+        color: #1f1f1f !important;
+    }
+
+    /* Ensure no text content, target button text directly */
+    .modal-actions button {
+        font-size: 0 !important; /* Hide text by reducing font size to 0 */
+    }
+
+    .modal-actions button i {
+        font-size: 1.2rem !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    /* Button-specific icon colors */
+    .download-btn i {
+        color: #4CAF50 !important;
+    }
+
+    .trailer-btn i {
+        color: #e50914 !important;
+    }
+
+    .favorite-btn i {
+        color: #ff4444 !important;
+    }
+
+    .favorite-btn.favorited i {
+        color: #ffffff !important;
+    }
+
+    .reviews-btn i {
+        color: #2196F3 !important;
+    }
+
+    .recommendations-btn i {
+        color: #9C27B0 !important;
+    }
+
+    .favorite-btn.favorited {
+        background-color: #ff4444 !important;
+    }
+
+    #modalTitle {
+        font-size: 1rem !important;
+        text-align: center !important;
+        color: #f5c518 !important;
+        margin: 10px 0 !important;
+    }
+
+    #modalGenres {
+        font-size: 0.9rem !important;
+        margin: 5px 0 !important;
+        text-align: center !important;
+        color: #ccc !important;
+    }
+
+    .movie-overview {
+        font-size: 0.8rem !important;
+        line-height: 1.4 !important;
+        margin: 10px 0 !important;
+        max-height: 80px !important;
+        overflow-y: auto !important;
+    }
+
+    .movie-info {
+        flex-direction: column !important;
+        gap: 5px !important;
+        padding: 6px !important;
+        margin-top: 10px !important;
+    }
+
+    .movie-info span {
+        flex-direction: row !important;
+        gap: 5px !important;
+        font-size: 0.75rem !important;
+    }
+
+    .movie-info span i {
+        margin-bottom: 4px !important;
+        font-size: 1rem !important;
+        color: #f5c518 !important;
+    }
+
+    .reviews {
+        margin-top: 15px !important;
+        padding: 10px !important;
+        background: rgba(0, 0, 0, 0.2) !important;
+        border-radius: 8px !important;
+    }
+
+    .review-box {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .review-box input {
+        width: 100 !important;
+        padding: 10px !important;
+        border-radius: 8px !important;
+        border: 1px solid rgba(245, 197, 24, 0.3) !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        color: #fff !important;
+        font-size: 0.9rem !important;
+    }
+
+    .review-box button {
+        align-self: flex-end !important;
+        width: 35px !important;
+        height: 35px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #f5c518 !important;
+        color: #000 !important;
+        border: none !important;
+        font-size: 1rem !important;
+    }
+
+    .modal .close {
+        display: block !important;
+        position: absolute !important;
+        top: 5px !important;
+        right: 5px !important;
+        width: 25px !important;
+        height: 25px !important;
+        font-size: 16px !important;
+        background: rgba(245, 197, 24, 0.8) !important;
+        color: white !important;
+        border-radius: 50% !important;
+        z-index: 1001 !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Download Panel */
+    #downloadOptions {
+        width: 100% !important;
+        right: -100% !important;
+        padding: 15px !important;
+    }
+
+    #downloadOptions.active {
+        right: 0 !important;
+    }
+
+    .source-btn {
+        width: 100% !important;
+        padding: 12px !important;
+        margin-bottom: 8px !important;
+        font-size: 0.9rem !important;
+        border-radius: 8px !important;
+    }
+}
+

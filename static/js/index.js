@@ -2095,19 +2095,20 @@ function attachModalEventListeners() {
         });
     }
     // Update the download button click handler in openModal function
-    downloadBtn.addEventListener("click", async () => {
-        const downloadPanel = document.getElementById("downloadOptions");
-        
-        // If availability hasn't been checked yet, check it first
-        if (!downloadPanel.hasAttribute('data-availability-checked')) {
-            showAvailabilityLoading();
-            await checkAndUpdateAvailability(item);
-            downloadPanel.setAttribute('data-availability-checked', 'true');
-        }
-        
-        // Always show the panel when download button is clicked
-        downloadPanel.style.display = "block";
-    });
+   // Replace your existing download button handler
+downloadBtn.addEventListener("click", async () => {
+    const downloadPanel = document.getElementById("downloadOptions");
+    
+    // If availability hasn't been checked yet, check it first
+    if (!downloadPanel.hasAttribute('data-availability-checked')) {
+        showAvailabilityLoading();
+        await checkAndUpdateAvailability(item);
+        downloadPanel.setAttribute('data-availability-checked', 'true');
+    }
+    
+    // Always show the panel when download button is clicked
+    downloadPanel.classList.add('active');
+});
         
     // Re-attach trailer button listener
     const trailerBtn = document.getElementById("watchTrailer");
@@ -2530,13 +2531,15 @@ function formatRuntime(minutes) {
     return `${hours}h ${mins}min`;
 }
 // Function to show the landing page
-async function showLandingPage() {
+function showLandingPage() {
     // Hide all other sections
     section.style.display = "none";
     pagination.style.display = "none";
     trailerSlider.style.display = "none";
     favoritesContainer.style.display = "none";
     newsContainer.style.display = "none";
+    countriesContainer.style.display = "none";
+    genreHeader.style.display = "none";
     
     // Show landing page
     landingPageContainer.style.display = 'block';
@@ -2548,7 +2551,7 @@ async function showLandingPage() {
     
     // Fetch and render landing page data if not already loaded
     if (landingPageContainer.children.length === 0) {
-        await fetchLandingPageData().then(data => {
+        fetchLandingPageData().then(data => {
             renderLandingPage(data);
             
             // After rendering, update hero content to use mobile images if needed
@@ -2766,20 +2769,47 @@ newsTab.addEventListener("click", async (e) => {
     startNewsAutoRefresh();
 });
 // ====================== INITIALIZATION ======================
+
+    // Add this at the beginning of your DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", async () => {
-    // Setup landing page
+    // First, hide all sections immediately
+    section.style.display = "none";
+    pagination.style.display = "none";
+    trailerSlider.style.display = "none";
+    favoritesContainer.style.display = "none";
+    newsContainer.style.display = "none";
+    countriesContainer.style.display = "none";
+    
+    // Show only the landing page
+    landingPageContainer.style.display = 'block';
+    
+    // Now setup the landing page
     await fetchLandingPageData().then(data => {
         renderLandingPage(data);
     });
     
-    // Add news container to the body
-    document.body.appendChild(newsContainer);
+    // Add news container to the body (if not already added)
+    if (!document.body.contains(newsContainer)) {
+        document.body.appendChild(newsContainer);
+    }
     
-    // Add refresh button
-    addRefreshButton();
+    // Add refresh button (if not already added)
+    if (!document.getElementById('refreshButton')) {
+        addRefreshButton();
+    }
     
-    // Add footer
-    addFooter();
+    // Add footer (if not already added)
+    if (!document.getElementById('mainFooter')) {
+        addFooter();
+    }
+    
+    // Remove the modal close button
+    if (closeModal) {
+        closeModal.style.display = "none";
+    }
+    
+    // ... rest of your existing initialization code ...
+
     
     // Remove the modal close button
     if (closeModal) {
