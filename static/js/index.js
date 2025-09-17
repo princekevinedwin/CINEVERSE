@@ -1926,7 +1926,7 @@ function renderLandingPage(data) {
                 </div>
             </div>
             <div class="about-image">
-                <img src="/images/cineve.jpg" alt="Cinema">
+                <img src="/static/images/cineve.jpg" alt="Cinema">
             </div>
         </div>
     `;
@@ -4212,7 +4212,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="actor-detail"><i class="fas fa-map-marker-alt"></i> ${person.place_of_birth || 'Unknown'}</div>
                         <div class="actor-detail"><i class="fas fa-fire"></i> Popularity: ${Math.round(person.popularity)}</div>
                     </div>
-                    <div class="actor-bio">${person.biography ? person.biography.substring(0, 150) + '...' : 'No biography available'}</div>
+                    <div class="actor-bio">${person.biography ? person.biography.substring(0, 150) + '...' : 'Click to see more information'}</div>
                 </div>
             `;
             
