@@ -8928,6 +8928,28 @@ function displayMoviesInGenreView(items, countryName) {
         
         document.body.appendChild(refreshButton);
     }
+
+    // Function to open the separate modal (e.g., for reviews)
+function openSeparateModal(title, content) {
+  document.getElementById('separateModal').style.display = 'flex';
+  document.getElementById('separateModalTitle').textContent = title;
+  document.getElementById('separateModalContent').innerHTML = content; // Load dynamic content
+}
+
+// Example usage: Replace reviews popup with this modal
+openReviewsBtn.addEventListener("click", () => {
+  // Gather reviews content (from existing logic)
+  let reviewsContent = allReviewsList.innerHTML; // Or dynamically build
+  openSeparateModal("All Reviews", reviewsContent);
+});
+
+// Close on outside click (maintain functionality)
+window.addEventListener('click', (e) => {
+  if (e.target === document.getElementById('separateModal')) {
+    document.getElementById('separateModal').style.display = 'none';
+  }
+});
+
     // ====================== NEWS AUTO-REFRESH ======================
     let newsRefreshInterval;
     function startNewsAutoRefresh() {

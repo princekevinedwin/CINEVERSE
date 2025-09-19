@@ -7424,7 +7424,7 @@ body {
     }
 
     .movie-info {
-        flex-direction: column !important;
+        flex-direction: row !important;
         gap: 5px !important;
         padding: 6px !important;
         margin-top: 10px !important;
@@ -7451,7 +7451,7 @@ body {
 
     .review-box {
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: row !important;
         gap: 10px !important;
         margin-bottom: 10px !important;
     }
@@ -7518,3 +7518,152 @@ body {
     }
 }
 
+/* Separate Modal for Small Screens (≤426px) */
+
+/* Media Query for Modal Popup on Small Screens (≤426px) */
+@media (max-width: 426px) {
+  .modal {
+    background-color: rgba(0, 0, 0, 0.8) !important; /* Original dark semi-transparent background */
+    backdrop-filter: blur(4px) !important;
+  }
+
+  .modal .modal-content {
+    background: #1f1f1f !important; /* Original dark background */
+    padding: 15px !important; /* Reduced padding for smaller screens */
+    text-align: center !important;
+    color: #fff !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5) !important;
+    width: 90vw !important; /* Responsive width to fit small screens */
+    max-width: 400px !important; /* Slightly less than 426px for padding */
+    border-radius: 12px !important;
+  }
+
+  .modal h2 {
+    color: #f5c518 !important; /* Original yellow accent */
+    font-size: 1.2rem !important; /* Smaller font for mobile */
+    margin: 8px 0 !important;
+  }
+
+  .modal .close {
+    color: #fff !important;
+    font-size: 24px !important; /* Slightly smaller for mobile */
+    top: 10px !important;
+    right: 15px !important;
+  }
+
+  .modal .close:hover {
+    color: #f5c518 !important; /* Original yellow on hover */
+  }
+
+  .modal .modalbox {
+    height: 200px !important; /* Reduced height for smaller screens */
+  }
+
+  .modal #mediaContainer,
+  .modal #modalImage,
+  .modal #trailerEmbed iframe {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .modal .movie-info span {
+    font-size: 0.9rem !important; /* Smaller text for mobile */
+    margin: 4px 0 !important;
+  }
+
+  .modal .modal-actions {
+    flex-wrap: wrap !important; /* Allow buttons to wrap on small screens */
+    gap: 5px !important;
+    margin: 8px 0 !important;
+  }
+
+  .modal .download-btn,
+  .modal .trailer-btn,
+  .modal .favorite-btn,
+  .modal .reviews-btn {
+    background: #f5c518 !important; /* Original yellow buttons */
+    color: #111 !important;
+    padding: 6px 8px !important; /* Smaller padding */
+    border-radius: 6px !important;
+    font-size: 0.8rem !important; /* Smaller font */
+  }
+
+  .modal .download-btn:hover,
+  .modal .trailer-btn:hover,
+  .modal .favorite-btn:hover,
+  .modal .reviews-btn:hover {
+    background: #ffdd33 !important; /* Original lighter yellow on hover */
+  }
+
+  .modal .review-box input {
+    border: 1px solid #444 !important; /* Original border color */
+    background: #222 !important; /* Original input background */
+    color: #fff !important;
+    font-size: 0.85rem !important; /* Smaller font */
+    padding: 6px !important;
+    border-radius: 8px 0 0 8px !important;
+  }
+
+  .modal .review-box button {
+    background: #f5c518 !important; /* Original yellow */
+    color: #111 !important;
+    padding: 0 10px !important;
+    border-radius: 0 8px 8px 0 !important;
+    font-size: 16px !important;
+  }
+
+  .modal .review-box button:hover {
+    background: #ffdd33 !important; /* Original hover yellow */
+  }
+
+  .modal #reviewList {
+    max-height: 150px !important; /* Reduced height for mobile */
+    padding: 8px !important;
+    background: #222 !important; /* Original background */
+    border-radius: 8px !important;
+  }
+
+  .modal #downloadOptions {
+    width: 80vw !important; /* Responsive width for side panel */
+    max-width: 300px !important;
+    right: -80vw !important; /* Adjust for smaller screens */
+    padding: 15px !important;
+    border-left: 4px solid #f5c518 !important; /* Original yellow border */
+  }
+
+  .modal #downloadOptions.active {
+    right: 0 !important;
+  }
+
+  .modal .source-btn {
+    background: #2a2a2a !important; /* Original button background */
+    color: #fff !important;
+    padding: 8px !important;
+    margin: 6px 0 !important;
+    font-size: 0.85rem !important;
+  }
+
+  .modal .source-btn:hover {
+    background: #f5c518 !important; /* Original yellow on hover */
+    color: #000 !important;
+  }
+
+  .modal #seriesDownloadContainer {
+    max-height: 300px !important; /* Reduced for mobile */
+    padding: 8px !important;
+    background: #222 !important; /* Original background */
+    border-radius: 8px !important;
+  }
+
+  .modal .download-all-btn {
+    background: #f5c518 !important; /* Original yellow */
+    color: #000 !important;
+    padding: 6px !important;
+    font-size: 0.85rem !important;
+    border-radius: 5px !important;
+  }
+
+  .modal .download-all-btn:hover {
+    background: #ffdd33 !important; /* Original hover yellow */
+  }
+}

@@ -207,6 +207,56 @@
 </div>
   </div>
 </div>
+
+<!-- Separate Modal Popup -->
+<!-- Separate Modal Popup for Small Screens (≤426px) -->
+<div id="separateModal" class="modal small-screen-modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('separateModal').style.display='none'">&times;</span>
+    <div class="modalbox">
+      <div id="separateMediaContainer">
+        <img id="separateModalImage" src="" alt="Movie Poster">
+        <div id="separateTrailerEmbed" class="trailer-embed"></div>
+      </div>
+    </div>
+    <h2 id="separateModalTitle">Movie Title</h2>
+    <div class="movie-info">
+      <span>Genres: <span id="separateModalGenres">N/A</span></span>
+      <span>Overview: <span id="separateModalOverview">N/A</span></span>
+    </div>
+    <div class="modal-actions">
+      <button id="separateDownloadMovie" class="download-btn"><i class="fas fa-download"></i> Download</button>
+      <button id="separateTrailerBtn" class="trailer-btn"><i class="fas fa-play"></i> Trailer</button>
+      <button id="separateAddFavoriteBtn" class="favorite-btn"><i class="fas fa-heart"></i> Add Favorite</button>
+      <button id="separateOpenReviewsBtn" class="reviews-btn">Reviews</button>
+    </div>
+    <div class="reviews">
+      <div class="review-box">
+        <input type="text" id="separateReviewInput" placeholder="Write a review...">
+        <button id="separateSubmitReviewBtn">✍️</button>
+      </div>
+      <div id="separateReviewList"></div>
+    </div>
+    <div id="separateDownloadOptions" class="download-options">
+      <h3>Download From:</h3>
+      <button class="source-btn"><i class="fas fa-download"></i> Waploaded</button>
+      <button class="source-btn"><i class="fas fa-download"></i> Nkiri</button>
+      <button class="source-btn"><i class="fas fa-download"></i> Stagatv</button>
+      <button class="source-btn"><i class="fas fa-download"></i> NetNaija</button>
+      <button class="source-btn"><i class="fas fa-download"></i> Fzmovies</button>
+      <button class="source-btn"><i class="fas fa-download"></i> O2TvSeries</button>
+      <button class="source-btn"><i class="fas fa-download"></i> ToxicWap</button>
+      <button class="source-btn"><i class="fas fa-download"></i> 9jaRocks</button>
+      <button class="source-btn"><i class="fas fa-download"></i> Netflix</button>
+      <button class="source-btn"><i class="fas fa-download"></i> Amazon</button>
+    </div>
+    <div id="separateSeriesDownloadContainer" class="series-download-container">
+      <h3>Download Seasons & Episodes</h3>
+      <div class="seasons-list"></div>
+      <button id="separateDownloadAllBtn" class="download-all-btn">Download All</button>
+    </div>
+  </div>
+</div>
   
   <!-- Reviews Popup -->
   <div id="reviewsPopup" class="reviews-popup">
@@ -224,6 +274,7 @@
   <script src="https://www.youtube.com/iframe_api"></script>
   <script src="/static/js/index.js"></script>
   <script src="/static/js/backend-integration.js"></script>
+  <script src="/static/js/loader.js"></script>
   
   <!-- Add this script to fix genres page and favorites duplication -->
   <script>
