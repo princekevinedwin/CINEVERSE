@@ -7667,3 +7667,188 @@ body {
     background: #ffdd33 !important; /* Original hover yellow */
   }
 }
+
+/* Mobile Modal for <= 426px */
+.mobile-modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(4px);
+    z-index: 2000; /* Above desktop modal */
+}
+
+.mobile-modal-content {
+    background: #1f1f1f;
+    padding: 15px;
+    border-radius: 12px;
+    width: 95vw;
+    max-width: 380px;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    animation: zoomIn 0.3s ease;
+    position: relative;
+}
+
+.mobile-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    z-index: 2002;
+    background: rgba(0,0,0,0.5);
+    padding: 5px;
+    border-radius: 50%;
+    transition: color 0.3s;
+}
+
+.mobile-close:hover {
+    color: #f5c518;
+}
+
+#mobileMediaContainer {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#mobileModalImage, #mobileTrailerEmbed iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#mobileTrailerEmbed {
+    display: none;
+}
+
+.mobile-modal-content h2 {
+    margin: 10px 0;
+    color: #f5c518;
+    font-size: 1.2rem;
+}
+
+.mobile-movie-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px 0;
+    font-size: 0.9rem;
+}
+
+.mobile-movie-info span {
+    background: #2c2c2c;
+    padding: 8px;
+    border-radius: 6px;
+    border-left: 4px solid #f5c518;
+}
+
+.mobile-modal-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.mobile-trailer-btn, .mobile-favorite-btn, .mobile-reviews-btn, .mobile-download-btn, .mobile-source-btn {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 8px;
+    background: #f5c518;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background 0.3s ease;
+}
+
+.mobile-trailer-btn:hover, .mobile-favorite-btn:hover, .mobile-reviews-btn:hover, .mobile-download-btn:hover, .mobile-source-btn:hover {
+    background: #e6b800;
+}
+
+.mobile-download-options {
+    display: none;
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 90vw;
+    max-width: 300px;
+    background: #1f1f1f;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 5px solid #f5c518;
+    z-index: 2001;
+    overflow-y: auto;
+}
+
+.mobile-download-options.active {
+    display: block;
+}
+
+.mobile-download-options h3 {
+    color: #f5c518;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.mobile-series-download-container {
+    display: none;
+    position: fixed;
+    top: 10%;
+    right: 0;
+    width: 90vw;
+    max-width: 300px;
+    max-height: 60vh;
+    background: #1f1f1f;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 5px solid #f5c518;
+    z-index: 2001;
+    overflow-y: auto;
+}
+
+.mobile-series-download-container .season-box {
+    background: #2a2a2a;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.mobile-series-download-container .episode-btn {
+    width: 100%;
+    text-align: left;
+    background: #333;
+    padding: 8px;
+    margin: 5px 0;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Hide desktop modal on mobile */
+@media screen and (max-width: 426px) {
+    #movieModal {
+        display: none !important;
+    }
+}

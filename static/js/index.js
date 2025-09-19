@@ -6610,6 +6610,191 @@ document.addEventListener('DOMContentLoaded', function() {
     updateFavoriteButton(item);
 }
 
+
+async function openMobileModal(item) {
+    const isMobile = window.innerWidth <= 426;
+    if (!isMobile) {
+        // Fallback to original modal for desktop
+        openModal(item);
+        return;
+    }
+
+    // Ensure desktop modal is hidden
+    const desktopModal = document.getElementById("movieModal");
+    if (desktopModal) desktopModal.style.display = "none";
+
+    // Create or get mobile modal
+    let mobileModal = document.getElementById("mobileMovieModal");
+    if (!mobileModal) {
+        mobileModal = document.createElement("div");
+        mobileModal.id = "mobileMovieModal";
+        mobileModal.className = "mobile-modal";
+        document.body.appendChild(mobileModal);
+    }
+
+    // Modal content
+    mobileModal.innerHTML = `
+        <div class="mobile-modal-content">
+            <span class="mobile-close">&times;</span>
+            <div id="mobileMediaContainer">
+                <img id="mobileModalImage" src="${item.poster_path ? IMG_PATH + item.poster_path : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="Poster">
+                <div id="mobileTrailerEmbed" class="trailer-embed"></div>
+            </div>
+            <h2 id="mobileModalTitle">${currentType === "movie" ? item.title : item.name}</h2>
+            <div class="mobile-movie-info">
+                <span id="mobileModalRating">⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10</span>
+                <span id="mobileModalGenres">Genres: Loading...</span>
+                <span id="mobileModalRuntime">${item.runtime ? Math.floor(item.runtime / 60) + 'h ' + (item.runtime % 60) + 'm' : 'N/A'}</span>
+                <span id="mobileMovieSize">Size: N/A</span>
+            </div>
+            <div class="mobile-modal-actions">
+                <button id="mobileWatchTrailer" class="mobile-trailer-btn" title="Watch Trailer"><i class="fas fa-play"></i></button>
+                <button id="mobileAddFavorite" class="mobile-favorite-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                <button id="mobileOpenReviews" class="mobile-reviews-btn" title="View Reviews"><i class="fas fa-comment"></i></button>
+                <button id="mobileDownloadMovie" class="mobile-download-btn" title="Download Options"><i class="fas fa-download"></i></button>
+            </div>
+            <div id="mobileDownloadOptions" class="mobile-download-options">
+                <h3>Download Sources</h3>
+                <button class="mobile-source-btn" data-site="waploaded"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="nkiri"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="stagatv"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="netnaija"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="fzmovies"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="o2tvseries"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="toxicwap"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="9jarocks"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="netflix"><i class="fas fa-link"></i></button>
+                <button class="mobile-source-btn" data-site="amazon"><i class="fas fa-link"></i></button>
+            </div>
+            <div id="mobileSeriesDownloadContainer" class="mobile-series-download-container"></div>
+        </div>
+    `;
+
+    // Show modal
+    mobileModal.style.display = "flex";
+
+    // DOM elements
+    const mobileClose = mobileModal.querySelector(".mobile-close");
+    const mobileModalImage = document.getElementById("mobileModalImage");
+    const mobileModalTitle = document.getElementById("mobileModalTitle");
+    const mobileModalRating = document.getElementById("mobileModalRating");
+    const mobileModalGenres = document.getElementById("mobileModalGenres");
+    const mobileModalRuntime = document.getElementById("mobileModalRuntime");
+    const mobileMovieSize = document.getElementById("mobileMovieSize");
+    const mobileTrailerEmbed = document.getElementById("mobileTrailerEmbed");
+    const mobileDownloadOptions = document.getElementById("mobileDownloadOptions");
+    const mobileSeriesDownloadContainer = document.getElementById("mobileSeriesDownloadContainer");
+
+    // Close handler
+    mobileClose.addEventListener("click", () => {
+        mobileModal.style.display = "none";
+        mobileModalImage.style.display = "block";
+        mobileTrailerEmbed.style.display = "none";
+        mobileTrailerEmbed.innerHTML = "";
+        mobileDownloadOptions.classList.remove("active");
+        mobileSeriesDownloadContainer.style.display = "none";
+    });
+
+    // Outside click to close
+    window.addEventListener("click", (e) => {
+        if (e.target === mobileModal) {
+            mobileModal.style.display = "none";
+            mobileModalImage.style.display = "block";
+            mobileTrailerEmbed.style.display = "none";
+            mobileTrailerEmbed.innerHTML = "";
+            mobileDownloadOptions.classList.remove("active");
+            mobileSeriesDownloadContainer.style.display = "none";
+        }
+    }, { once: true });
+
+    // Trailer button
+    const mobileTrailerBtn = document.getElementById("mobileWatchTrailer");
+    mobileTrailerBtn.onclick = async () => {
+        const videos = await getVideos(item.id, currentType);
+        mobileModalImage.style.display = "none";
+        mobileTrailerEmbed.style.display = "block";
+        mobileTrailerEmbed.innerHTML = videos.length > 0
+            ? `<iframe src="https://www.youtube.com/embed/${videos[0].key}" frameborder="0" allowfullscreen></iframe>`
+            : '<p>No trailer available</p>';
+    };
+
+    // Favorite button (reuse existing logic)
+    const mobileAddFavorite = document.getElementById("mobileAddFavorite");
+    updateFavoriteButton(item); // Update icon/state
+    mobileAddFavorite.onclick = () => addFavoriteBtn.click(); // Reuse existing handler
+
+    // Reviews button
+    const mobileOpenReviews = document.getElementById("mobileOpenReviews");
+    mobileOpenReviews.onclick = () => document.getElementById("openReviews").click();
+
+    // Download button
+    const mobileDownloadBtn = document.getElementById("mobileDownloadMovie");
+    mobileDownloadBtn.onclick = () => {
+        mobileDownloadOptions.classList.toggle("active");
+        checkAndUpdateAvailability(item); // Reuse existing availability check
+    };
+
+    // Source buttons (reuse existing logic)
+    const mobileSourceButtons = mobileModal.querySelectorAll(".mobile-source-btn");
+    mobileSourceButtons.forEach(btn => {
+        btn.onclick = () => document.querySelector(`.source-btn[data-site="${btn.dataset.site}"]`).click();
+    });
+
+    // Series downloads
+    if (currentType === "tv") {
+        showSeriesDownloads(item, "mobileSeriesDownloadContainer");
+    }
+
+    // Fetch additional data (genres, runtime)
+    try {
+        const details = await getDetails(item.id, currentType);
+        mobileModalGenres.textContent = details.genres && details.genres.length > 0
+            ? details.genres.map(genre => genre.name).join(", ")
+            : "No genres available";
+        mobileModalRuntime.textContent = details.runtime
+            ? `${Math.floor(details.runtime / 60)}h ${details.runtime % 60}m`
+            : details.number_of_seasons
+                ? `${details.number_of_seasons} Season${details.number_of_seasons > 1 ? 's' : ''}`
+                : "N/A";
+        mobileMovieSize.textContent = "Size: Varies"; // Placeholder as size not provided
+    } catch (err) {
+        console.error("Error fetching details:", err);
+        mobileModalGenres.textContent = "Genres: Unavailable";
+        mobileModalRuntime.textContent = "Runtime: Unavailable";
+        showToast("Error loading details", "error");
+    }
+
+    // Ensure consistent display
+    mobileModalRating.textContent = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10`;
+}
+
+// Override openModal for mobile
+const originalOpenModal = openModal;
+openModal = function(item) {
+    if (window.innerWidth <= 426) {
+        openMobileModal(item);
+    } else {
+        originalOpenModal(item);
+    }
+};
+
+// Update on resize
+window.addEventListener("resize", () => {
+    const mobileModal = document.getElementById("mobileMovieModal");
+    const desktopModal = document.getElementById("movieModal");
+    if (window.innerWidth <= 426) {
+        if (desktopModal) desktopModal.style.display = "none";
+        if (mobileModal && mobileModal.style.display === "flex") {
+            openMobileModal(modalTitle.textContent); // Reopen with current data
+        }
+    } else {
+        if (mobileModal) mobileModal.style.display = "none";
+        if (desktopModal && desktopModal.style.display === "none" && modalTitle.textContent) {
+            originalOpenModal({ title: modalTitle.textContent, name: modalTitle.textContent });
+        }
+    }
+});
+
     function initializeDownloadOptions() {
     const downloadPanel = document.getElementById("downloadOptions");
     
