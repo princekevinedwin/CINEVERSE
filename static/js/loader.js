@@ -61,3 +61,26 @@ window.addEventListener('beforeunload', () => {
   document.getElementById('section').style.display = 'none'; // Hide content on unload
   document.getElementById('favoritesContainer').style.display = 'none';
 });
+
+/**
+ * Loader functions for showing/hiding availability loading
+ */
+function showAvailabilityLoading() {
+    const loadingElement = document.getElementById("mobileAvailabilityLoading");
+    if (loadingElement) {
+        loadingElement.style.display = "block";
+        // Ensure centered position
+        loadingElement.style.top = "50%";
+        loadingElement.style.left = "50%";
+        loadingElement.style.transform = "translate(-50%, -50%)";
+        loadingElement.style.bottom = "auto";
+        loadingElement.style.right = "auto";
+    }
+}
+
+function hideAvailabilityLoading() {
+    const loadingElement = document.getElementById("mobileAvailabilityLoading");
+    if (loadingElement) {
+        loadingElement.style.display = "none";
+    }
+}
