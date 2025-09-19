@@ -6614,6 +6614,10 @@ document.addEventListener('DOMContentLoaded', function() {
  * Mobile-specific modal for screens <= 426px
  * Replaces openModal for mobile views
  */
+/**
+ * Mobile-specific modal for screens <= 426px
+ * Replaces openModal for mobile views
+ */
 async function openMobileModal(item) {
     const isMobile = window.innerWidth <= 426;
     if (!isMobile) {
@@ -6645,7 +6649,7 @@ async function openMobileModal(item) {
             </div>
             <h2 id="mobileModalTitle">${currentType === "movie" ? item.title : item.name}</h2>
             <div class="mobile-movie-info">
-                <span id="mobileModalRating">⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10</span>
+                <span id="mobileModalRating">⭐ Loading...</span>
                 <span id="mobileModalGenres">Genres: Loading...</span>
                 <span id="mobileModalRuntime">Runtime: Loading...</span>
                 <span id="mobileMovieSize">Size: Loading...</span>
@@ -6663,6 +6667,7 @@ async function openMobileModal(item) {
             </div>
             <div id="mobileAvailabilityLoading" class="mobile-availability-loading">Searching for availability...</div>
             <div id="mobileDownloadOptions" class="mobile-download-options">
+                <span class="mobile-source-close">&times;</span>
                 <h3>Download Sources</h3>
                 <button class="mobile-source-btn" data-site="waploaded" title="Waploaded"><i class="fas fa-link"></i> Waploaded</button>
                 <button class="mobile-source-btn" data-site="nkiri" title="Nkiri"><i class="fas fa-link"></i> Nkiri</button>
@@ -6685,6 +6690,7 @@ async function openMobileModal(item) {
 
     // DOM elements
     const mobileClose = mobileModal.querySelector(".mobile-close");
+    const mobileSourceClose = mobileModal.querySelector(".mobile-source-close");
     const mobileModalImage = document.getElementById("mobileModalImage");
     const mobileModalTitle = document.getElementById("mobileModalTitle");
     const mobileModalRating = document.getElementById("mobileModalRating");
@@ -6711,6 +6717,11 @@ async function openMobileModal(item) {
         mobileRecommendationsPanel.style.display = "none";
     });
 
+    // Source popup close handler
+    mobileSourceClose.addEventListener("click", () => {
+        mobileDownloadOptions.classList.remove("active");
+    });
+
     // Outside click to close
     window.addEventListener("click", (e) => {
         if (e.target === mobileModal) {
@@ -6727,13 +6738,19 @@ async function openMobileModal(item) {
 
     // Trailer button
     const mobileTrailerBtn = document.getElementById("mobileWatchTrailer");
-    mobileTrailerBtn.onclick = async () => {
+    mobileTrailerBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        console.log("Trailer button clicked, fetching videos for ID:", item.id, "Type:", currentType);
         try {
+            if (!BASE_URL || !API_KEY || !currentType) {
+                throw new Error("Missing API configuration or currentType");
+            }
             const videos = await getVideos(item.id, currentType);
-            if (videos.length > 0) {
+            console.log("Videos fetched:", videos);
+            if (videos && videos.length > 0) {
                 mobileModalImage.style.display = "none";
                 mobileTrailerEmbed.style.display = "block";
-                mobileTrailerEmbed.innerHTML = `<iframe src="https://www.youtube.com/embed/${videos[0].key}" frameborder="0" allowfullscreen></iframe>`;
+                mobileTrailerEmbed.innerHTML = `<iframe src="https://www.youtube.com/embed/${videos[0].key}?enablejsapi=1" frameborder="0" allowfullscreen></iframe>`;
             } else {
                 showToast("No trailer available", "info");
             }
@@ -6741,7 +6758,21 @@ async function openMobileModal(item) {
             console.error("Error fetching trailer:", err);
             showToast("Error loading trailer", "error");
         }
-    };
+    });
+
+    // Review input focus handler
+    mobileReviewInput.addEventListener("focus", () => {
+        mobileModal.scrollTop = 0; // Prevent scrolling
+        mobileReviewInput.scrollIntoView({ block: "center" });
+    });
+    mobileReviewInput.addEventListener("blur", () => {
+        mobileReviewInput.style.position = "";
+        mobileReviewInput.style.top = "";
+        mobileReviewInput.style.left = "";
+        mobileReviewInput.style.width = "";
+        mobileReviewInput.style.zIndex = "";
+        mobileReviewInput.style.borderRadius = "";
+    });
 
     // Favorite button
     const mobileAddFavorite = document.getElementById("mobileAddFavorite");
@@ -6807,7 +6838,7 @@ async function openMobileModal(item) {
         mobileDownloadOptions.classList.add("active"); // Slide in sources
     };
 
-    // Source buttons (initial setup)
+    // Source buttons
     const mobileSourceButtons = mobileModal.querySelectorAll(".mobile-source-btn");
     mobileSourceButtons.forEach(btn => {
         btn.onclick = (e) => {
@@ -6839,9 +6870,10 @@ async function openMobileModal(item) {
         mobileSeriesDownloadContainer.style.display = "block";
     }
 
-    // Fetch additional data (genres, runtime)
+    // Fetch additional data (genres, runtime, rating)
     try {
         const details = await getDetails(item.id, currentType);
+        mobileModalRating.textContent = `⭐ ${details.vote_average ? details.vote_average.toFixed(1) : 'N/A'}/10`;
         mobileModalGenres.textContent = details.genres && details.genres.length > 0
             ? "Genres: " + details.genres.map(genre => genre.name).join(", ")
             : "Genres: No genres available";
@@ -6850,21 +6882,18 @@ async function openMobileModal(item) {
             : details.number_of_seasons
                 ? `Seasons: ${details.number_of_seasons}`
                 : "Runtime: N/A";
-        // Approx size
         const approxSize = currentType === "movie"
             ? "Approx. 2-4 GB (HD)"
             : "Approx. 500 MB - 1 GB per episode (HD)";
         mobileMovieSize.textContent = `Size: ${approxSize}`;
     } catch (err) {
         console.error("Error fetching details:", err);
+        mobileModalRating.textContent = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10`; // Fallback
         mobileModalGenres.textContent = "Genres: Unavailable";
         mobileModalRuntime.textContent = "Runtime: Unavailable";
         mobileMovieSize.textContent = "Size: Unavailable";
         showToast("Error loading details", "error");
     }
-
-    // Ensure consistent display
-    mobileModalRating.textContent = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10`;
 }
 
 // Function to create recommendations panel for mobile
@@ -6875,7 +6904,6 @@ function createRecommendationsPanel(item, panelId) {
         <div class="rec-grid"></div>
         <button class="close-rec">Close</button>
     `;
-    // Fetch recommendations (reuse original logic if available, or fetch here)
     fetch(`${BASE_URL}/${currentType}/${item.id}/recommendations?api_key=${API_KEY}`)
         .then(res => res.json())
         .then(data => {
@@ -6897,7 +6925,7 @@ function createRecommendationsPanel(item, panelId) {
     panel.querySelector(".close-rec").onclick = () => panel.style.display = "none";
 }
 
-// Update updateDownloadButtons to support selector
+// Update download buttons
 function updateDownloadButtons(availability, selector = ".source-btn") {
     const sourceButtons = document.querySelectorAll(selector);
     sourceButtons.forEach(button => {
@@ -6954,7 +6982,6 @@ window.addEventListener("resize", () => {
         }
     }
 });
-
     function initializeDownloadOptions() {
     const downloadPanel = document.getElementById("downloadOptions");
     

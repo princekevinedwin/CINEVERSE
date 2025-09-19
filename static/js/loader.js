@@ -1,4 +1,6 @@
-// loader.js
+/**
+ * Loader for initial page load
+ */
 document.addEventListener('DOMContentLoaded', () => {
   // Create loading overlay
   const loadingOverlay = document.createElement('div');
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadingOverlay.style.top = '0';
   loadingOverlay.style.left = '0';
   loadingOverlay.style.width = '100%';
-  loadingOverlay.style.height = '100%';
+  loadingOverlay.style.minHeight = '100vh'; // Ensure full viewport height
   loadingOverlay.style.background = '#1f1f1f';
   loadingOverlay.style.display = 'flex';
   loadingOverlay.style.flexDirection = 'column';
@@ -22,6 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
   loadingOverlay.style.alignItems = 'center';
   loadingOverlay.style.zIndex = '9999';
   loadingOverlay.style.color = '#f5c518';
+
+  // Hide all sections except landing page
+  const sections = ['section', 'favoritesContainer', 'otherContainer']; // Add other section IDs as needed
+  sections.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.style.display = 'none';
+  });
 
   // Spinner style
   const style = document.createElement('style');
@@ -51,15 +60,22 @@ document.addEventListener('DOMContentLoaded', () => {
     removeActive();
     moviesTab.classList.add("active");
 
+    // Show movies section, hide others
+    document.getElementById('section').style.display = 'block';
+    document.getElementById('favoritesContainer').style.display = 'none';
+
     // Hide loader
     loadingOverlay.style.display = 'none';
-  }, 2000); // Adjust timeout based on real load time (e.g., wait for fetches)
+  }, 2000); // Adjust timeout based on real load time
 });
 
 // Handle reload scrambling
 window.addEventListener('beforeunload', () => {
-  document.getElementById('section').style.display = 'none'; // Hide content on unload
-  document.getElementById('favoritesContainer').style.display = 'none';
+  const sections = ['section', 'favoritesContainer', 'otherContainer'];
+  sections.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.style.display = 'none';
+  });
 });
 
 /**

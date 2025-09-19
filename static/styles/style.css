@@ -7669,6 +7669,7 @@ body {
 }
 
 /* Mobile Modal for <= 426px */
+/* Mobile Modal for <= 426px */
 .mobile-modal {
     display: none;
     justify-content: center;
@@ -7795,6 +7796,7 @@ body {
 .mobile-reviews-input {
     display: flex;
     margin: 10px 0;
+    position: relative;
 }
 
 .mobile-reviews-input textarea {
@@ -7806,6 +7808,16 @@ body {
     border: none;
     border-radius: 6px 0 0 6px;
     resize: none;
+}
+
+.mobile-reviews-input textarea:focus {
+    position: fixed;
+    top: 20%;
+    left: 5%;
+    width: 80%;
+    z-index: 2003;
+    background: #2c2c2c;
+    border-radius: 6px;
 }
 
 .mobile-reviews-input button {
@@ -7851,7 +7863,7 @@ body {
     padding: 15px;
     border-radius: 10px;
     border-left: 5px solid #f5c518;
-    z-index: 2001;
+    z-index: 3001;
     overflow-y: auto;
     transition: right 0.4s ease;
 }
@@ -7865,6 +7877,25 @@ body {
     color: #f5c518;
     font-size: 1.1rem;
     margin-bottom: 10px;
+}
+
+.mobile-source-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1.5rem;
+    color: #f5c518;
+    cursor: pointer;
+    z-index: 3002;
+    background: rgba(0,0,0,0.5);
+    padding: 5px;
+    border-radius: 50%;
+    transition: color 0.3s, background 0.3s;
+}
+
+.mobile-source-close:hover {
+    color: #e6b800;
+    background: rgba(0,0,0,0.7);
 }
 
 .mobile-source-btn {
@@ -7910,7 +7941,7 @@ body {
     padding: 15px;
     border-radius: 10px;
     border-left: 5px solid #f5c518;
-    z-index: 2001;
+    z-index: 3001;
     overflow-y: auto;
 }
 
