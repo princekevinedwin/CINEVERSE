@@ -6614,287 +6614,372 @@ document.addEventListener('DOMContentLoaded', function() {
  * Mobile-specific modal for screens <= 426px
  * Replaces openModal for mobile views
  */
-/**
- * Mobile-specific modal for screens <= 426px
- * Replaces openModal for mobile views
- */
-async function openMobileModal(item) {
-    const isMobile = window.innerWidth <= 426;
-    if (!isMobile) {
-        // Fallback to original modal for desktop
-        openModal(item);
-        return;
-    }
 
-    // Ensure desktop modal is hidden
-    const desktopModal = document.getElementById("movieModal");
-    if (desktopModal) desktopModal.style.display = "none";
 
-    // Create or get mobile modal
-    let mobileModal = document.getElementById("mobileMovieModal");
-    if (!mobileModal) {
-        mobileModal = document.createElement("div");
-        mobileModal.id = "mobileMovieModal";
-        mobileModal.className = "mobile-modal";
-        document.body.appendChild(mobileModal);
-    }
-
-    // Modal content
-    mobileModal.innerHTML = `
-        <div class="mobile-modal-content">
-            <span class="mobile-close">&times;</span>
-            <div id="mobileMediaContainer">
-                <img id="mobileModalImage" src="${item.poster_path ? IMG_PATH + item.poster_path : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="Poster">
-                <div id="mobileTrailerEmbed" class="trailer-embed"></div>
-            </div>
-            <h2 id="mobileModalTitle">${currentType === "movie" ? item.title : item.name}</h2>
-            <div class="mobile-movie-info">
-                <span id="mobileModalRating">⭐ Loading...</span>
-                <span id="mobileModalGenres">Genres: Loading...</span>
-                <span id="mobileModalRuntime">Runtime: Loading...</span>
-                <span id="mobileMovieSize">Size: Loading...</span>
-            </div>
-            <div class="mobile-modal-actions">
-                <button id="mobileWatchTrailer" class="mobile-trailer-btn" title="Watch Trailer"><i class="fab fa-youtube"></i></button>
-                <button id="mobileAddFavorite" class="mobile-favorite-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
-                <button id="mobileOpenReviews" class="mobile-reviews-btn" title="View Reviews"><i class="fas fa-comment"></i></button>
-                <button id="mobileShowRecommendations" class="mobile-rec-btn" title="Recommendations"><i class="fas fa-star"></i></button>
-                <button id="mobileDownloadMovie" class="mobile-download-btn" title="Download Options"><i class="fas fa-download"></i></button>
-            </div>
-            <div class="mobile-reviews-input">
-                <textarea id="mobileReviewInput" placeholder="Add your review..."></textarea>
-                <button id="mobileSubmitReview" title="Submit Review"><i class="fas fa-paper-plane"></i></button>
-            </div>
-            <div id="mobileAvailabilityLoading" class="mobile-availability-loading">Searching for availability...</div>
-            <div id="mobileDownloadOptions" class="mobile-download-options">
-                <span class="mobile-source-close">&times;</span>
-                <h3>Download Sources</h3>
-                <button class="mobile-source-btn" data-site="waploaded" title="Waploaded"><i class="fas fa-link"></i> Waploaded</button>
-                <button class="mobile-source-btn" data-site="nkiri" title="Nkiri"><i class="fas fa-link"></i> Nkiri</button>
-                <button class="mobile-source-btn" data-site="stagatv" title="Stagatv"><i class="fas fa-link"></i> Stagatv</button>
-                <button class="mobile-source-btn" data-site="netnaija" title="Netnaija"><i class="fas fa-link"></i> Netnaija</button>
-                <button class="mobile-source-btn" data-site="fzmovies" title="Fzmovies"><i class="fas fa-link"></i> Fzmovies</button>
-                <button class="mobile-source-btn" data-site="o2tvseries" title="O2tvseries"><i class="fas fa-link"></i> O2tvseries</button>
-                <button class="mobile-source-btn" data-site="toxicwap" title="Toxicwap"><i class="fas fa-link"></i> Toxicwap</button>
-                <button class="mobile-source-btn" data-site="9jarocks" title="9jarocks"><i class="fas fa-link"></i> 9jarocks</button>
-                <button class="mobile-source-btn" data-site="netflix" title="Netflix"><i class="fas fa-link"></i> Netflix</button>
-                <button class="mobile-source-btn" data-site="amazon" title="Amazon"><i class="fas fa-link"></i> Amazon</button>
-            </div>
-            <div id="mobileSeriesDownloadContainer" class="mobile-series-download-container"></div>
-            <div id="mobileRecommendationsPanel" class="mobile-recommendations-panel"></div>
-        </div>
-    `;
-
-    // Show modal
-    mobileModal.style.display = "flex";
-
-    // DOM elements
-    const mobileClose = mobileModal.querySelector(".mobile-close");
-    const mobileSourceClose = mobileModal.querySelector(".mobile-source-close");
-    const mobileModalImage = document.getElementById("mobileModalImage");
-    const mobileModalTitle = document.getElementById("mobileModalTitle");
-    const mobileModalRating = document.getElementById("mobileModalRating");
-    const mobileModalGenres = document.getElementById("mobileModalGenres");
-    const mobileModalRuntime = document.getElementById("mobileModalRuntime");
-    const mobileMovieSize = document.getElementById("mobileMovieSize");
-    const mobileTrailerEmbed = document.getElementById("mobileTrailerEmbed");
-    const mobileAvailabilityLoading = document.getElementById("mobileAvailabilityLoading");
-    const mobileDownloadOptions = document.getElementById("mobileDownloadOptions");
-    const mobileSeriesDownloadContainer = document.getElementById("mobileSeriesDownloadContainer");
-    const mobileRecommendationsPanel = document.getElementById("mobileRecommendationsPanel");
-    const mobileReviewInput = document.getElementById("mobileReviewInput");
-    const mobileSubmitReview = document.getElementById("mobileSubmitReview");
-
-    // Close handler
-    mobileClose.addEventListener("click", () => {
-        mobileModal.style.display = "none";
-        mobileModalImage.style.display = "block";
-        mobileTrailerEmbed.style.display = "none";
-        mobileTrailerEmbed.innerHTML = "";
-        mobileAvailabilityLoading.style.display = "none";
-        mobileDownloadOptions.classList.remove("active");
-        mobileSeriesDownloadContainer.style.display = "none";
-        mobileRecommendationsPanel.style.display = "none";
-    });
-
-    // Source popup close handler
-    mobileSourceClose.addEventListener("click", () => {
-        mobileDownloadOptions.classList.remove("active");
-    });
-
-    // Outside click to close
-    window.addEventListener("click", (e) => {
-        if (e.target === mobileModal) {
-            mobileModal.style.display = "none";
-            mobileModalImage.style.display = "block";
-            mobileTrailerEmbed.style.display = "none";
-            mobileTrailerEmbed.innerHTML = "";
-            mobileAvailabilityLoading.style.display = "none";
-            mobileDownloadOptions.classList.remove("active");
-            mobileSeriesDownloadContainer.style.display = "none";
-            mobileRecommendationsPanel.style.display = "none";
-        }
-    }, { once: true });
-
-    // Trailer button
-    const mobileTrailerBtn = document.getElementById("mobileWatchTrailer");
-    mobileTrailerBtn.addEventListener("click", async (e) => {
-        e.preventDefault();
-        console.log("Trailer button clicked, fetching videos for ID:", item.id, "Type:", currentType);
-        try {
-            if (!BASE_URL || !API_KEY || !currentType) {
-                throw new Error("Missing API configuration or currentType");
-            }
-            const videos = await getVideos(item.id, currentType);
-            console.log("Videos fetched:", videos);
-            if (videos && videos.length > 0) {
-                mobileModalImage.style.display = "none";
-                mobileTrailerEmbed.style.display = "block";
-                mobileTrailerEmbed.innerHTML = `<iframe src="https://www.youtube.com/embed/${videos[0].key}?enablejsapi=1" frameborder="0" allowfullscreen></iframe>`;
-            } else {
-                showToast("No trailer available", "info");
-            }
-        } catch (err) {
-            console.error("Error fetching trailer:", err);
-            showToast("Error loading trailer", "error");
-        }
-    });
-
-    // Review input focus handler
-    mobileReviewInput.addEventListener("focus", () => {
-        mobileModal.scrollTop = 0; // Prevent scrolling
-        mobileReviewInput.scrollIntoView({ block: "center" });
-    });
-    mobileReviewInput.addEventListener("blur", () => {
-        mobileReviewInput.style.position = "";
-        mobileReviewInput.style.top = "";
-        mobileReviewInput.style.left = "";
-        mobileReviewInput.style.width = "";
-        mobileReviewInput.style.zIndex = "";
-        mobileReviewInput.style.borderRadius = "";
-    });
-
-    // Favorite button
-    const mobileAddFavorite = document.getElementById("mobileAddFavorite");
-    updateFavoriteButton(item); // Update initial state
-    const favorites = currentType === "movie" ? movieFavorites : seriesFavorites;
-    const isFavorited = favorites.some(f => f.title === (currentType === "movie" ? item.title : item.name));
-    if (isFavorited) {
-        mobileAddFavorite.classList.add("favorited");
-    }
-    mobileAddFavorite.onclick = () => {
-        const title = mobileModalTitle.textContent;
-        const poster = mobileModalImage.src;
-        let favorites = currentType === "movie" ? movieFavorites : seriesFavorites;
-        const index = favorites.findIndex(f => f.title === title);
-        if (index > -1) {
-            favorites.splice(index, 1);
-            mobileAddFavorite.classList.remove("favorited");
-            showToast("Removed from favorites", "info");
-        } else {
-            favorites.push({ title, poster, type: currentType });
-            mobileAddFavorite.classList.add("favorited");
-            showToast("Added to favorites", "success");
-        }
-        if (currentType === "movie") {
-            localStorage.setItem("movieFavorites", JSON.stringify(favorites));
-        } else {
-            localStorage.setItem("seriesFavorites", JSON.stringify(favorites));
-        }
-        renderFavorites();
-    };
-
-    // Reviews button
-    const mobileOpenReviews = document.getElementById("mobileOpenReviews");
-    mobileOpenReviews.onclick = () => document.getElementById("openReviews").click();
-
-    // Submit review
-    mobileSubmitReview.onclick = () => {
-        const reviewText = mobileReviewInput.value.trim();
-        if (!reviewText) return showToast("Failed ❌ - Empty Review", "error");
-        const reviews = JSON.parse(localStorage.getItem("reviews")) || [];
-        const reviewItem = { title: mobileModalTitle.textContent, text: reviewText };
-        reviews.push(reviewItem);
-        localStorage.setItem("reviews", JSON.stringify(reviews));
-        displayReview(reviewItem); // Append to DOM
-        mobileReviewInput.value = "";
-        showToast("Review successfully added ✅", "success");
-    };
-
-    // Recommendations button
-    const mobileRecBtn = document.getElementById("mobileShowRecommendations");
-    mobileRecBtn.onclick = () => {
-        createRecommendationsPanel(item, "mobileRecommendationsPanel");
-        mobileRecommendationsPanel.style.display = "block";
-    };
-
-    // Download button
-    const mobileDownloadBtn = document.getElementById("mobileDownloadMovie");
-    mobileDownloadBtn.onclick = async () => {
-        mobileAvailabilityLoading.style.display = "block"; // Show loading
-        const availability = await checkAllSitesAvailability(item);
-        mobileAvailabilityLoading.style.display = "none"; // Hide loading
-        updateDownloadButtons(availability, ".mobile-source-btn"); // Update buttons
-        mobileDownloadOptions.classList.add("active"); // Slide in sources
-    };
-
-    // Source buttons
-    const mobileSourceButtons = mobileModal.querySelectorAll(".mobile-source-btn");
-    mobileSourceButtons.forEach(btn => {
-        btn.onclick = (e) => {
-            if (btn.disabled) {
-                e.preventDefault();
-                return;
-            }
-            const query = encodeURIComponent(mobileModalTitle.textContent);
-            let searchUrl = "";
-            switch(btn.dataset.site) {
-                case "waploaded": searchUrl = `https://www.waploaded.com/search?q=${query}`; break;
-                case "nkiri": searchUrl = `https://nkiri.com/?s=${query}`; break;
-                case "stagatv": searchUrl = `https://www.stagatv.com/?s=${query}`; break;
-                case "netnaija": searchUrl = `https://www.thenetnaija.net/search?t=${query}`; break;
-                case "fzmovies": searchUrl = `https://fzmovie.co.za/search.php?searchname=${query}`; break;
-                case "o2tvseries": searchUrl = `https://o2tvseries.com/search?q=${query}`; break;
-                case "toxicwap": searchUrl = `https://www.toxicwap.com/search?q=${query}`; break;
-                case "9jarocks": searchUrl = `https://www.9jarocks.com/?s=${query}`; break;
-                case "netflix": searchUrl = `https://www.netflix.com/search?q=${query}`; break;
-                case "amazon": searchUrl = `https://www.amazon.com/s?k=${query}`; break;
-            }
-            if (searchUrl) window.open(searchUrl, "_blank");
-        };
-    });
-
-    // Series downloads
-    if (currentType === "tv") {
-        showSeriesDownloads(item, "mobileSeriesDownloadContainer");
-        mobileSeriesDownloadContainer.style.display = "block";
-    }
-
-    // Fetch additional data (genres, runtime, rating)
+// Assumed implementation of getVideos with retry logic
+async function getVideos(id, type, retries = 3) {
+  for (let i = 0; i < retries; i++) {
     try {
-        const details = await getDetails(item.id, currentType);
-        mobileModalRating.textContent = `⭐ ${details.vote_average ? details.vote_average.toFixed(1) : 'N/A'}/10`;
-        mobileModalGenres.textContent = details.genres && details.genres.length > 0
-            ? "Genres: " + details.genres.map(genre => genre.name).join(", ")
-            : "Genres: No genres available";
-        mobileModalRuntime.textContent = details.runtime
-            ? `Runtime: ${Math.floor(details.runtime / 60)}h ${details.runtime % 60}m`
-            : details.number_of_seasons
-                ? `Seasons: ${details.number_of_seasons}`
-                : "Runtime: N/A";
-        const approxSize = currentType === "movie"
-            ? "Approx. 2-4 GB (HD)"
-            : "Approx. 500 MB - 1 GB per episode (HD)";
-        mobileMovieSize.textContent = `Size: ${approxSize}`;
+      console.log(`Fetching videos for ${type} ID: ${id}, attempt ${i + 1}`);
+      const endpoint = type === "movie" ? `movie/${id}/videos` : `tv/${id}/videos`;
+      const url = `${BASE_URL}/${endpoint}?api_key=${API_KEY}`;
+      console.log("Video API URL:", url);
+      const response = await fetch(url);
+      console.log("Video API response status:", response.status);
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+      console.log("Video API response:", data);
+      return data.results || [];
     } catch (err) {
-        console.error("Error fetching details:", err);
-        mobileModalRating.textContent = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10`; // Fallback
-        mobileModalGenres.textContent = "Genres: Unavailable";
-        mobileModalRuntime.textContent = "Runtime: Unavailable";
-        mobileMovieSize.textContent = "Size: Unavailable";
-        showToast("Error loading details", "error");
+      console.error(`Video fetch attempt ${i + 1} failed:`, err.message);
+      if (i === retries - 1) throw err;
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
     }
+  }
 }
+
+// Assumed implementation of getDetails with retry logic
+async function getDetails(id, type, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      console.log(`Fetching details for ${type} ID: ${id}, attempt ${i + 1}`);
+      const endpoint = type === "movie" ? `movie/${id}` : `tv/${id}`;
+      const url = `${BASE_URL}/${endpoint}?api_key=${API_KEY}`;
+      console.log("Details API URL:", url);
+      const response = await fetch(url);
+      console.log("Details API response status:", response.status);
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+      console.log("Details API response:", data);
+      return data;
+    } catch (err) {
+      console.error(`Details fetch attempt ${i + 1} failed:`, err.message);
+      if (i === retries - 1) throw err;
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+  }
+}
+
+async function openMobileModal(item) {
+  console.log("openMobileModal called with:", { item, currentType });
+
+  // Validate inputs
+  if (!item || !item.id || !["movie", "series"].includes(currentType)) {
+    console.error("Invalid item or currentType:", { item, currentType });
+    showToast("Invalid item data", "error");
+    return;
+  }
+
+  // Check if mobile
+  const isMobile = window.innerWidth <= 426;
+  if (!isMobile) {
+    openModal(item); // Fallback to desktop modal
+    return;
+  }
+
+  // Hide desktop modal
+  const desktopModal = document.getElementById("movieModal");
+  if (desktopModal) desktopModal.style.display = "none";
+
+  // Create or get mobile modal
+  let mobileModal = document.getElementById("mobileModal");
+  if (!mobileModal) {
+    mobileModal = document.createElement("div");
+    mobileModal.id = "mobileModal";
+    mobileModal.className = "mobile-modal";
+    document.body.appendChild(mobileModal);
+  }
+
+  // Modal content with info button positioned left and vertically centered
+  mobileModal.innerHTML = `
+    <div class="mobile-modal-content">
+      <span class="mobile-close">&times;</span>
+      <div id="mobileMediaContainer" style="position: relative;">
+        <img id="mobileModalImage" src="${item.poster_path ? 'https://image.tmdb.org/t/p/w500' + item.poster_path : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="Poster" style="width: 100%;">
+        <button id="mobileInfoBtn" class="mobile-info-btn" title="View Summary" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 10;"><i class="fas fa-info-circle"></i></button>
+        <div id="mobileTrailerEmbed" class="trailer-embed" style="display: none; width: 100%; height: 200px;"></div>
+      </div>
+      <h2 id="mobileModalTitle">${currentType === "movie" ? item.title : item.name}</h2>
+      <div class="mobile-movie-info">
+        <span id="mobileModalRating">⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10</span>
+        <span id="mobileModalGenres">Genres: Loading...</span>
+        <span id="mobileModalRuntime">Runtime: Loading...</span>
+        <span id="mobileMovieSize">Size: Loading...</span>
+      </div>
+      <div class="mobile-modal-actions">
+        <button id="mobileWatchTrailer" class="mobile-trailer-btn" title="Watch Trailer"><i class="fab fa-youtube"></i></button>
+        <button id="mobileAddFavorite" class="mobile-favorite-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+        <button id="mobileOpenReviews" class="mobile-reviews-btn" title="View Reviews"><i class="fas fa-comment"></i></button>
+        <button id="mobileShowRecommendations" class="mobile-rec-btn" title="Recommendations"><i class="fas fa-star"></i></button>
+        <button id="mobileDownloadMovie" class="mobile-download-btn" title="Download Options"><i class="fas fa-download"></i></button>
+      </div>
+      <div class="mobile-reviews-input">
+        <textarea id="mobileReviewInput" placeholder="Add your review..."></textarea>
+        <button id="mobileSubmitReview" title="Submit Review"><i class="fas fa-paper-plane"></i></button>
+      </div>
+      <div id="mobileAvailabilityLoading" class="mobile-availability-loading">Searching for availability...</div>
+      <div id="mobileDownloadOptions" class="mobile-download-options">
+        <h3>Download Sources</h3>
+        <span class="mobile-source-close">×</span>
+        <button class="mobile-source-btn" data-site="waploaded" title="Waploaded"><i class="fas fa-link"></i> Waploaded</button>
+        <button class="mobile-source-btn" data-site="nkiri" title="Nkiri"><i class="fas fa-link"></i> Nkiri</button>
+        <button class="mobile-source-btn" data-site="stagatv" title="Stagatv"><i class="fas fa-link"></i> Stagatv</button>
+        <button class="mobile-source-btn" data-site="netnaija" title="Netnaija"><i class="fas fa-link"></i> Netnaija</button>
+        <button class="mobile-source-btn" data-site="fzmovies" title="Fzmovies"><i class="fas fa-link"></i> Fzmovies</button>
+        <button class="mobile-source-btn" data-site="o2tvseries" title="O2tvseries"><i class="fas fa-link"></i> O2tvseries</button>
+        <button class="mobile-source-btn" data-site="toxicwap" title="Toxicwap"><i class="fas fa-link"></i> Toxicwap</button>
+        <button class="mobile-source-btn" data-site="9jarocks" title="9jarocks"><i class="fas fa-link"></i> 9jarocks</button>
+        <button class="mobile-source-btn" data-site="netflix" title="Netflix"><i class="fas fa-link"></i> Netflix</button>
+        <button class="mobile-source-btn" data-site="amazon" title="Amazon"><i class="fas fa-link"></i> Amazon</button>
+      </div>
+      <div id="mobileSeriesDownloadContainer" class="mobile-series-download-container"></div>
+      <div id="mobileRecommendationsPanel" class="mobile-recommendations-panel"></div>
+      <div id="mobileSummaryPopup" class="mobile-summary-popup">
+        <h3>Summary</h3>
+        <p id="mobileSummaryText">Loading...</p>
+        <button class="mobile-summary-close">Close</button>
+      </div>
+    </div>
+  `;
+
+  // Show modal
+  mobileModal.style.display = "flex";
+
+  // DOM elements
+  const mobileClose = mobileModal.querySelector(".mobile-close");
+  const mobileModalImage = document.getElementById("mobileModalImage");
+  const mobileModalTitle = document.getElementById("mobileModalTitle");
+  const mobileModalRating = document.getElementById("mobileModalRating");
+  const mobileModalGenres = document.getElementById("mobileModalGenres");
+  const mobileModalRuntime = document.getElementById("mobileModalRuntime");
+  const mobileMovieSize = document.getElementById("mobileMovieSize");
+  const mobileTrailerEmbed = document.getElementById("mobileTrailerEmbed");
+  const mobileAvailabilityLoading = document.getElementById("mobileAvailabilityLoading");
+  const mobileDownloadOptions = document.getElementById("mobileDownloadOptions");
+  const mobileSeriesDownloadContainer = document.getElementById("mobileSeriesDownloadContainer");
+  const mobileRecommendationsPanel = document.getElementById("mobileRecommendationsPanel");
+  const mobileReviewInput = document.getElementById("mobileReviewInput");
+  const mobileSubmitReview = document.getElementById("mobileSubmitReview");
+  const mobileInfoBtn = document.getElementById("mobileInfoBtn");
+  const mobileSummaryPopup = document.getElementById("mobileSummaryPopup");
+  const mobileSourceClose = mobileModal.querySelector(".mobile-source-close");
+
+  // Validate DOM elements
+  if (!mobileModalImage || !mobileModalTitle || !mobileModalRating || !mobileModalGenres ||
+      !mobileModalRuntime || !mobileMovieSize || !mobileTrailerEmbed || !mobileInfoBtn ||
+      !mobileSummaryPopup) {
+    console.error("Missing DOM elements:", {
+      mobileModalImage, mobileModalTitle, mobileModalRating, mobileModalGenres,
+      mobileModalRuntime, mobileMovieSize, mobileTrailerEmbed, mobileInfoBtn, mobileSummaryPopup
+    });
+    showToast("Error initializing modal", "error");
+    return;
+  }
+
+  // Close handler
+  mobileClose.addEventListener("click", () => {
+    mobileModal.style.display = "none";
+    mobileModalImage.style.display = "block";
+    mobileTrailerEmbed.style.display = "none";
+    mobileTrailerEmbed.innerHTML = "";
+    mobileAvailabilityLoading.style.display = "none";
+    mobileDownloadOptions.classList.remove("active");
+    mobileSeriesDownloadContainer.style.display = "none";
+    mobileRecommendationsPanel.style.display = "none";
+    mobileSummaryPopup.style.display = "none";
+  });
+
+  // Outside click to close
+  window.addEventListener("click", (e) => {
+    if (e.target === mobileModal) {
+      mobileModal.style.display = "none";
+      mobileModalImage.style.display = "block";
+      mobileTrailerEmbed.style.display = "none";
+      mobileTrailerEmbed.innerHTML = "";
+      mobileAvailabilityLoading.style.display = "none";
+      mobileDownloadOptions.classList.remove("active");
+      mobileSeriesDownloadContainer.style.display = "none";
+      mobileRecommendationsPanel.style.display = "none";
+      mobileSummaryPopup.style.display = "none";
+    }
+  }, { once: true });
+
+  // Trailer button
+  const mobileTrailerBtn = document.getElementById("mobileWatchTrailer");
+  mobileTrailerBtn.onclick = async () => {
+    try {
+      console.log("Fetching videos for:", { id: item.id, type: currentType });
+      const videos = await getVideos(item.id, currentType);
+      console.log("Videos:", videos);
+      const trailer = videos.find(v => v.site === "YouTube" && ["Trailer", "Teaser", "Clip"].includes(v.type));
+      if (trailer) {
+        console.log("Trailer found:", trailer);
+        mobileModalImage.style.display = "none";
+        mobileTrailerEmbed.style.cssText = "display: block; width: 100%; height: 200px;";
+        mobileTrailerEmbed.innerHTML = `<iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&rel=0&modestbranding=1&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%;"></iframe>`;
+        showToast("Trailer loaded", "success");
+      } else {
+        console.log("No suitable video found");
+        showToast("No trailer available", "info");
+        mobileTrailerEmbed.innerHTML = `<p>No trailer available.</p>`;
+      }
+    } catch (err) {
+      console.error("Error fetching trailer:", err.message);
+      showToast("Error loading trailer", "error");
+      mobileTrailerEmbed.innerHTML = `<p>Error loading trailer. Please try again.</p>`;
+    }
+  };
+
+  // Info button
+  mobileInfoBtn.onclick = async () => {
+    try {
+      const details = await getDetails(item.id, currentType);
+      const summaryText = document.getElementById("mobileSummaryText");
+      summaryText.textContent = details.overview || "No summary available.";
+      mobileSummaryPopup.style.display = "block";
+    } catch (err) {
+      console.error("Error fetching summary:", err.message);
+      showToast("Error loading summary", "error");
+      document.getElementById("mobileSummaryText").textContent = "Error loading summary.";
+      mobileSummaryPopup.style.display = "block";
+    }
+  };
+
+  // Summary popup close
+  mobileSummaryPopup.querySelector(".mobile-summary-close").onclick = () => {
+    mobileSummaryPopup.style.display = "none";
+  };
+
+  // Favorite button
+  const mobileAddFavorite = document.getElementById("mobileAddFavorite");
+  updateFavoriteButton(item); // Update initial state
+  const favorites = currentType === "movie" ? movieFavorites : seriesFavorites;
+  const isFavorited = favorites.some(f => f.title === (currentType === "movie" ? item.title : item.name));
+  if (isFavorited) {
+    mobileAddFavorite.classList.add("favorited");
+  }
+  mobileAddFavorite.onclick = () => {
+    const title = mobileModalTitle.textContent;
+    const poster = mobileModalImage.src;
+    let favorites = currentType === "movie" ? movieFavorites : seriesFavorites;
+    const index = favorites.findIndex(f => f.title === title);
+    if (index > -1) {
+      favorites.splice(index, 1);
+      mobileAddFavorite.classList.remove("favorited");
+      showToast("Removed from favorites", "info");
+    } else {
+      favorites.push({ title, poster, type: currentType });
+      mobileAddFavorite.classList.add("favorited");
+      showToast("Added to favorites", "success");
+    }
+    if (currentType === "movie") {
+      localStorage.setItem("movieFavorites", JSON.stringify(favorites));
+    } else {
+      localStorage.setItem("seriesFavorites", JSON.stringify(favorites));
+    }
+    renderFavorites();
+  };
+
+  // Reviews button
+  const mobileOpenReviews = document.getElementById("mobileOpenReviews");
+  mobileOpenReviews.onclick = () => document.getElementById("openReviews").click();
+
+  // Submit review
+  mobileSubmitReview.onclick = () => {
+    const reviewText = mobileReviewInput.value.trim();
+    if (!reviewText) return showToast("Failed ❌ - Empty Review", "error");
+    const reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    const reviewItem = { title: mobileModalTitle.textContent, text: reviewText };
+    reviews.push(reviewItem);
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+    displayReview(reviewItem); // Append to DOM
+    mobileReviewInput.value = "";
+    showToast("Review successfully added ✅", "success");
+  };
+
+  // Review input focus (fix for keyboard)
+  mobileReviewInput.addEventListener("focus", () => {
+    mobileReviewInput.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  // Recommendations button
+  const mobileRecBtn = document.getElementById("mobileShowRecommendations");
+  mobileRecBtn.onclick = () => {
+    createRecommendationsPanel(item, "mobileRecommendationsPanel");
+    mobileRecommendationsPanel.style.display = "block";
+  };
+
+  // Download button
+  const mobileDownloadBtn = document.getElementById("mobileDownloadMovie");
+  mobileDownloadBtn.onclick = async () => {
+    mobileAvailabilityLoading.style.display = "block"; // Show loading
+    const availability = await checkAndUpdateAvailability(mobileModalTitle.textContent, item.id, currentType, true);
+    mobileAvailabilityLoading.style.display = "none"; // Hide loading
+    updateDownloadButtons(availability, ".mobile-source-btn"); // Update buttons
+    mobileDownloadOptions.classList.add("active"); // Slide in sources
+  };
+
+  // Source buttons
+  const mobileSourceButtons = mobileModal.querySelectorAll(".mobile-source-btn");
+  mobileSourceButtons.forEach(btn => {
+    btn.onclick = (e) => {
+      if (btn.disabled) {
+        e.preventDefault();
+        return;
+      }
+      const query = encodeURIComponent(mobileModalTitle.textContent);
+      let searchUrl = "";
+      switch(btn.dataset.site) {
+        case "waploaded": searchUrl = `https://www.waploaded.com/search?q=${query}`; break;
+        case "nkiri": searchUrl = `https://nkiri.com/?s=${query}`; break;
+        case "stagatv": searchUrl = `https://www.stagatv.com/?s=${query}`; break;
+        case "netnaija": searchUrl = `https://www.thenetnaija.net/search?t=${query}`; break;
+        case "fzmovies": searchUrl = `https://fzmovie.co.za/search.php?searchname=${query}`; break;
+        case "o2tvseries": searchUrl = `https://o2tvseries.com/search?q=${query}`; break;
+        case "toxicwap": searchUrl = `https://newtoxic.com/search.php?search=${query}`; break;
+        case "9jarocks": searchUrl = `https://9jarocks.net/search?q=${query}`; break;
+        case "netflix": searchUrl = `https://www.netflix.com/search?q=${query}`; break;
+        case "amazon": searchUrl = `https://www.amazon.com/s?k=${query}`; break;
+      }
+      if (searchUrl) window.open(searchUrl, "_blank");
+    };
+  });
+
+  // Source close button
+  mobileSourceClose.addEventListener("click", () => {
+    mobileDownloadOptions.classList.remove("active");
+    mobileSeriesDownloadContainer.style.display = "none";
+  });
+
+  // Fetch additional data (genres, runtime, summary)
+  try {
+    console.log("Fetching details for:", { id: item.id, type: currentType });
+    const details = await getDetails(item.id, currentType);
+    console.log("Details:", details);
+    mobileModalGenres.textContent = details.genres && details.genres.length > 0
+      ? "Genres: " + details.genres.map(genre => genre.name).join(", ")
+      : "Genres: Not available";
+    mobileModalRuntime.textContent = details.runtime
+      ? `Runtime: ${Math.floor(details.runtime / 60)}h ${details.runtime % 60}m`
+      : details.number_of_seasons
+        ? `Seasons: ${details.number_of_seasons}`
+        : "Runtime: Not available";
+    mobileMovieSize.textContent = `Size: ${currentType === "movie" ? "Approx. 2-4 GB (HD)" : "Approx. 500 MB - 1 GB per episode (HD)"}`;
+    document.getElementById("mobileSummaryText").textContent = details.overview || "No summary available.";
+  } catch (err) {
+    console.error("Error fetching details:", err.message);
+    mobileModalGenres.textContent = "Genres: Not available";
+    mobileModalRuntime.textContent = "Runtime: Not available";
+    mobileMovieSize.textContent = `Size: ${currentType === "movie" ? "Approx. 2-4 GB (HD)" : "Approx. 500 MB - 1 GB per episode (HD)"}`;
+    document.getElementById("mobileSummaryText").textContent = "Error loading summary.";
+    showToast("Error loading details", "error");
+  }
+
+  // Ensure consistent display
+  mobileModalRating.textContent = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10`;
+}
+
+// Export for module usage (optional, remove if not using modules)
 
 // Function to create recommendations panel for mobile
 function createRecommendationsPanel(item, panelId) {
@@ -6904,6 +6989,7 @@ function createRecommendationsPanel(item, panelId) {
         <div class="rec-grid"></div>
         <button class="close-rec">Close</button>
     `;
+    // Fetch recommendations (reuse original logic if available, or fetch here)
     fetch(`${BASE_URL}/${currentType}/${item.id}/recommendations?api_key=${API_KEY}`)
         .then(res => res.json())
         .then(data => {
@@ -6925,7 +7011,7 @@ function createRecommendationsPanel(item, panelId) {
     panel.querySelector(".close-rec").onclick = () => panel.style.display = "none";
 }
 
-// Update download buttons
+// Update updateDownloadButtons to support selector
 function updateDownloadButtons(availability, selector = ".source-btn") {
     const sourceButtons = document.querySelectorAll(selector);
     sourceButtons.forEach(button => {
@@ -6982,6 +7068,7 @@ window.addEventListener("resize", () => {
         }
     }
 });
+
     function initializeDownloadOptions() {
     const downloadPanel = document.getElementById("downloadOptions");
     

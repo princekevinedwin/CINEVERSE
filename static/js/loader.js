@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadingOverlay.style.top = '0';
   loadingOverlay.style.left = '0';
   loadingOverlay.style.width = '100%';
-  loadingOverlay.style.minHeight = '100vh'; // Ensure full viewport height
+  loadingOverlay.style.height = '100vh';
   loadingOverlay.style.background = '#1f1f1f';
   loadingOverlay.style.display = 'flex';
   loadingOverlay.style.flexDirection = 'column';
@@ -25,8 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
   loadingOverlay.style.zIndex = '9999';
   loadingOverlay.style.color = '#f5c518';
 
+  // Center loader explicitly
+  const loader = loadingOverlay.querySelector('.loader');
+  loader.style.margin = '0 auto';
+
+  // Style for the text
+  const text = loadingOverlay.querySelector('p');
+  text.style.marginTop = '10px';
+  text.style.fontSize = '1.2rem';
+
   // Hide all sections except landing page
-  const sections = ['section', 'favoritesContainer', 'otherContainer']; // Add other section IDs as needed
+  const sections = ['section', 'favoritesContainer', 'countriesContainer'];
   sections.forEach(id => {
     const element = document.getElementById(id);
     if (element) element.style.display = 'none';
@@ -42,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
       width: 60px;
       height: 60px;
       animation: spin 1s linear infinite;
+      position: relative;
+      margin: 0 auto;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -56,22 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
     currentType = "movie";
     currentAPIUrl = MOVIES_API;
     currentPage = 1;
-    returnItems(currentAPIUrl, currentPage); // From index.js
+    returnItems(currentAPIUrl, currentPage);
     removeActive();
     moviesTab.classList.add("active");
 
     // Show movies section, hide others
     document.getElementById('section').style.display = 'block';
     document.getElementById('favoritesContainer').style.display = 'none';
+    document.getElementById('countriesContainer').style.display = 'none';
 
     // Hide loader
     loadingOverlay.style.display = 'none';
-  }, 2000); // Adjust timeout based on real load time
+  }, 2000);
 });
 
 // Handle reload scrambling
 window.addEventListener('beforeunload', () => {
-  const sections = ['section', 'favoritesContainer', 'otherContainer'];
+  const sections = ['section', 'favoritesContainer', 'countriesContainer'];
   sections.forEach(id => {
     const element = document.getElementById(id);
     if (element) element.style.display = 'none';
@@ -85,7 +97,6 @@ function showAvailabilityLoading() {
     const loadingElement = document.getElementById("mobileAvailabilityLoading");
     if (loadingElement) {
         loadingElement.style.display = "block";
-        // Ensure centered position
         loadingElement.style.top = "50%";
         loadingElement.style.left = "50%";
         loadingElement.style.transform = "translate(-50%, -50%)";
