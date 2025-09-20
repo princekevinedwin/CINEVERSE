@@ -6614,7 +6614,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * Mobile-specific modal for screens <= 426px
  * Replaces openModal for mobile views
  */
-
+// API constants from provided configuration
 
 // Assumed implementation of getVideos with retry logic
 async function getVideos(id, type, retries = 3) {
@@ -6633,12 +6633,11 @@ async function getVideos(id, type, retries = 3) {
     } catch (err) {
       console.error(`Video fetch attempt ${i + 1} failed:`, err.message);
       if (i === retries - 1) throw err;
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
   }
 }
 
-// Assumed implementation of getDetails with retry logic
 async function getDetails(id, type, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
@@ -6664,16 +6663,21 @@ async function openMobileModal(item) {
   console.log("openMobileModal called with:", { item, currentType });
 
   // Validate inputs
-  if (!item || !item.id || !["movie", "series"].includes(currentType)) {
-    console.error("Invalid item or currentType:", { item, currentType });
+  if (!item || !item.id) {
+    console.error("Invalid item:", item);
     showToast("Invalid item data", "error");
     return;
+  }
+  if (!["movie", "series"].includes(currentType)) {
+    console.warn("Invalid or undefined currentType, defaulting to 'series':", currentType);
+    currentType = "series"; // Fallback to series to ensure modal opens
   }
 
   // Check if mobile
   const isMobile = window.innerWidth <= 426;
   if (!isMobile) {
-    openModal(item); // Fallback to desktop modal
+    console.log("Not mobile, falling back to openModal");
+    openModal(item);
     return;
   }
 
@@ -6695,11 +6699,11 @@ async function openMobileModal(item) {
     <div class="mobile-modal-content">
       <span class="mobile-close">&times;</span>
       <div id="mobileMediaContainer" style="position: relative;">
-        <img id="mobileModalImage" src="${item.poster_path ? 'https://image.tmdb.org/t/p/w500' + item.poster_path : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="Poster" style="width: 100%;">
+        <img id="mobileModalImage" src="${item.poster_path ? 'https://image.tmdb.org/t/p/w500' + item.poster_path : 'https://via.placeholder.com/300x450?text=No+Image'}" alt="Poster" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; z-index: 5;">
         <button id="mobileInfoBtn" class="mobile-info-btn" title="View Summary" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 10;"><i class="fas fa-info-circle"></i></button>
-        <div id="mobileTrailerEmbed" class="trailer-embed" style="display: none; width: 100%; height: 200px;"></div>
+        <div id="mobileTrailerEmbed" class="trailer-embed" style="display: none; width: 100%; height: 200px; z-index: 8;"></div>
       </div>
-      <h2 id="mobileModalTitle">${currentType === "movie" ? item.title : item.name}</h2>
+      <h2 id="mobileModalTitle">${currentType === "movie" ? (item.title || item.name || 'Untitled') : (item.name || item.title || 'Untitled')}</h2>
       <div class="mobile-movie-info">
         <span id="mobileModalRating">⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10</span>
         <span id="mobileModalGenres">Genres: Loading...</span>
@@ -6815,7 +6819,7 @@ async function openMobileModal(item) {
       if (trailer) {
         console.log("Trailer found:", trailer);
         mobileModalImage.style.display = "none";
-        mobileTrailerEmbed.style.cssText = "display: block; width: 100%; height: 200px;";
+        mobileTrailerEmbed.style.cssText = "display: block; width: 100%; height: 200px; z-index: 8;";
         mobileTrailerEmbed.innerHTML = `<iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&rel=0&modestbranding=1&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 100%;"></iframe>`;
         showToast("Trailer loaded", "success");
       } else {
@@ -6852,7 +6856,7 @@ async function openMobileModal(item) {
 
   // Favorite button
   const mobileAddFavorite = document.getElementById("mobileAddFavorite");
-  updateFavoriteButton(item); // Update initial state
+  updateFavoriteButton(item);
   const favorites = currentType === "movie" ? movieFavorites : seriesFavorites;
   const isFavorited = favorites.some(f => f.title === (currentType === "movie" ? item.title : item.name));
   if (isFavorited) {
@@ -6892,12 +6896,12 @@ async function openMobileModal(item) {
     const reviewItem = { title: mobileModalTitle.textContent, text: reviewText };
     reviews.push(reviewItem);
     localStorage.setItem("reviews", JSON.stringify(reviews));
-    displayReview(reviewItem); // Append to DOM
+    displayReview(reviewItem);
     mobileReviewInput.value = "";
     showToast("Review successfully added ✅", "success");
   };
 
-  // Review input focus (fix for keyboard)
+  // Review input focus
   mobileReviewInput.addEventListener("focus", () => {
     mobileReviewInput.scrollIntoView({ behavior: "smooth", block: "center" });
   });
@@ -6912,11 +6916,11 @@ async function openMobileModal(item) {
   // Download button
   const mobileDownloadBtn = document.getElementById("mobileDownloadMovie");
   mobileDownloadBtn.onclick = async () => {
-    mobileAvailabilityLoading.style.display = "block"; // Show loading
+    mobileAvailabilityLoading.style.display = "block";
     const availability = await checkAndUpdateAvailability(mobileModalTitle.textContent, item.id, currentType, true);
-    mobileAvailabilityLoading.style.display = "none"; // Hide loading
-    updateDownloadButtons(availability, ".mobile-source-btn"); // Update buttons
-    mobileDownloadOptions.classList.add("active"); // Slide in sources
+    mobileAvailabilityLoading.style.display = "none";
+    updateDownloadButtons(availability, ".mobile-source-btn");
+    mobileDownloadOptions.classList.add("active");
   };
 
   // Source buttons
@@ -6951,7 +6955,7 @@ async function openMobileModal(item) {
     mobileSeriesDownloadContainer.style.display = "none";
   });
 
-  // Fetch additional data (genres, runtime, summary)
+  // Fetch additional data
   try {
     console.log("Fetching details for:", { id: item.id, type: currentType });
     const details = await getDetails(item.id, currentType);
@@ -6978,8 +6982,6 @@ async function openMobileModal(item) {
   // Ensure consistent display
   mobileModalRating.textContent = `⭐ ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}/10`;
 }
-
-// Export for module usage (optional, remove if not using modules)
 
 // Function to create recommendations panel for mobile
 function createRecommendationsPanel(item, panelId) {
